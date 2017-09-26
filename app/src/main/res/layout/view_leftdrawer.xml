@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="@color/color_00c3d1"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:id="@+id/iv_user_icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:src="@mipmap/ic_user" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_user_name"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="王小明"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/iv_myCollection"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:padding="15dp"
+        android:drawableLeft="@mipmap/ic_collection_64"
+        android:drawableStart="@mipmap/ic_collection_64"
+        android:text="@string/myCollection"
+        android:textSize="14sp"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_balck"
+
+        />
+
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="@color/lines"
+       android:layout_marginStart="50dp"
+       android:layout_marginLeft="50dp"
+       android:layout_marginRight="20dp"
+       android:layout_marginEnd="20dp"
+       />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/tv_myBook"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:padding="15dp"
+        android:drawableLeft="@mipmap/ic_notebook"
+        android:drawableStart="@mipmap/ic_notebook"
+        android:text="@string/myBook"
+        android:textSize="14sp"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_balck"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lines"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+
+
+</LinearLayout>
