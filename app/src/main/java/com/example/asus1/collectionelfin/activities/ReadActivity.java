@@ -43,7 +43,7 @@ public class ReadActivity extends AppCompatActivity {
 
         mBarTitle = (TextView) findViewById(R.id.read_page_title);
 //        setTitle(mCollectionTitle);
-        mBarTitle.setText("试试");
+        mBarTitle.setText("大概的这样吗？");
 
         mBack = (ImageView) findViewById(R.id.read_page_back_button);
         mBack.setOnClickListener(new View.OnClickListener() {

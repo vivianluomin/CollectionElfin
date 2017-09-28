@@ -14,7 +14,8 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:background="@color/top_bar">
+        android:background="@color/top_bar"
+        android:paddingRight="5dp">
 
         <ImageView
             android:id="@+id/read_page_back_button"
@@ -27,7 +28,7 @@
             android:id="@+id/read_page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="15dp"
             android:text="阅读页"
