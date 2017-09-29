@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+   <ImageButton
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/image_but_file"
+       android:src="@mipmap/ic_file"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true"/>
+
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/but_file"
+       android:text="创建文件夹"
+       android:layout_alignParentBottom="true"
+       android:layout_toLeftOf="@+id/image_but_file"
+       android:layout_toStartOf="@+id/image_but_file"
+       android:layout_alignTop="@+id/image_but_file" />
+   <ImageButton
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/image_but_write"
+       android:src="@mipmap/ic_write"
+       android:layout_above="@+id/image_but_file"
+       android:layout_alignParentRight="true"
+       android:layout_alignParentEnd="true" />
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/but_write"
+       android:layout_above="@+id/but_file"
+       android:layout_toLeftOf="@+id/image_but_write"
+       android:layout_toStartOf="@+id/image_but_write"
+       android:text="创建笔记"
+       android:layout_alignTop="@+id/image_but_write" />
+
+
+
+</RelativeLayout>
