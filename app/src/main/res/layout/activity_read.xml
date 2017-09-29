@@ -8,48 +8,42 @@
     tools:context="com.example.asus1.collectionelfin.activities.ReadActivity">
 
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/read_page_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:background="@color/top_bar"
+        android:paddingRight="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="74dp"
-            android:background="@color/top_bar"
-            android:orientation="horizontal"
-            android:paddingTop="24dp">
+        <ImageView
+            android:id="@+id/read_page_back_button"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:src="@mipmap/ic_back" />
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:src="@mipmap/ic_back" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:background="@color/view_line"
-                />
-
-            <TextView
-                android:id="@+id/tv_bar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:text="世界是怎么毁灭的"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/read_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="15dp"
+            android:text="阅读页"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
 
-        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
 
     <WebView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/wv_showArtical"
-        >
+        android:id="@+id/wv_showArtical">
 
 
     </WebView>
