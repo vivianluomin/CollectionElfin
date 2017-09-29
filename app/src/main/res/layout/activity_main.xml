@@ -18,7 +18,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="26dp"
             android:elevation="8dp"
-            android:src="@mipmap/ic_done" />
+            android:src="@mipmap/ic_fab" />
     </FrameLayout>
 
 
@@ -26,28 +26,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="74dp"
             android:background="@color/top_bar"
             android:orientation="horizontal"
-            android:paddingTop="24dp">
+            android:paddingTop="24dp"
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/iv_openDrawer"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.09"
                 android:padding="15dp"
                 android:src="@mipmap/ic_open_drawer_white" />
-
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:background="@color/view_line"
-                />
+                android:background="@color/view_line" />
 
             <TextView
                 android:id="@+id/tv_bar_title"
@@ -60,7 +60,27 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/iv_delet"
+                android:layout_width="67dp"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:src="@mipmap/ic_delet"
+                android:layout_weight="1.09" />
 
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="66dp"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:src="@mipmap/ic_search" />
+            <ImageView
+                android:id="@+id/iv_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:src="@mipmap/ic_switch" />
 
         </LinearLayout>
          
