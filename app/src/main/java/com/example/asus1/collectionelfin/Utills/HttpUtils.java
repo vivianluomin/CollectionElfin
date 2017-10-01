@@ -25,6 +25,7 @@ public class HttpUtils {
                     callBack.getResult(reuslt);
                 }
 
+
             }
 
             @Override

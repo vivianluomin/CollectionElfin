@@ -12,6 +12,7 @@ public class UniApiReuslt<T>{
     @SerializedName("status")
     protected int mStatus;
 
+
     @SerializedName("msg")
     protected String mMessage;
 

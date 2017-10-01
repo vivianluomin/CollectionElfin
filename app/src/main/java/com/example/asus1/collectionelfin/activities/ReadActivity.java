@@ -57,6 +57,7 @@ public class ReadActivity extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
 //        mWebView.loadUrl(mCollectionUrl);
+
         mWebView.loadUrl("https://github.com/nyakokishi/WeChatRadioBar");
     }
 
