@@ -1,36 +1,59 @@
 package com.example.asus1.collectionelfin;
 
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus1.collectionelfin.Utills.FloatingActivity;
+
 public class MainActivity extends AppCompatActivity {
 
-    /** 抽屉视图 */
+    /**
+     * 抽屉视图
+     */
     private DrawerLayout mDrawerLayout;
 
-    /** 侧滑菜单视图 */
+    /**
+     * 侧滑菜单视图
+     */
     private NavigationView mMenuNv;
 
-    /** 打开侧滑菜单 */
+    /**
+     * 打开侧滑菜单
+     */
     private TextView mOpenMenuTv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toobar);
+        setSupportActionBar(toolbar);
         //初始化界面
         initUI();
         //初始化监听
         initListener();
+        //Floaating的
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.but_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
+                startActivity(intent);
+            }
+
+        });
     }
 
     /**
@@ -70,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 响应item点击事件
+     *
      * @param itemid
      */
     private void selectItem(int itemid) {
@@ -99,5 +123,30 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    //Toobar的
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toobar_search:
+                break;
+            case R.id.toobar_delete:
+                break;
+            case R.id.toobar_choose:
+                break;
+            case R.id.toobar_shot:
+                break;
+            case R.id.toobar_set:
+                break;
+            default:
+        }
+        return true;
+    }
+
 
 }

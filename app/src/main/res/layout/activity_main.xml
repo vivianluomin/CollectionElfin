@@ -8,19 +8,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <!-- 界面布局 -->
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toobar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:subtitleTextColor="#fff"
+            app:title="我的收藏" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/but_fab"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_fab"/>
 
         <TextView
             android:id="@+id/tv_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="打开侧滑菜单"
-            android:textSize="30sp"/>
+            android:layout_gravity="center"
+            android:textSize="30sp" />
 
-    </LinearLayout >
+
+    </FrameLayout >
 
     <!-- 侧滑菜单栏 -->
     <android.support.design.widget.NavigationView

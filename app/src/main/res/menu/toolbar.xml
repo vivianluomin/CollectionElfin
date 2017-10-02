@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+>
+
+    <item
+        android:id="@+id/toobar_search"
+        android:icon="@mipmap/ic_toobar_search1"
+        app:showAsAction = "always"
+        android:title="search"/>
+    <item
+        android:id="@+id/toobar_delete"
+        android:icon="@mipmap/ic_delete2"
+        app:showAsAction = "always"
+        android:title="delete"/>
+    <item
+        android:id="@+id/toobar_choose"
+        android:title="选择笔记"
+        app:showAsAction = "never"/>
+    <item
+        android:id="@+id/toobar_shot"
+        android:title="排序方式"
+        app:showAsAction = "never"/>
+    <item
+        android:id="@+id/toobar_set"
+        android:title="设置"
+        app:showAsAction = "never"/>
+
+
+
+
+</menu>
