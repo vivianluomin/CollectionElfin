@@ -19,11 +19,7 @@ public class FloatingActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_floating);
         llayout = (RelativeLayout)findViewById(R.id.lrelative);
         llayout.setOnClickListener(this);
-        //file = (ImageButton) findViewById(R.id.image_ivfile);
-        //file.setOnClickListener(this);
 
-       // write = (ImageButton) findViewById(R.id.image_ivwrite);
-       // write.setOnClickListener(this);
 
         Button files = (Button) findViewById(R.id.but_fab_file);
         files.setOnClickListener(this);
