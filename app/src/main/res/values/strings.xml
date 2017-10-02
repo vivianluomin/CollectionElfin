@@ -3,5 +3,7 @@
     <string name="myCollection">我的收藏</string>
     <string name="myBook">我的笔记</string>
     <string name="mainPage">主页</string>
+    <string name="loading">正在加载... ...</string>
+    <string name="reloading">重新加载</string>
 
 </resources>
