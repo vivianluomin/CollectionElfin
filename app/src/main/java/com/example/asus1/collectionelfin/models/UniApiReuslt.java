@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class UniApiReuslt<T>{
 
+    //数据
+
 
     @SerializedName("status")
     protected int mStatus;
@@ -42,4 +44,5 @@ public class UniApiReuslt<T>{
     public void setmData(T mData) {
         this.mData = mData;
     }
+
 }
