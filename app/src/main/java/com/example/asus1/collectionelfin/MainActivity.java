@@ -3,10 +3,12 @@ package com.example.asus1.collectionelfin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +18,7 @@ import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.Base.BaseActivity;
 import com.example.asus1.collectionelfin.Utills.FloatingActivity;
-
-import static com.example.asus1.collectionelfin.R.menu.toolbar;
+import com.example.asus1.collectionelfin.activities.ReadActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -36,14 +37,13 @@ public class MainActivity extends BaseActivity {
      */
     private TextView mOpenMenuTv;
 
-   //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toobar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.mipmap.ic_toobal_left);
         //初始化界面
         initUI();
         //初始化监听
@@ -130,15 +130,13 @@ public class MainActivity extends BaseActivity {
 
     //Toobar的尴尬
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(toolbar, menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.toobar_search:
                 break;
             case R.id.toobar_delete:
@@ -153,7 +151,6 @@ public class MainActivity extends BaseActivity {
         }
         return true;
     }
+
+
 }
-
-
-
