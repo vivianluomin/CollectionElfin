@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
      */
     private TextView mOpenMenuTv;
 
-
+   //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //Toobar的尴尬
+    //Toobar的尴尬233
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(toolbar, menu);
         return true;
