@@ -5,11 +5,11 @@
         <item
             android:id="@+id/menu_mon"
             android:icon="@mipmap/ic_launcher"
-            android:title="Mon"/>
+            android:title="@string/myCollection"/>
         <item
             android:id="@+id/menu_tues"
             android:icon="@mipmap/ic_launcher"
-            android:title="Tues"/>
+            android:title="@string/myBook"/>
         <item
             android:id="@+id/menu_wed"
             android:icon="@mipmap/ic_launcher"

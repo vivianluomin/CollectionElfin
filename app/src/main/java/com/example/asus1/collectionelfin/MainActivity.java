@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +14,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus1.collectionelfin.Base.BaseActivity;
 import com.example.asus1.collectionelfin.Utills.FloatingActivity;
 
-public class MainActivity extends AppCompatActivity {
+import static com.example.asus1.collectionelfin.R.menu.toolbar;
+
+public class MainActivity extends BaseActivity {
 
     /**
      * 抽屉视图
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toobar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_toobal_left);
         //初始化界面
         initUI();
         //初始化监听
@@ -102,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "点击Mon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_tues:
-                Toast.makeText(MainActivity.this, "点击Tues", Toast.LENGTH_SHORT).show();
+
+                //startActivity(new Intent(this, ReadActivity.class));
                 break;
             case R.id.menu_wed:
                 Toast.makeText(MainActivity.this, "点击Wed", Toast.LENGTH_SHORT).show();
@@ -126,13 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
     //Toobar的尴尬
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+        getMenuInflater().inflate(toolbar, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.toobar_search:
                 break;
             case R.id.toobar_delete:
@@ -147,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 }
+
+
+

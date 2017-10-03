@@ -19,10 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.ReadActivity"
-            android:label=""></activity>
-        <activity android:name=".Utills.FloatingActivity"></activity>
+            />
+
+        <activity android:name=".Base.BaseActivity"/>
+
+        <activity android:name=".Utills.FloatingActivity"/>
+
     </application>
 
 </manifest>

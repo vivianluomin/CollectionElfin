@@ -17,8 +17,9 @@
             android:id="@+id/toobar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:subtitleTextColor="#fff"
+            android:background="@color/top_bar"
+            app:subtitleTextColor="@color/top_bar"
+            app:navigationIcon="@mipmap/ic_toobal_left"
             app:title="我的收藏" />
 
         <android.support.design.widget.FloatingActionButton
