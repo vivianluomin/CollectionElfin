@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.asus1.collectionelfin.R;
@@ -13,7 +15,7 @@ import com.example.asus1.collectionelfin.R;
  * Created by asus1 on 2017/10/2.
  */
 
-public class ErrorView extends View {
+public class ErrorView extends RelativeLayout {
 
     private Context mContext;
     private TextView mReload;
@@ -38,8 +40,9 @@ public class ErrorView extends View {
     }
 
     private void setUpViews(){
-        View view = inflate(mContext,R.layout.view_error_layout,null);
-        mReload = (TextView)view.findViewById(R.id.tv_reloading);
+        View.inflate(mContext,R.layout.view_error_layout,this);
+
+        mReload = (TextView)findViewById(R.id.tv_reloading);
         mReload.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +52,7 @@ public class ErrorView extends View {
             }
         });
     }
+
 
     public void setReloadingListener(reloadingListener reloadingListener){
         mReloadingListener = reloadingListener;

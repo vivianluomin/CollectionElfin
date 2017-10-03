@@ -3,6 +3,7 @@ package com.example.asus1.collectionelfin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus1.collectionelfin.Base.BaseActivity;
 import com.example.asus1.collectionelfin.Utills.FloatingActivity;
+import com.example.asus1.collectionelfin.activities.ReadActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     /**
      * 抽屉视图
@@ -102,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "点击Mon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_tues:
-                Toast.makeText(MainActivity.this, "点击Tues", Toast.LENGTH_SHORT).show();
+
+                //startActivity(new Intent(this, ReadActivity.class));
                 break;
             case R.id.menu_wed:
                 Toast.makeText(MainActivity.this, "点击Wed", Toast.LENGTH_SHORT).show();

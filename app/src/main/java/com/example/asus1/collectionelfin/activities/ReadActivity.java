@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +51,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         Intent intent = getIntent();
 //        mCollectionUrl = intent.getStringExtra("url");
 //        mCollectionTitle = intent.getStringExtra("title");
-        mCollectionUrl = "http://www.baidu.com";
+        mCollectionUrl = "https://www.baidu.com";
 
         init();
         setUpViews();
@@ -86,27 +87,62 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         mWebSetting.setLoadsImagesAutomatically(true);
         mWebSetting.setDefaultTextEncodingName("utf-8");
         mWebView.setWebViewClient(new WebViewClient(){
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
+                view.loadUrl(request.getUrl().toString());
+                return false;
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
-                mLoadingLayout.setVisibility(View.GONE);
-                super.onPageFinished(view, url);
+                Log.d("url",url);
+                if(url!= null){
+                    mLoadingLayout.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.GONE);
+                    mWebView.setVisibility(View.VISIBLE);
+                }else{
+                    mWebView.setVisibility(View.GONE);
+                    mLoadingLayout.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.VISIBLE);
+                }
+
+
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 mLoadingLayout.setVisibility(View.VISIBLE);
-                super.onPageStarted(view, url, favicon);
+                mWebView.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 mWebView.setVisibility(View.GONE);
+                mWebView.setVisibility(View.GONE);
                 mErrorView.setVisibility(View.VISIBLE);
 
-                super.onReceivedError(view, request, error);
             }
 
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 
+                if(error.getPrimaryError() == SslError.SSL_DATE_INVALID
+                        || error.getPrimaryError()==SslError.SSL_EXPIRED
+                        || error.getPrimaryError() ==SslError.SSL_INVALID
+                        || error.getPrimaryError() == SslError.SSL_UNTRUSTED){
+
+                    handler.proceed();
+
+                }else {
+                    handler.cancel();
+                }
+
+
+            }
         });
 
     }
@@ -118,6 +154,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 
     @Override
     public void reload() {
+
         requestPage();
     }
 }
