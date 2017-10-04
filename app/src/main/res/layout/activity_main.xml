@@ -16,10 +16,11 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toobar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="74dp"
+            android:paddingTop="24dp"
+            android:background="@color/color_mian_bule"
             app:subtitleTextColor="#fff"
-            app:title="我的收藏" />
+            app:title="@string/myCollection" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/but_fab"
@@ -29,13 +30,16 @@
             android:layout_margin="16dp"
             android:src="@mipmap/ic_fab"/>
 
-        <TextView
-            android:id="@+id/tv_open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="打开侧滑菜单"
-            android:layout_gravity="center"
-            android:textSize="30sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="74dp"
+            android:id="@+id/fragment_container"
+            >
+
+
+        </FrameLayout>
 
 
     </FrameLayout >

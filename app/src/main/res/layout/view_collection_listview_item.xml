@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="center"
+        android:src="@mipmap/ic_artical"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_collection_title"
+            android:textSize="16sp"
+            android:layout_gravity="start"
+            android:text="怎么学习java"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_summary"
+            android:textSize="12sp"
+            android:layout_marginTop="10dp"
+            android:text="ijaskdnasckjsdcasjkcnsaduicakcnuisdacjkasncuawejkcnsaduicsjakchuiavnjfadgajvbaus"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#7AC5CD"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

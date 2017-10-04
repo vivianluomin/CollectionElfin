@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,8 @@ import android.widget.Toast;
 import com.example.asus1.collectionelfin.Base.BaseActivity;
 import com.example.asus1.collectionelfin.Utills.FloatingActivity;
 import com.example.asus1.collectionelfin.activities.ReadActivity;
+import com.example.asus1.collectionelfin.fragments.CollectionFragment;
+import com.example.asus1.collectionelfin.fragments.NoteFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -32,10 +37,9 @@ public class MainActivity extends BaseActivity {
      */
     private NavigationView mMenuNv;
 
-    /**
-     * 打开侧滑菜单
-     */
-    private TextView mOpenMenuTv;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private Toolbar mToolbar;
 
 
     @Override
@@ -65,7 +69,11 @@ public class MainActivity extends BaseActivity {
     private void initUI() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mMenuNv = (NavigationView) findViewById(R.id.nv_layout);
-        mOpenMenuTv = (TextView) findViewById(R.id.tv_open);
+        mToolbar = (Toolbar)findViewById(R.id.toobar);
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
+        mFragmentTransaction.commit();
     }
 
     /**
@@ -73,13 +81,6 @@ public class MainActivity extends BaseActivity {
      */
     private void initListener() {
 
-        mOpenMenuTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 打开侧滑菜单
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
 
         // 设置侧滑菜单点击事件监听
         mMenuNv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -102,11 +103,16 @@ public class MainActivity extends BaseActivity {
     private void selectItem(int itemid) {
         switch (itemid) {
             case R.id.menu_mon:
-                Toast.makeText(MainActivity.this, "点击Mon", Toast.LENGTH_SHORT).show();
+                mToolbar.setTitle(R.string.myCollection);
+                mFragmentTransaction = mFragmentManager.beginTransaction();
+                mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
+                mFragmentTransaction.commit();
                 break;
             case R.id.menu_tues:
-
-                //startActivity(new Intent(this, ReadActivity.class));
+                mToolbar.setTitle(R.string.myBook);
+                mFragmentTransaction = mFragmentManager.beginTransaction();
+                mFragmentTransaction.replace(R.id.fragment_container,new NoteFragment());
+                mFragmentTransaction.commit();
                 break;
             case R.id.menu_wed:
                 Toast.makeText(MainActivity.this, "点击Wed", Toast.LENGTH_SHORT).show();
