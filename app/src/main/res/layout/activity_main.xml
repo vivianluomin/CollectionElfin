@@ -20,6 +20,7 @@
             android:paddingTop="24dp"
             android:background="@color/color_mian_bule"
             app:subtitleTextColor="#fff"
+            app:navigationIcon="@mipmap/ic_toobal_left"
             app:title="@string/myCollection" />
 
         <android.support.design.widget.FloatingActionButton

@@ -16,10 +16,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
-import com.example.asus1.collectionelfin.activities.BaseActivity;
-import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
+
+import static com.example.asus1.collectionelfin.R.id.toobar;
 
 public class MainActivity extends BaseActivity {
 
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toobar);
+        Toolbar toolbar = (Toolbar) findViewById(toobar);
         setSupportActionBar(toolbar);
         //初始化界面
         initUI();
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
     private void initUI() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mMenuNv = (NavigationView) findViewById(R.id.nv_layout);
-        mToolbar = (Toolbar)findViewById(R.id.toobar);
+        mToolbar = (Toolbar)findViewById(toobar);
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
@@ -163,5 +163,5 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-
 }
+
