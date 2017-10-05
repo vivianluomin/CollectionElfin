@@ -1,22 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
+
+        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/civ_icon"
-
+            android:src="@mipmap/ic_note"
+            android:scaleType="center"
             />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:paddingTop="10dp"
+            >
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_note_title"
+                    android:text="开学第一天"
+                    android:textColor="@color/color_balck"
+                    android:textSize="16sp"
+                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_note_time"
+                    android:text="2017—9—8"
+                    android:textColor="@color/color_8a8a8a"
+                    android:textSize="12sp"
+                    android:layout_gravity="end"
+                    android:paddingRight="15dp"
+                    />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#7AC5CD"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>

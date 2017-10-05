@@ -1,4 +1,4 @@
-package com.example.asus1.collectionelfin.Base;
+package com.example.asus1.collectionelfin.activities;
 
 import android.graphics.Color;
 import android.os.Build;

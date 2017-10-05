@@ -1,4 +1,4 @@
-package com.example.asus1.collectionelfin.Utills;
+package com.example.asus1.collectionelfin.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
