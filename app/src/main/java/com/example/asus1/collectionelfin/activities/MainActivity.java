@@ -1,27 +1,23 @@
-package com.example.asus1.collectionelfin;
+package com.example.asus1.collectionelfin.activities;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.asus1.collectionelfin.Base.BaseActivity;
-import com.example.asus1.collectionelfin.Utills.FloatingActivity;
-import com.example.asus1.collectionelfin.activities.ReadActivity;
+import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.activities.BaseActivity;
+import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
 
@@ -31,7 +27,7 @@ public class MainActivity extends BaseActivity {
      * 抽屉视图
      */
     private DrawerLayout mDrawerLayout;
-
+    private ImageButton imageLogin;
     /**
      * 侧滑菜单视图
      */
@@ -40,7 +36,7 @@ public class MainActivity extends BaseActivity {
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
     private Toolbar mToolbar;
-
+    private View mHeaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +70,8 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
         mFragmentTransaction.commit();
+        mHeaderView =mMenuNv.getHeaderView(0);;
+        imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
     }
 
     /**
@@ -81,7 +79,14 @@ public class MainActivity extends BaseActivity {
      */
     private void initListener() {
 
-
+        imageLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         // 设置侧滑菜单点击事件监听
         mMenuNv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
