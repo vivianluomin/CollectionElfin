@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="@mipmap/bg_3"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="50dp"
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="点击头像登录"
-        android:textColor="#292421"
+        android:textColor="@color/white"
         />
 </LinearLayout>

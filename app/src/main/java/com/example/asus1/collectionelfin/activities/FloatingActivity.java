@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.example.asus1.collectionelfin.R;
 
-public class FloatingActivity extends AppCompatActivity implements View.OnClickListener{
+public class FloatingActivity extends BaseActivity implements View.OnClickListener{
     private ImageButton file;
     private ImageButton write;
     RelativeLayout llayout;

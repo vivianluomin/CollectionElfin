@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        >
         <item
             android:id="@+id/menu_mon"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_collection"
+            android:checked="true"
             android:title="@string/myCollection"/>
         <item
             android:id="@+id/menu_tues"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_notebook"
             android:title="@string/myBook"/>
         <item
             android:id="@+id/menu_wed"
@@ -24,17 +27,5 @@
             android:title="Fri"/>
     </group>
 
-    <!--二级菜单-->
-    <item android:title="weekend">
-        <menu>
-            <item
-                android:id="@+id/menu_sat"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Sat"/>
-            <item
-                android:id="@+id/menu_sun"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Sun"/>
-        </menu>
-    </item>
+
 </menu>

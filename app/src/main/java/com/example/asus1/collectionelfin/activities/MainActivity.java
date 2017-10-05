@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity {
      */
     private void initUI() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setFitsSystemWindows(false);
         mMenuNv = (NavigationView) findViewById(R.id.nv_layout);
         mToolbar = (Toolbar)findViewById(toobar);
         mFragmentManager = getSupportFragmentManager();
@@ -128,12 +129,7 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.menu_sat:
-                Toast.makeText(MainActivity.this, "点击 Sat", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_sun:
-                Toast.makeText(MainActivity.this, "点击 Sun", Toast.LENGTH_SHORT).show();
-                break;
+
             default:
                 break;
         }
