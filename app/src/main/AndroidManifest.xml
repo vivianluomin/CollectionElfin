@@ -28,6 +28,7 @@
 
         <activity android:name=".activities.FloatingActivity"/>
         <activity android:name=".activities.LoginActivity"/>
+        <activity android:name=".activities.RegisterActivity"/>
     </application>
 
 </manifest>
