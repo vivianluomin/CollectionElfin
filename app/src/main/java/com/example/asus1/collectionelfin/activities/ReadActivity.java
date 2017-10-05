@@ -43,7 +43,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 //        mCollectionUrl = intent.getStringExtra("url");
 //        mCollectionTitle = intent.getStringExtra("title");
         mCollectionUrl = "https://www.baidu.com";
-
+//
         init();
         setUpViews();
     }
