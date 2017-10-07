@@ -21,7 +21,7 @@ import java.util.List;
  * Created by asus1 on 2017/10/4.
  */
 
-public class NoteAdapter extends BaseAdapter<NoteModel> {
+public class NoteAdapter extends ArrayAdapter<NoteModel> {
 
     private Context mContext;
     private int mResource;
@@ -40,9 +40,12 @@ public class NoteAdapter extends BaseAdapter<NoteModel> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         NoteModel model = getItem(position);
-        //((NoteView)convertView).setData(model);
 
-        return super.getView(position,convertView,parent);
+        if(convertView == null){
+            convertView = new NoteView(mContext);
+        }
+
+        return convertView;
 
     }
 

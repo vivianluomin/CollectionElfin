@@ -13,12 +13,13 @@ import com.example.asus1.collectionelfin.Views.CollectionView;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * Created by asus1 on 2017/10/4.
  */
 
-public class CollectionAdapter extends BaseAdapter<CollectionModel> {
+public class CollectionAdapter extends ArrayAdapter<CollectionModel> {
 
     private Context mContext;
     private int mResource;
@@ -36,10 +37,12 @@ public class CollectionAdapter extends BaseAdapter<CollectionModel> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         CollectionModel model = getItem(position);
-        //((CollectionView)convertView).setData(model);
+        if(convertView == null){
+            convertView = new CollectionView(mContext);
+        }
 
-
-        return super.getView(position, convertView, parent);
+        ((CollectionView)convertView).setData(model);
+        return convertView;
     }
 
     @Override

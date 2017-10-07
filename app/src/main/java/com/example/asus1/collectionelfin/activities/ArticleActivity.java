@@ -1,18 +1,24 @@
 package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.asus1.collectionelfin.Adapters.BaseAdapter;
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +28,14 @@ public class ArticleActivity extends BaseActivity {
     private ListView mListView;
     private List<CollectionModel> mCollections;
     private CollectionAdapter mAdapter;
+    private LinearLayout mLoadingLayout;
+    private ImageView mLoadingView;
+    private ErrorView mErrorView;
+
+    private String title,summary;
+
+    private String url = "http://blog.csdn.net/wcl1179851200/article/details/51331572";
+
 
 
     @Override
@@ -42,11 +56,39 @@ public class ArticleActivity extends BaseActivity {
         });
         mListView = (ListView)findViewById(R.id.list_view);
         mCollections = new ArrayList<>();
-        setData();
+        mLoadingLayout =(LinearLayout)findViewById(R.id.ll_loading_view);
+        mLoadingView =  (ImageView)findViewById(R.id.iv_loading_view);
+        mErrorView = (ErrorView)findViewById(R.id.view_error);
+
+        startLoading();
+
+    }
+
+    private void startLoading(){
+        AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
+        drawable.start();
+
+        getHead();
+
+    }
+
+    private void setData(){
+
+
+        CollectionModel model = new CollectionModel();
+        model.setTitle(title);
+        model.setContent(summary);
+
+        for(int i = 0;i<15;i++){
+            mCollections.add(model);
+        }
+
+
         mAdapter = new CollectionAdapter(this,R.layout.view_collection_listview_item,
                 mCollections);
         mListView.setDivider(null);
         mListView.setAdapter(mAdapter);
+
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,12 +97,36 @@ public class ArticleActivity extends BaseActivity {
             }
         });
 
+        mLoadingLayout.setVisibility(View.GONE);
+        mListView.setVisibility(View.VISIBLE);
     }
 
-    private void setData(){
+    private void getHead(){
 
-        for(int i = 0;i<15;i++){
-            mCollections.add(new CollectionModel());
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Document document = Jsoup.connect(url).get();
+                    title = document.title();
+                    summary = document.head().getElementsByAttributeValue("meta","description").text();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setData();
+                        }
+                    });
+                }catch (IOException e){
+                    e.printStackTrace();
+                    mLoadingLayout.setVisibility(View.GONE);
+                    mListView.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.VISIBLE);
+                }
+            }
+        }).start();
+
+
+
+
     }
 }

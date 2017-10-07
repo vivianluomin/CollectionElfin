@@ -45,8 +45,11 @@ public class CollectionView extends RelativeLayout {
 
     public void setData(CollectionModel model){
 
-        mTitle.setText(model.getTitle());
-        mSummary.setText(model.getContent().substring(0,40));
+        if(model.getTitle() != null){
+            mTitle.setText(model.getTitle());
+            mSummary.setText(model.getContent());
+        }
+
 
     }
 }

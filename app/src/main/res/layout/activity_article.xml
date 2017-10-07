@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_e6e6e6"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.example.asus1.collectionelfin.activities.ArticleActivity">
 
@@ -27,14 +27,55 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/list_view"
         >
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_loading_view"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            >
 
-    </ListView>
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/loading_view"
+                android:id="@+id/iv_loading_view"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/loading"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/list_view"
+            android:visibility="gone"
+            />
+
+        <com.example.asus1.collectionelfin.Views.ErrorView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/view_error"
+            android:visibility="gone"
+            />
+
+
+    </FrameLayout>
+
+
+
+
+
 
 </LinearLayout>
