@@ -42,7 +42,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         Intent intent = getIntent();
 //        mCollectionUrl = intent.getStringExtra("url");
 //        mCollectionTitle = intent.getStringExtra("title");
-        mCollectionUrl = "https://www.baidu.com";
+        mCollectionUrl = "http://blog.csdn.net/a501216475/article/details/78115780";
 //
         init();
         setUpViews();
@@ -89,7 +89,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("url",url);
+
                 if(url!= null){
                     mLoadingLayout.setVisibility(View.GONE);
                     mErrorView.setVisibility(View.GONE);

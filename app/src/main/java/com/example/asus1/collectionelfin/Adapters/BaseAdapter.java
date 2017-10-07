@@ -9,41 +9,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.asus1.collectionelfin.Views.CollectionView;
-import com.example.asus1.collectionelfin.models.CollectionModel;
-
 import java.util.List;
 
 /**
- * Created by asus1 on 2017/10/4.
+ * Created by asus1 on 2017/10/7.
  */
 
-public class CollectionAdapter extends BaseAdapter<CollectionModel> {
+public class BaseAdapter<T> extends ArrayAdapter<T> {
 
     private Context mContext;
     private int mResource;
-    private List<CollectionModel> mCollections;
+    private List<T> mLits;
 
-    public CollectionAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<CollectionModel> objects) {
+    public BaseAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<T> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
-        mCollections = objects;
+        mLits = objects;
     }
-
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        CollectionModel model = getItem(position);
-        //((CollectionView)convertView).setData(model);
+
+        if(convertView == null){
+            convertView = LayoutInflater.from(mContext).inflate(mResource,parent,false);
+        }
 
 
-        return super.getView(position, convertView, parent);
+        return convertView;
     }
 
     @Override
     public int getCount() {
-        return mCollections.size();
+        return mLits.size();
     }
 }

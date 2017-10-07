@@ -17,27 +17,27 @@ public class NoteModel {
     @SerializedName("content")
     private String mContent;
 
-    public String getmDate() {
+    public String getDate() {
         return mDate;
     }
 
-    public void setmDate(String mDate) {
+    public void setDate(String mDate) {
         this.mDate = mDate;
     }
 
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public void setmTitle(String mTitle) {
+    public void setTitle(String mTitle) {
         this.mTitle = mTitle;
     }
 
-    public String getmContent() {
+    public String getContent() {
         return mContent;
     }
 
-    public void setmContent(String mContent) {
+    public void setContent(String mContent) {
         this.mContent = mContent;
     }
 }

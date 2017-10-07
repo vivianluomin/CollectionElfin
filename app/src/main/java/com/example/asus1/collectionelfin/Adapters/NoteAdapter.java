@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Views.NoteView;
 import com.example.asus1.collectionelfin.models.NoteModel;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by asus1 on 2017/10/4.
  */
 
-public class NoteAdapter extends ArrayAdapter<NoteModel> {
+public class NoteAdapter extends BaseAdapter<NoteModel> {
 
     private Context mContext;
     private int mResource;
@@ -38,26 +39,11 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        ViewHold viewhold;
+        NoteModel model = getItem(position);
+        //((NoteView)convertView).setData(model);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(mResource,parent,false);
-            viewhold = new ViewHold();
-            viewhold.mDate = (TextView) convertView.findViewById(R.id.tv_note_time);
-            viewhold.mTitle = (TextView)convertView.findViewById(R.id.tv_note_title);
-            convertView.setTag(viewhold);
+        return super.getView(position,convertView,parent);
 
-        }
-
-
-
-//        viewhold = (ViewHold)convertView.getTag();
-//        viewhold.mTitle.setText("aaaaaaa");
-//        viewhold.mDate.setText("2017-9-10");
-
-
-
-        return convertView;
     }
 
     @Override
@@ -65,9 +51,5 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> {
         return mNotes.size();
     }
 
-    class ViewHold{
 
-        TextView mTitle;
-        TextView mDate;
-    }
 }

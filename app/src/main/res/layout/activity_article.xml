@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_e6e6e6"
+    android:orientation="vertical"
     tools:context="com.example.asus1.collectionelfin.activities.ArticleActivity">
 
     <android.support.v7.widget.Toolbar
@@ -28,7 +29,8 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/list_view"
         >
 
