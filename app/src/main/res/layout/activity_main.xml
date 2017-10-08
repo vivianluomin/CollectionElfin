@@ -20,8 +20,11 @@
             android:paddingTop="24dp"
             android:background="@color/top_bar"
             app:subtitleTextColor="#fff"
-            app:navigationIcon="@mipmap/ic_toobal_left"
-            app:title="@string/myCollection" />
+            app:title="我的收藏"
+            app:titleTextColor="@color/white"
+             >
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/but_fab"
@@ -29,7 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_fab"/>
+            android:src="@mipmap/ic_fab"
+            android:backgroundTint="@color/top_bar"
+            />
 
 
         <FrameLayout
@@ -41,6 +46,8 @@
 
 
         </FrameLayout>
+
+
 
 
     </FrameLayout >
