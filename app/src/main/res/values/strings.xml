@@ -5,5 +5,7 @@
     <string name="mainPage">主页</string>
     <string name="loading">正在加载... ...</string>
     <string name="reloading">重新加载</string>
+    <string name="addCollection">添加收藏</string>
+    <string name="addTo">添加到</string>
 
 </resources>

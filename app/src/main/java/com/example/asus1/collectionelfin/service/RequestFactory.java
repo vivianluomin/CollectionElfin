@@ -30,6 +30,8 @@ public class RequestFactory {
                     .addHeader("accept", "*/*")
                     .addHeader("user-agent",
                             "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)")
+                    .header("accept-encoding","utf-8")
+                    .header("accept-charset","utf-8")
                     .build();
 
 

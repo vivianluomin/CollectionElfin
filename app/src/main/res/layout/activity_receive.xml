@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_e6e6e6"
+    tools:context="com.example.asus1.collectionelfin.activities.ReceiveActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:paddingTop="24dp"
+        android:background="@color/top_bar"
+        android:id="@+id/toolbar_art"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:text="@string/addCollection"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_add_collection"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/color_balck"
+        android:text="http://blog.csdn.net/kuangxiaoguo0123/article/details/53301005"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/color_0061b0"
+        android:text="@string/addTo"
+        android:padding="15dp"
+        />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_lits"
+        android:layout_marginTop="15dp"
+        android:paddingRight="20dp"
+        />
+
+
+
+
+
+</LinearLayout>

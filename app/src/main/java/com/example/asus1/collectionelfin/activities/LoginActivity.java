@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.example.asus1.collectionelfin.models.UniApiReuslt;
 import com.example.asus1.collectionelfin.service.LoginSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -68,9 +70,18 @@ public class LoginActivity extends BaseActivity {
                 String account = loginCellNumber.getText().toString();
                 String password = loginPassword.getText().toString();
 
-                if(!account.equals("") && !password.equals("")){
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("account",account);
+                    jsonObject.put("password",password);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+                if(jsonObject.length()!=0){
                    LoginSerivce loginSerivce = RequestFactory.getRetrofit().create(LoginSerivce.class);
                    Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
+                    Log.d("aaaaaa",jsonObject.toString());
 
                     HttpUtils.doRuqest(call,callBack);
 
