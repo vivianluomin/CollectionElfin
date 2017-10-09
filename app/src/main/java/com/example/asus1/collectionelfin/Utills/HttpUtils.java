@@ -1,5 +1,8 @@
 package com.example.asus1.collectionelfin.Utills;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 
 import retrofit2.Call;
@@ -20,9 +23,13 @@ public class HttpUtils {
             @Override
             public void onResponse(Call<UniApiReuslt<T>> call, Response<UniApiReuslt<T>> response) {
                 UniApiReuslt<T> reuslt = response.body();
+                Log.d("aaa",String.valueOf(response.isSuccessful()));
+                Log.d("aaaaaa",String.valueOf(response.code()));
 
                 if(callBack != null && reuslt != null){
                     callBack.getResult(reuslt);
+                    Log.d("bbbbb","bbbbbb");
+
                 }
 
 

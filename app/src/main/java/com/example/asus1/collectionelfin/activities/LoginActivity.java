@@ -8,6 +8,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.LoginSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
 
 
 /**
@@ -53,7 +61,36 @@ public class LoginActivity extends BaseActivity {
                 finish();
             }
         });
+
+        loginLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String account = loginCellNumber.getText().toString();
+                String password = loginPassword.getText().toString();
+
+                if(!account.equals("") && !password.equals("")){
+                   LoginSerivce loginSerivce = RequestFactory.getRetrofit().create(LoginSerivce.class);
+                   Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
+
+                    HttpUtils.doRuqest(call,callBack);
+
+                    //JSONObject object = new JSONObject()
+                }
+
+            }
+        });
+
 }
+
+
+    private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+
+
+
+        }
+    };
 
 
 }
