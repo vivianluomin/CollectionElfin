@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
         mFragmentTransaction.commit();
-        mHeaderView =mMenuNv.getHeaderView(0);;
+        mHeaderView =mMenuNv.getHeaderView(0);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
     }
 

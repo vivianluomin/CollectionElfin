@@ -28,7 +28,8 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ArticleActivity" />
         <activity android:name=".activities.NewfileActivity" />
-        <activity android:name=".activities.FileActivity"></activity>
+        <activity android:name=".activities.FileActivity" />
+        <activity android:name=".activities.NewnoteActivity"></activity>
     </application>
 
 </manifest>

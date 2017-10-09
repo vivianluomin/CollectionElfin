@@ -47,9 +47,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="18dp"
-        android:src="@mipmap/ic_fab"/>
+        android:src="@mipmap/ic_fab"
+        android:backgroundTint="@color/top_bar"/>
 
 
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="74dp"
+        android:id="@+id/fragment_container"
+        >
 
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

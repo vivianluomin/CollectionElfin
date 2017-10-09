@@ -38,6 +38,8 @@ public class FloatingActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.image_ivwrite:
             case R.id.but_fab_write:
+                Intent intents = new Intent(FloatingActivity.this,NewnoteActivity.class);
+                startActivity(intents);
                 break;
             default:
                 if(llayout.getVisibility()==View.VISIBLE){
