@@ -57,13 +57,13 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
     }
 
     private void init(){
-        mBack = (ImageView)findViewById(R.id.iv_read_page_back_button);
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        mBack = (ImageView)findViewById(R.id.iv_read_page_back_button);
+//        mBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 
         mWebView = (WebView)findViewById(R.id.wv_showArtical);
         mWebSetting = mWebView.getSettings();
@@ -72,7 +72,14 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         mLoadingLayout = (LinearLayout) findViewById(R.id.ll_loading_view);
         mErrorView = (ErrorView)findViewById(R.id.error_view);
         mErrorView.setReloadingListener(this);
-
+        mToolbar = (Toolbar) findViewById(R.id.read_page_tool_bar);
+        mToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setUpViews() {
