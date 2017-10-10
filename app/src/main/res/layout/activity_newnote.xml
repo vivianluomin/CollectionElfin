@@ -6,50 +6,67 @@
     android:orientation="vertical"
     android:fitsSystemWindows="false"
     android:background="@color/white"
-    tools:context="com.example.asus1.collectionelfin.activities.NewfileActivity">
+    tools:context="com.example.asus1.collectionelfin.activities.NewnoteActivity">
 
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/newfile_tool_bar"
+        android:id="@+id/newnote_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:background="@color/top_bar"
-        android:paddingTop="24dp"
-        >
+        android:paddingTop="24dp">
 
         <ImageView
-            android:id="@+id/iv_newfile_back_button"
+            android:id="@+id/iv_newnote_back_button"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:scaleType="center"
             android:src="@mipmap/ic_back" />
 
         <TextView
-            android:id="@+id/tv_newfile_title"
+            android:id="@+id/tv_newnote_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="15dp"
-            android:text="新建收藏夹"
             android:textColor="@color/white"
+            android:text="新建笔记"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/but_finishwrite"
+            android:layout_width="122dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="130dp"
+            android:src="@mipmap/ic_finishwrite"
+            />
 
 
     </android.support.v7.widget.Toolbar>
+
+
     <EditText
-        android:id="@+id/edit_newfile_name"
+        android:id="@+id/edit_newnote_name"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:hint="请输入标题，，，"
+        android:background="@null"
+        android:hint="笔记标题" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:src="@mipmap/ic_line"
         />
 
-    <Button
-        android:id="@+id/button"
+    <EditText
+        android:id="@+id/edit_newnote"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="完成" />
+        android:layout_height="match_parent"
+        android:background="@mipmap/ic_write_backgroud"
+        android:gravity="top"
+        android:hint="写下这时的想法....."
 
+        />
 
 
 </LinearLayout>
