@@ -163,7 +163,10 @@ public class MainActivity extends BaseActivity {
 
     private void handleSendMessage(Intent intent){
 
-
+        String url = intent.getDataString();
+        Intent intent1 = new Intent(this,ReceiveActivity.class);
+        intent1.putExtra("URL",url);
+        startActivity(intent1);
 
     }
 

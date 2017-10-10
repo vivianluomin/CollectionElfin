@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.activities.ArticleActivity;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 
@@ -55,6 +56,7 @@ public class CollectionFragment extends Fragment  {
         setData();
         mAdapter = new CollectionAdapter(getContext(),
                 R.layout.view_collection_listview_item,mCollections);
+
     }
 
     private void setData(){

@@ -15,8 +15,6 @@ public class UniApiReuslt<T>{
     protected int mStatus;
 
 
-    @SerializedName("msg")
-    protected String mMessage;
 
     @SerializedName("data")
     protected T mData;
@@ -29,13 +27,7 @@ public class UniApiReuslt<T>{
         this.mStatus = mStatus;
     }
 
-    public String getmMessage() {
-        return mMessage;
-    }
 
-    public void setmMessage(String mMessage) {
-        this.mMessage = mMessage;
-    }
 
     public T getmData() {
         return mData;

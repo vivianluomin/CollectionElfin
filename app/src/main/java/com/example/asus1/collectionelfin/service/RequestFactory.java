@@ -1,5 +1,6 @@
 package com.example.asus1.collectionelfin.service;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -43,15 +44,18 @@ public class RequestFactory {
 
     public static  Retrofit  getRetrofit(){
         Retrofit.Builder builder = new Retrofit.Builder();
-
+        Gson gson = new GsonBuilder().setLenient().create();
 
 
         return builder
                 .baseUrl(MainUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
 
     }
+
+
+
 
 }
