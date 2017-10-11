@@ -14,14 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:background="@color/top_bar"
-        android:paddingTop="24dp">
-
-        <ImageView
-            android:id="@+id/iv_newnote_back_button"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@mipmap/ic_back" />
+        android:paddingTop="24dp"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/tv_newnote_title"
@@ -29,43 +23,36 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="15dp"
-            android:textColor="@color/white"
             android:text="新建笔记"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/but_finishwrite"
-            android:layout_width="122dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="130dp"
-            android:src="@mipmap/ic_finishwrite"
-            />
-
-
+        <ImageButton
+            android:id="@+id/but_finish_writenote"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="150dp"
+            android:background="@color/top_bar"
+            android:src="@mipmap/ic_finish_write_note" />
     </android.support.v7.widget.Toolbar>
-
 
     <EditText
         android:id="@+id/edit_newnote_name"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@null"
         android:hint="笔记标题" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:src="@mipmap/ic_line"
-        />
 
     <EditText
         android:id="@+id/edit_newnote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/ic_write_backgroud"
         android:gravity="top"
-        android:hint="写下这时的想法....."
+        android:hint="写下这时的想法....." />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@mipmap/ic_line"
         />
 
 

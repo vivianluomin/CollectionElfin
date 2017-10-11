@@ -40,13 +40,7 @@ public class FileActivity extends BaseActivity {
 
         });
 
-        mBack = (ImageView)findViewById(R.id.iv_newfile_back_button);
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
 
