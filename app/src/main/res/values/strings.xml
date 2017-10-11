@@ -7,5 +7,6 @@
     <string name="reloading">重新加载</string>
     <string name="addCollection">添加收藏</string>
     <string name="addTo">添加到</string>
+    <string name="comfirm">确定添加</string>
 
 </resources>

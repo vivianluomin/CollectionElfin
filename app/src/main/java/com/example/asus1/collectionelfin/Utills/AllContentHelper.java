@@ -25,5 +25,11 @@ public class AllContentHelper {
         return Collecton_Sort;
     }
 
+    public static void addCollection_Sort(String collection){
+        Collecton_Sort.add(collection);
+    }
+
+
+
 
 }

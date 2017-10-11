@@ -37,14 +37,16 @@
         android:textSize="12sp"
         android:textColor="@color/color_balck"
         android:text="http://blog.csdn.net/kuangxiaoguo0123/article/details/53301005"
-
+        android:textCursorDrawable="@drawable/bg_edit_course"
+        android:drawableLeft="@mipmap/ic_link"
+        android:drawablePadding="5dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/color_0061b0"
+        android:textColor="@color/color_text_red"
         android:text="@string/addTo"
         android:padding="15dp"
         />
@@ -56,6 +58,22 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:spinnerMode="dropdown"
+        android:gravity="center_vertical"
+        android:backgroundTint="@color/color_text_red"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_confirm"
+        android:textColor="@color/color_text_red"
+        android:textSize="14sp"
+        android:text="@string/comfirm"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@drawable/bg_textview"
         />
 
 
