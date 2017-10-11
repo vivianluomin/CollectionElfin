@@ -16,11 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
+import com.example.asus1.collectionelfin.models.LoginModle;
 
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
@@ -39,6 +42,9 @@ public class MainActivity extends BaseActivity {
     private FragmentTransaction mFragmentTransaction;
     private Toolbar mToolbar;
     private View mHeaderView;
+    private TextView mUserName;
+
+    private LoginModle mNowLoginUser;
 
     private DrawerLayout mDrawerLayout;
 
@@ -54,6 +60,7 @@ public class MainActivity extends BaseActivity {
             setSupportActionBar(toolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBar actionBar = getSupportActionBar();
+            mNowLoginUser = LoginHelper.getNowLoginUser();
             if(actionBar!=null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.mipmap.ic_toobal_left);
@@ -89,7 +96,11 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
         mFragmentTransaction.commit();
         mHeaderView =mMenuNv.getHeaderView(0);
+        mUserName = (TextView)findViewById(R.id.tv_user_name);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
+        if(mNowLoginUser != null){
+            mUserName.setText(mNowLoginUser.getUserName());
+        }
     }
 
     /**
@@ -101,8 +112,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent (MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                if(mNowLoginUser == null){
+                    Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
         // 设置侧滑菜单点击事件监听
@@ -191,6 +205,9 @@ public class MainActivity extends BaseActivity {
         }
         return true;
     }
+
+
+
 
 }
 

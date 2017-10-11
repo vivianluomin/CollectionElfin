@@ -7,9 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 import com.example.asus1.collectionelfin.service.LoginSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
@@ -30,6 +33,9 @@ public class LoginActivity extends BaseActivity {
     private Button loginRegiter;
     private Button loginLogin;
     private ImageView back;
+
+    String account;
+    String password;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -67,26 +73,13 @@ public class LoginActivity extends BaseActivity {
         loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String account = loginCellNumber.getText().toString();
-                String password = loginPassword.getText().toString();
+                account = loginCellNumber.getText().toString();
+                 password = loginPassword.getText().toString();
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("account",account);
-                    jsonObject.put("password",password);
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-
-                if(jsonObject.length()!=0){
                    LoginSerivce loginSerivce = RequestFactory.getRetrofit().create(LoginSerivce.class);
                    Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
-                    Log.d("aaaaaa",jsonObject.toString());
-
                     HttpUtils.doRuqest(call,callBack);
 
-                    //JSONObject object = new JSONObject()
-                }
 
             }
         });
@@ -98,8 +91,19 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void getResult(UniApiReuslt<String> apiReuslt) {
 
+            if(apiReuslt!= null){
+
+                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                LoginModle modle = new LoginModle();
+                modle.setAccount(account);
+                modle.setUserName(account);
+                modle.setPassword(password);
+                LoginHelper.setNowLiginUser(modle);
+
+               finish();
 
 
+            }
         }
     };
 
