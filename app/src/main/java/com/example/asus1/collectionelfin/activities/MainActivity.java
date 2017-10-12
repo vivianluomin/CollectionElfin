@@ -3,7 +3,6 @@ package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +21,14 @@ import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
 import com.example.asus1.collectionelfin.models.LoginModle;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
@@ -45,6 +50,7 @@ public class MainActivity extends BaseActivity {
     private TextView mUserName;
 
     private LoginModle mNowLoginUser;
+    private NavigationView mNavigation;
 
     private DrawerLayout mDrawerLayout;
 
@@ -79,6 +85,8 @@ public class MainActivity extends BaseActivity {
                 }
 
             });
+
+            EventBus.getDefault().register(this);
         }
 
     }
@@ -182,6 +190,8 @@ public class MainActivity extends BaseActivity {
         intent1.putExtra("URL",url);
         startActivity(intent1);
 
+        finish();
+
     }
 
     @Override
@@ -207,7 +217,24 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent){
+
+        mUserName = (TextView)findViewById(R.id.tv_user_name);
+
+        if(mUserName!=null){
+            mUserName.setText(messageEvent.getMessage());
+            Log.d("username",messageEvent.getMessage());
+        }
 
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
 

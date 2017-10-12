@@ -164,10 +164,13 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
                 String number = registerPassword.getText().toString();
 
                 if (TextUtils.isEmpty(number))
-                    Toast.makeText(this,"phone can't be null",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"password can't be null",Toast.LENGTH_SHORT).show();
 
                 Log.i("ssss",phone+","+number);
                 SMSSDK.submitVerificationCode("86",phone,number);
+
+
+
                 break;
             case  R.id.read_page_tool_bar:
                 finish();

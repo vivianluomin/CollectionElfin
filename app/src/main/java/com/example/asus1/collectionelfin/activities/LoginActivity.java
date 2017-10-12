@@ -12,13 +12,15 @@ import android.widget.Toast;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 import com.example.asus1.collectionelfin.service.LoginSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import retrofit2.Call;
 
@@ -44,7 +46,15 @@ public class LoginActivity extends BaseActivity {
         initUI();
         //初始化监听
         initListener();
+
+        EventBus.getDefault().register(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void  onEvent(MessageEvent event){
+
+    }
+
     private void initUI() {
         loginCellNumber = (EditText)findViewById(R.id.login_cell_number);
         loginPassword= (EditText)findViewById(R.id.login_password);
@@ -80,7 +90,6 @@ public class LoginActivity extends BaseActivity {
                    Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
                     HttpUtils.doRuqest(call,callBack);
 
-
             }
         });
 
@@ -93,12 +102,19 @@ public class LoginActivity extends BaseActivity {
 
             if(apiReuslt!= null){
 
+                String username = apiReuslt.getmData();
+                Log.d("username",username);
+
                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                 LoginModle modle = new LoginModle();
                 modle.setAccount(account);
-                modle.setUserName(account);
+                modle.setUserName(username);
                 modle.setPassword(password);
                 LoginHelper.setNowLiginUser(modle);
+
+                Log.d("sssss",modle.getUserName());
+
+                EventBus.getDefault().post(new MessageEvent(modle.getUserName()));
 
                finish();
 

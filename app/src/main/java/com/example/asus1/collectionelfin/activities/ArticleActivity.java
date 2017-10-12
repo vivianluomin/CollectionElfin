@@ -11,16 +11,27 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
+import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.Utills.NetworkUtil;
 import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.models.CollectionModel;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.AddCollectionSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class ArticleActivity extends BaseActivity {
 
@@ -43,6 +54,7 @@ public class ArticleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         init();
+        EventBus.getDefault().register(this);
     }
 
     private void init(){
@@ -69,6 +81,13 @@ public class ArticleActivity extends BaseActivity {
         drawable.start();
 
         getHead();
+
+    }
+
+    private void getData(){
+
+
+
 
     }
 
@@ -126,7 +145,30 @@ public class ArticleActivity extends BaseActivity {
         }).start();
 
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onEvent(CollectionsMessage message){
+
+        if(message!=null){
+            CollectionModel model = message.getModel();
+
+        }
+
+    }
 
 
+    HttpUtils.RequestFinishCallBack<List<CollectionModel>> callBack = new HttpUtils.RequestFinishCallBack<List<CollectionModel>>() {
+        @Override
+        public void getResult(UniApiReuslt<List<CollectionModel>> apiReuslt) {
+
+        }
+    };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

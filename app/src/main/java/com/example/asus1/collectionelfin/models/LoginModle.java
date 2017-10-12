@@ -23,7 +23,7 @@ public class LoginModle {
     }
 
     public void setUserName(String UserName) {
-        this.mUserName = mUserName;
+        this.mUserName = UserName;
     }
 
     public String getAccount() {
@@ -31,7 +31,7 @@ public class LoginModle {
     }
 
     public void setAccount(String Account) {
-        this.mAccount = mAccount;
+        this.mAccount = Account;
     }
 
     public String getPassword() {
