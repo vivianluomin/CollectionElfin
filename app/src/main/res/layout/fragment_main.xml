@@ -6,6 +6,7 @@
     android:background="#fff"
     >
 
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
@@ -39,15 +40,19 @@
          </LinearLayout>
 
 
-         <ListView
+
+    <ListView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lv_lists"
         android:visibility="gone"
         />
 
+
      </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
     </LinearLayout>

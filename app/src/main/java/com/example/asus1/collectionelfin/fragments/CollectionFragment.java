@@ -48,6 +48,7 @@ import retrofit2.Call;
 public class CollectionFragment extends Fragment  {
 
     private ListView mListView;
+
     private List<String> mCollections;
     private CollectionSortAdapter mAdapter;
     private LinearLayout mLoadingLaout;
@@ -56,6 +57,8 @@ public class CollectionFragment extends Fragment  {
     private LoginModle mNowLoginUser;
     public SwipeRefreshLayout swipeRefresh;
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -63,20 +66,9 @@ public class CollectionFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
 
 
-        //刷新
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefresh.setColorSchemeColors(Color.parseColor("#FF80AA"));
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startSwipeRefresh();
-                //...刷新重新获取数据
-               requestData();
-                stopSwipeRefresh();
-            }
-        });
-
         setUpView(view);
+
+
 
         return view;
     }
@@ -137,6 +129,7 @@ public class CollectionFragment extends Fragment  {
 
 
     }
+
 
 
     HttpUtils.RequestFinishCallBack<List<String>> callBack  = new HttpUtils.RequestFinishCallBack<List<String>>() {

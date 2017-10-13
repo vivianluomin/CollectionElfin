@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="false"
-    android:background="@color/white"
-    tools:context="com.example.asus1.collectionelfin.activities.ReadActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:fitsSystemWindows="false"
+              android:background="@color/white"
+              tools:context="com.example.asus1.collectionelfin.activities.ReadActivity">
 
 
     <android.support.v7.widget.Toolbar
@@ -15,24 +16,11 @@
         android:layout_height="74dp"
         android:background="@color/color_pink"
         android:paddingTop="24dp"
-        >
-
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_read_page_back_button"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scaleType="center"-->
-            <!--android:src="@mipmap/ic_back" />-->
-
-        <TextView
-            android:id="@+id/tv_read_page_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:gravity="center_vertical"
-            android:text="阅读页"/>
-
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:subtitleTextColor="#fff"
+        app:title="阅读页"
+        app:titleTextColor="@color/white">
 
     </android.support.v7.widget.Toolbar>
 

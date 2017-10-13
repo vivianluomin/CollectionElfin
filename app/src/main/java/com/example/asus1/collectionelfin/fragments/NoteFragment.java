@@ -49,17 +49,17 @@ public class NoteFragment extends Fragment {
         });
 
         //刷新
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefresh.setColorSchemeColors(Color.parseColor("#FF80AA"));
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startSwipeRefresh();
-                //...刷新重新获取数据
-                setData();//设置
-                stopSwipeRefresh();
-            }
-        });
+//        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+//        swipeRefresh.setColorSchemeColors(Color.parseColor("#FF80AA"));
+//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                startSwipeRefresh();
+//                //...刷新重新获取数据
+//                setData();//设置
+//                stopSwipeRefresh();
+//            }
+//        });
 
         //...初始获取数据
         setData();
