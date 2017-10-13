@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.8"
-    android:background="@color/white"
+    android:background="#000000"
     >
+
 
     <ImageView
         android:id="@+id/image_ivfile"
@@ -14,7 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="125dp"
-        android:src="@mipmap/ic_file" />
+        android:src="@mipmap/ic_file_white" />
 
     <Button
         android:id="@+id/but_fab_file"
@@ -23,7 +24,10 @@
         android:layout_alignTop="@+id/image_ivfile"
         android:layout_marginEnd="13dp"
         android:layout_toStartOf="@+id/image_ivfile"
+        android:textColor="@color/white"
+        android:background="@color/color_pink"
         android:text="新建收藏夹" />
+    />
 
     <ImageView
         android:id="@+id/image_ivwrite"
@@ -31,7 +35,7 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/but_fab_write"
         android:layout_alignParentEnd="true"
-        android:src="@mipmap/ic_write" />
+        android:src="@mipmap/ic_fab_write_white" />
 
     <Button
 
@@ -41,6 +45,21 @@
         android:layout_above="@+id/but_fab_file"
         android:layout_alignEnd="@+id/but_fab_file"
         android:layout_marginBottom="20dp"
-        android:text="新建笔记" />
+        android:textColor="@color/color_pink"
+        android:background="@color/white"
+        android:text="新建笔记"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/but_fab_floting_bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_floting_white"
+        android:background="@color/color_pink"
+        />
 
 </RelativeLayout>

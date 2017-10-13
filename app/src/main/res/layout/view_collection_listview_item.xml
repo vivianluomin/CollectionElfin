@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    app:cardCornerRadius="7dp"
+    android:layout_margin="5dp"
     >
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="center"
-        android:src="@mipmap/ic_artical"
-        />
+
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:paddingTop="10dp"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_collection_title"
-            android:textSize="16sp"
-            android:layout_gravity="start"
-            android:text="怎么学习java"
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="center"
+            android:src="@mipmap/ic_logo"
             />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_summary"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="ijaskdnasckjsdcasjkcnsaduicakcnuisdacjkasncuawejkcnsaduicsjakchuiavnjfadgajvbaus"
-            />
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#7AC5CD"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="15dp"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_collection_title"
+                android:textSize="16sp"
+                android:layout_gravity="start"
+                android:text="怎么学习java"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_summary"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:text="ijaskdnasckjsdcasjkcnsaduicakcnuisdacjkasncuawejkcnsaduicsjakchuiavnjfadgajvbaus"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                />
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
-
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

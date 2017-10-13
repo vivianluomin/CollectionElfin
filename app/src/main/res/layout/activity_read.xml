@@ -13,7 +13,7 @@
         android:id="@+id/read_page_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="74dp"
-        android:background="@color/top_bar"
+        android:background="@color/color_pink"
         android:paddingTop="24dp"
         >
 

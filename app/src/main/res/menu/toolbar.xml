@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/toobar_search"
-        android:icon="@mipmap/ic_toobar_search1"
+        android:icon="@mipmap/ic_tool_search_white"
         app:showAsAction = "always"
         android:title="search"/>
     <item
         android:id="@+id/toobar_delete"
-        android:icon="@mipmap/ic_delete2"
+        android:icon="@mipmap/ic_delte_white"
         app:showAsAction = "always"
         android:title="delete"/>
     <item

@@ -1,6 +1,7 @@
 package com.example.asus1.collectionelfin.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.activities.ArticleActivity;
+import com.example.asus1.collectionelfin.activities.NewnoteActivity;
 import com.example.asus1.collectionelfin.models.NoteModel;
 
 import java.util.ArrayList;
@@ -34,6 +38,12 @@ public class NoteFragment extends Fragment {
         mListView = (ListView)view.findViewById(R.id.lv_lists);
         mListView.setDivider(null);
         mListView.setAdapter(mNoteAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(getContext(), NewnoteActivity.class));
+            }
+        });
         return view;
     }
 

@@ -18,11 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="74dp"
             android:paddingTop="24dp"
-            android:background="@color/top_bar"
+            android:background="#FF80AA"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/Theme.AppCompat.Light"
             app:subtitleTextColor="#fff"
             app:title="我的收藏"
             app:titleTextColor="@color/white"
-             >
+            >
 
         </android.support.v7.widget.Toolbar>
 
@@ -32,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_fab"
-            android:background="@color/top_bar"
+            android:src="@mipmap/ic_back_white"
+            android:background="@color/color_pink"
             />
 
 

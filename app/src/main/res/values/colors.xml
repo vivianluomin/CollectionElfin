@@ -6,6 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#fff</color>
+    <color name="color_pink">#FF80AA</color>
     <color name="top_bar">#68838B</color>
     <color name="view_line">#636363</color>
     <color name="color_00c3d1">#00c3d1</color>

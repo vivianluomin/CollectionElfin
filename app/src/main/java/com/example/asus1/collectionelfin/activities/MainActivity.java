@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
             mNowLoginUser = LoginHelper.getNowLoginUser();
             if(actionBar!=null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeAsUpIndicator(R.mipmap.ic_toobal_left);
+                actionBar.setHomeAsUpIndicator(R.mipmap.ic_toolbar_left_white);
             }
 
             //初始化界面
