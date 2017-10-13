@@ -1,10 +1,16 @@
 package com.example.asus1.collectionelfin.service;
 
+import com.example.asus1.collectionelfin.Utills.NetworkUtil;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -19,27 +25,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RequestFactory {
 
     private static  String MainUrl = "http://47.95.207.40";
-
-
-    private static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-
-            Request request = chain.request()
-                    .newBuilder()
-                    .addHeader("connection", "Keep-Alive")
-                    .addHeader("accept", "*/*")
-                    .addHeader("user-agent",
-                            "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)")
-                    .header("accept-encoding","utf-8")
-                    .header("accept-charset","utf-8")
-                    .build();
+    private static  int MAX_CACHE_SIZE = 200 * 1024 *1024;
 
 
 
-            return chain.proceed(request);
-        }
-    }).build();
+    private static OkHttpClient getOkHttpClient(){
+        File cacheFile = new File(SystemManager.getContext().getCacheDir().getAbsolutePath());
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(getIntercepter())
+                .cache(new Cache(cacheFile,MAX_CACHE_SIZE))
+                .build();
+
+        return  client;
+
+    }
+
+
 
 
     public static  Retrofit  getRetrofit(){
@@ -50,12 +51,48 @@ public class RequestFactory {
         return builder
                 .baseUrl(MainUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
+                .client(getOkHttpClient())
                 .build();
 
     }
 
 
+    private static Interceptor  getIntercepter(){
+
+        CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(0, TimeUnit.SECONDS);
+        builder.maxStale(7,TimeUnit.DAYS);
+        CacheControl cacheControl = builder.build();
+
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request.Builder requestbuilder = chain.request()
+                        .newBuilder()
+                        .addHeader("connection", "Keep-Alive")
+                        .addHeader("accept", "*/*")
+                        .addHeader("user-agent",
+                                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)")
+                        .header("accept-encoding","utf-8")
+                        .header("accept-charset","utf-8");
+                Request request;
+
+                if(NetworkUtil.getNetWorkOk(SystemManager.getContext())){
+
+                    int maxAge = 0;
+                    requestbuilder.header("Cache-Control","public,max-age="+maxAge);
+                    request = requestbuilder.build();
+                }else {
+                    int maxStale = 60*60*24*28;
+                    requestbuilder.header("Cache-Control","public,only-if-cached,max-stale="+maxStale);
+                    request = requestbuilder.build();
+                }
+
+
+                return chain.proceed(request);
+            }
+        };
+    }
 
 
 }
