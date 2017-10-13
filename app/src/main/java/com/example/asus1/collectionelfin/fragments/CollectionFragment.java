@@ -30,7 +30,7 @@ public class CollectionFragment extends Fragment  {
     private ListView mListView;
     private List<CollectionModel> mCollections;
     private CollectionAdapter mAdapter;
-    public SwipeRefreshLayout swipeRefresh;
+//    public SwipeRefreshLayout swipeRefresh;
 
     @Nullable
     @Override
@@ -48,22 +48,22 @@ public class CollectionFragment extends Fragment  {
         });
 
 
-        //刷新
-        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefresh.setColorSchemeColors(Color.parseColor("#FF80AA"));
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startSwipeRefresh();
-                //...刷新重新获取数据
-                setData();//设置
-                stopSwipeRefresh();
-            }
-        });
+//        //刷新
+//        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+//        swipeRefresh.setColorSchemeColors(Color.parseColor("#FF80AA"));
+//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                startSwipeRefresh();
+//                //...刷新重新获取数据
+//                setData();//设置
+//                stopSwipeRefresh();
+//            }
+//        });
+//
 
         //...初始获取数据
         setData();
-
 
         return view;
     }
@@ -89,17 +89,17 @@ public class CollectionFragment extends Fragment  {
     }
 
 
-    private void startSwipeRefresh() {
-        if (swipeRefresh != null && !swipeRefresh.isRefreshing()) {
-            swipeRefresh.setRefreshing(true);
-        }
-    }
-
-    private void stopSwipeRefresh() {
-        if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-            swipeRefresh.setRefreshing(false);
-        }
-    }
+//    private void startSwipeRefresh() {
+//        if (swipeRefresh != null && !swipeRefresh.isRefreshing()) {
+//            swipeRefresh.setRefreshing(true);
+//        }
+//    }
+//
+//    private void stopSwipeRefresh() {
+//        if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
+//            swipeRefresh.setRefreshing(false);
+//        }
+//    }
 
 
 }

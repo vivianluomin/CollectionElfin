@@ -1,13 +1,17 @@
 package com.example.asus1.collectionelfin.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
@@ -18,6 +22,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.NetworkUtil;
@@ -31,16 +36,14 @@ import java.io.IOException;
 
 public class ReadActivity extends BaseActivity implements ErrorView.reloadingListener {
 
-    private ImageView mBack;
     private WebView mWebView;
     private Toolbar mToolbar;
-    private TextView mBarTitle;
     private String mCollectionUrl;
-    private String mCollectionTitle;
     private ImageView mLoadingView;
     private LinearLayout mLoadingLayout;
     private WebSettings mWebSetting;
     private ErrorView mErrorView;
+
 
 
     @Override
@@ -57,22 +60,15 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
     }
 
     private void init(){
-//        mBack = (ImageView)findViewById(R.id.iv_read_page_back_button);
-//        mBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
 
         mWebView = (WebView)findViewById(R.id.wv_showArtical);
         mWebSetting = mWebView.getSettings();
-        mBarTitle = (TextView)findViewById(R.id.tv_read_page_title);
         mLoadingView = (ImageView) findViewById(R.id.iv_loading_view);
         mLoadingLayout = (LinearLayout) findViewById(R.id.ll_loading_view);
         mErrorView = (ErrorView)findViewById(R.id.error_view);
         mErrorView.setReloadingListener(this);
         mToolbar = (Toolbar) findViewById(R.id.read_page_tool_bar);
+        setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.mipmap.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,4 +189,50 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 
         requestPage();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_read_page, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.read_page_menu_note:
+                intent = new Intent(ReadActivity.this, NewnoteActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.read_page_menu_remove:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ReadActivity.this);
+                dialog.setTitle("删除");
+                dialog.setMessage("删除将清空对应笔记，确定删除？");
+                dialog.setCancelable(true);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //删除收藏记录。。。
+                        finish();
+                    }
+                });
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                dialog.show();
+                break;
+            case R.id.read_page_menu_share:
+                Toast.makeText(this, "分享框", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.read_page_menu_link:
+                //返回链接到粘贴板
+                Toast.makeText(this, "复制链接成功", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
+
 }
