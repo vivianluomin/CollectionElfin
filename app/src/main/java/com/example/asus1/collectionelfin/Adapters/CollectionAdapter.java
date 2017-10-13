@@ -45,6 +45,8 @@ public class CollectionAdapter extends ArrayAdapter<CollectionModel> {
         return convertView;
     }
 
+
+
     @Override
     public int getCount() {
         return mCollections.size();

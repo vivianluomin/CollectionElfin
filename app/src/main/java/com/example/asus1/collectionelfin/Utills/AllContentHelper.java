@@ -15,7 +15,6 @@ public class AllContentHelper {
 
 
 
-
     public static  void setCollecton_Sort(List<String> Collections){
         Collecton_Sort.clear();
         Collecton_Sort.addAll(Collections);

@@ -14,9 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
+import com.example.asus1.collectionelfin.Adapters.NoteSortAdapter;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.activities.NewnoteActivity;
 import com.example.asus1.collectionelfin.models.NoteModel;
+import com.example.asus1.collectionelfin.models.NoteSortModle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,8 @@ import java.util.List;
 public class NoteFragment extends Fragment {
 
     private ListView mListView;
-    private NoteAdapter mNoteAdapter;
-    private List<NoteModel> mNotes;
+    private NoteSortAdapter mNoteAdapter;
+    private List<NoteSortModle> mNotes;
     public SwipeRefreshLayout swipeRefresh;
 
     @Nullable
@@ -69,14 +71,14 @@ public class NoteFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNotes = new ArrayList<>();
-        mNoteAdapter = new NoteAdapter(getContext(),R.layout.view_note_listview_item,mNotes);
+        mNoteAdapter = new NoteSortAdapter(getContext(),R.layout.view_note_sort_litem,mNotes);
 
     }
 
     private void setData(){
 
         for(int i = 0;i<15;i++){
-            mNotes.add(new NoteModel());
+            mNotes.add(new NoteSortModle());
         }
     }
 

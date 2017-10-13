@@ -25,6 +25,15 @@ public class CollectionModel {
     @SerializedName("notes")
     private List<NoteModel> mNotes;
 
+    public CollectionModel(String mUrl) {
+        this.mUrl = mUrl;
+    }
+
+    public CollectionModel() {
+
+    }
+
+
     public String getDate() {
         return mDate;
     }

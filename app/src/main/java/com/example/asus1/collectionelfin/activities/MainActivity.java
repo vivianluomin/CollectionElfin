@@ -58,7 +58,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        if(intent.getAction().equals(Intent.ACTION_SEND)){
+        String action = intent.getAction();
+        if(action != null&&action.equals(Intent.ACTION_SEND)){
             handleSendMessage(intent);
         }else {
             setContentView(R.layout.activity_main);
@@ -106,7 +107,7 @@ public class MainActivity extends BaseActivity {
         mHeaderView =mMenuNv.getHeaderView(0);
         mUserName = (TextView)findViewById(R.id.tv_user_name);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
-        if(mNowLoginUser != null){
+        if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
         }
     }

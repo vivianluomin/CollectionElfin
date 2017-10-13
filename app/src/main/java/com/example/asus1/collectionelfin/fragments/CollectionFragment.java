@@ -3,23 +3,43 @@ package com.example.asus1.collectionelfin.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
+import com.example.asus1.collectionelfin.Adapters.CollectionSortAdapter;
+import com.example.asus1.collectionelfin.Event.CollectionSortMessage;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.activities.ArticleActivity;
+import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.models.CollectionModel;
+import com.example.asus1.collectionelfin.models.CollectionSortModel;
+import com.example.asus1.collectionelfin.models.LoginModle;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.CollectionSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * Created by asus1 on 2017/10/3.
@@ -28,8 +48,12 @@ import java.util.List;
 public class CollectionFragment extends Fragment  {
 
     private ListView mListView;
-    private List<CollectionModel> mCollections;
-    private CollectionAdapter mAdapter;
+    private List<String> mCollections;
+    private CollectionSortAdapter mAdapter;
+    private LinearLayout mLoadingLaout;
+    private ImageView mLoadingView;
+
+    private LoginModle mNowLoginUser;
     public SwipeRefreshLayout swipeRefresh;
 
     @Nullable
@@ -37,15 +61,6 @@ public class CollectionFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main,container,false);
-        mListView = (ListView)view.findViewById(R.id.lv_lists);
-        mListView.setDivider(null);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getContext(), ArticleActivity.class));
-            }
-        });
 
 
         //刷新
@@ -56,16 +71,38 @@ public class CollectionFragment extends Fragment  {
             public void onRefresh() {
                 startSwipeRefresh();
                 //...刷新重新获取数据
-                setData();//设置
+               requestData();
                 stopSwipeRefresh();
             }
         });
 
-        //...初始获取数据
-        setData();
-
+        setUpView(view);
 
         return view;
+    }
+
+
+    private void setUpView(View view){
+        mListView = (ListView)view.findViewById(R.id.lv_lists);
+        mListView.setDivider(null);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(),ArticleActivity.class);
+                intent.putExtra("sort",(String) mListView.getItemAtPosition(position));
+                startActivity(intent);
+            }
+        });
+
+        mLoadingLaout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
+        mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
+
+        AnimationDrawable animationDrawable = (AnimationDrawable)mLoadingView.getDrawable();
+        animationDrawable.start();
+
+        requestData();
+
     }
 
 
@@ -75,18 +112,50 @@ public class CollectionFragment extends Fragment  {
 
         mCollections = new ArrayList<>();
 
-        mAdapter = new CollectionAdapter(getContext(),
-                R.layout.view_collection_listview_item,mCollections);
+        mAdapter = new CollectionSortAdapter(getContext(),
+                R.layout.view_collection_sort_item,mCollections);
+        mNowLoginUser = LoginHelper.getNowLoginUser();
+
+        EventBus.getDefault().register(this);
 
     }
 
-    private void setData(){
+    private void requestData(){
 
-        for(int i = 0;i<15;i++){
-            mCollections.add(new CollectionModel());
+
+        if(mNowLoginUser != null){
+            CollectionSerivce serivce = RequestFactory.
+                    getRetrofit().create(CollectionSerivce.class);
+            Call<UniApiReuslt<List<String>>> call
+                    = serivce.getCollectionSort(mNowLoginUser.getAccount());
+            HttpUtils.doRuqest(call,callBack);
+        }else{
+            startActivity(new Intent(getActivity(),LoginActivity.class));
         }
-        mAdapter.notifyDataSetChanged();
+
+
+
+
     }
+
+
+    HttpUtils.RequestFinishCallBack<List<String>> callBack  = new HttpUtils.RequestFinishCallBack<List<String>>() {
+        @Override
+        public void getResult(UniApiReuslt<List<String>> apiReuslt) {
+
+            if(apiReuslt!=null){
+                List<String> models = apiReuslt.getmData();
+                Log.d("model",models.toString());
+                mCollections.clear();
+                mCollections.addAll(models);
+                mAdapter.notifyDataSetChanged();
+
+                mLoadingLaout.setVisibility(View.GONE);
+                mListView.setVisibility(View.VISIBLE);
+            }
+
+        }
+    };
 
 
     private void startSwipeRefresh() {
@@ -102,4 +171,20 @@ public class CollectionFragment extends Fragment  {
     }
 
 
+    @Subscribe
+    public  void  onEvent(CollectionSortMessage message){
+
+        if(message!=null){
+            String sortModel = message.getModel();
+            mCollections.add(sortModel);
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

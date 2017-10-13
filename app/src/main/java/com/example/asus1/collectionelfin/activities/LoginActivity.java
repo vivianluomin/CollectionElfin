@@ -114,10 +114,8 @@ public class LoginActivity extends BaseActivity {
                 modle.setPassword(password);
                 LoginHelper.setNowLiginUser(modle);
 
-                Log.d("sssss",modle.getUserName());
-
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
                 EventBus.getDefault().post(new MessageEvent(modle.getUserName()));
-
                finish();
 
 

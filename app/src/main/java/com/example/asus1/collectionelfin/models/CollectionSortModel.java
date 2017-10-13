@@ -2,13 +2,14 @@ package com.example.asus1.collectionelfin.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by asus1 on 2017/10/11.
  */
 
-public class CollectionSortModel {
+public class CollectionSortModel implements Serializable {
 
     @SerializedName("title")
     private String mTiltle;

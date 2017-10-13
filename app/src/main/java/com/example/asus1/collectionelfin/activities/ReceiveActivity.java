@@ -1,22 +1,17 @@
 package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Adapters.SpinnerAdapter;
+import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
-import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.VariousUtills;
@@ -24,16 +19,15 @@ import com.example.asus1.collectionelfin.models.CollectionModel;
 import com.example.asus1.collectionelfin.models.CollectionSortModel;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
-import com.example.asus1.collectionelfin.service.AddCollectionSerivce;
+import com.example.asus1.collectionelfin.service.CollectionSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 
 public class ReceiveActivity extends BaseActivity {
@@ -55,6 +49,7 @@ public class ReceiveActivity extends BaseActivity {
         setContentView(R.layout.activity_receive);
         Intent intent = getIntent();
         mUrl = VariousUtills.handleUrl(intent.getStringExtra("URL"));
+        EventBus.getDefault().register(this);
         init();
 
     }
@@ -73,10 +68,10 @@ public class ReceiveActivity extends BaseActivity {
                     collectionModel.setContent(mUrl);
                     model.addCollection(collectionModel);
 
-                    AddCollectionSerivce addCollectionSerivce =
-                            RequestFactory.getRetrofit().create(AddCollectionSerivce.class);
+                    CollectionSerivce collectionSerivce =
+                            RequestFactory.getRetrofit().create(CollectionSerivce.class);
                     Call<UniApiReuslt<String>> call =
-                            addCollectionSerivce.postLink(mNowLoginUser.getAccount(), model.getTiltle(),mUrl);
+                            collectionSerivce.postLink(mNowLoginUser.getAccount(), model.getTiltle(),mUrl);
                     HttpUtils.doRuqest(call,callBack);
 
                 }
@@ -108,11 +103,24 @@ public class ReceiveActivity extends BaseActivity {
 
     }
 
+
+    @Subscribe
+    public void OnEvent(){
+
+    }
+
+
     HttpUtils.RequestFinishCallBack<String> callBack  = new HttpUtils.RequestFinishCallBack<String>() {
         @Override
         public void getResult(UniApiReuslt<String> apiReuslt) {
 
             Toast.makeText(ReceiveActivity.this,"添加成功！",Toast.LENGTH_SHORT).show();
+
+            CollectionSortModel sortModel = mCollection_sort.get(mPosition);
+            CollectionModel model = new CollectionModel();
+            model.setUrl(mUrl);
+            sortModel.addCollection(model);
+            EventBus.getDefault().post(new CollectionsMessage(model));
             finish();
         }
     };

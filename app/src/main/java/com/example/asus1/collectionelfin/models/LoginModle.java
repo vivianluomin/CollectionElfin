@@ -2,6 +2,8 @@ package com.example.asus1.collectionelfin.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by asus1 on 2017/10/11.
  */
@@ -17,6 +19,17 @@ public class LoginModle {
     @SerializedName("password")
     private String mPassword;
 
+    @SerializedName("icon")
+    private String mIcon;
+
+
+    public String getIcon() {
+        return mIcon;
+    }
+
+    public void setmIcon(String Icon) {
+        this.mIcon = Icon;
+    }
 
     public String getUserName() {
         return mUserName;
@@ -39,6 +52,6 @@ public class LoginModle {
     }
 
     public void setPassword(String Password) {
-        this.mPassword = mPassword;
+        this.mPassword = Password;
     }
 }

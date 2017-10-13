@@ -10,6 +10,12 @@ import android.widget.TextView;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.util.List;
+
 /**
  * Created by asus1 on 2017/10/7.
  */
@@ -45,11 +51,17 @@ public class CollectionView extends RelativeLayout {
 
     public void setData(CollectionModel model){
 
-        if(model.getTitle() != null){
             mTitle.setText(model.getTitle());
             mSummary.setText(model.getContent());
-        }
 
 
     }
+
+
+
+
+
+
+
+
 }

@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.example.asus1.collectionelfin.Event.CollectionSortMessage;
 import com.example.asus1.collectionelfin.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class NewfileActivity extends  BaseActivity {
     private Toolbar mToolbar;
@@ -25,5 +29,12 @@ public class NewfileActivity extends  BaseActivity {
                 finish();
             }
         });
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

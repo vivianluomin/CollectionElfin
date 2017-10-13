@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -14,16 +15,17 @@ import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
-import com.example.asus1.collectionelfin.Utills.NetworkUtil;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.models.CollectionModel;
+import com.example.asus1.collectionelfin.models.CollectionSortModel;
+import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
-import com.example.asus1.collectionelfin.service.AddCollectionSerivce;
+import com.example.asus1.collectionelfin.service.CollectionSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -37,11 +39,13 @@ public class ArticleActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private ListView mListView;
-    private List<CollectionModel> mCollections;
+    private List<CollectionModel> mCollections = new ArrayList<>();
     private CollectionAdapter mAdapter;
     private LinearLayout mLoadingLayout;
     private ImageView mLoadingView;
     private ErrorView mErrorView;
+    private LoginModle mNowLoginUser;
+    private String mSelectSort;
 
     private String title,summary;
 
@@ -53,6 +57,9 @@ public class ArticleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
+        mNowLoginUser = LoginHelper.getNowLoginUser();
+
+        mSelectSort = (String) getIntent().getStringExtra("sort");
         init();
         EventBus.getDefault().register(this);
     }
@@ -72,37 +79,6 @@ public class ArticleActivity extends BaseActivity {
         mLoadingView =  (ImageView)findViewById(R.id.iv_loading_view);
         mErrorView = (ErrorView)findViewById(R.id.view_error);
 
-        startLoading();
-
-    }
-
-    private void startLoading(){
-        AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
-        drawable.start();
-
-        getHead();
-
-    }
-
-    private void getData(){
-
-
-
-
-    }
-
-    private void setData(){
-
-
-        CollectionModel model = new CollectionModel();
-        model.setTitle(title);
-        model.setContent(summary);
-
-        for(int i = 0;i<15;i++){
-            mCollections.add(model);
-        }
-
-
         mAdapter = new CollectionAdapter(this,R.layout.view_collection_listview_item,
                 mCollections);
         mListView.setDivider(null);
@@ -116,55 +92,102 @@ public class ArticleActivity extends BaseActivity {
             }
         });
 
-        mLoadingLayout.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
+
+        startLoading();
+
     }
 
-    private void getHead(){
+    private void startLoading(){
+        AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
+        drawable.start();
+
+        RequestData();
+
+    }
+
+    private void RequestData(){
+
+        if(mNowLoginUser!=null){
+            CollectionSerivce collectionSerivce = RequestFactory.
+                    getRetrofit().create(CollectionSerivce.class);
+            Call<UniApiReuslt<List<String>>> call =
+                    collectionSerivce.getCollections(mNowLoginUser.getAccount(),mSelectSort);
+            HttpUtils.doRuqest(call,callBack);
+
+        }
+    }
+
+
+
+
+
+
+    @Subscribe()
+    public void onEvent(CollectionsMessage message){
+
+        if(message!=null){
+            CollectionModel model = message.getModel();
+            mCollections.add(model);
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+
+    HttpUtils.RequestFinishCallBack<List<String>> callBack = new HttpUtils.RequestFinishCallBack<List<String>>() {
+        @Override
+        public void getResult(UniApiReuslt<List<String>> apiReuslt) {
+
+            if(apiReuslt!=null){
+                List<String> models = apiReuslt.getmData();
+                mCollections.clear();
+                for(int i = 0;i<models.size();i++){
+                    mCollections.add(new CollectionModel(models.get(i)));
+                }
+                getHead(mCollections);
+
+            }
+        }
+    };
+
+
+    private void getHead(final List<CollectionModel> models) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Document document = Jsoup.connect(url).get();
-                    title = document.title();
-                    summary = document.head().getElementsByAttributeValue("meta","description").text();
+                    for (int i = 0; i < models.size(); i++) {
+                        String url = models.get(i).getUrl();
+                        Document document = Jsoup.connect(url).get();
+                        String title = document.title();
+                        String summary = document.head().getElementsByAttributeValue("meta", "description").text();
+                        models.get(i).setTitle(title.substring(0, title.length()/3*2));
+                        models.get(i).setContent(summary);
+                        Log.d("aaaa",title);
+
+                    }
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            setData();
+                            mAdapter.notifyDataSetChanged();
+                            mLoadingLayout.setVisibility(View.GONE);
+                            mListView.setVisibility(View.VISIBLE);
                         }
                     });
-                }catch (IOException e){
+
+
+                } catch (IOException e) {
                     e.printStackTrace();
                     mLoadingLayout.setVisibility(View.GONE);
                     mListView.setVisibility(View.GONE);
                     mErrorView.setVisibility(View.VISIBLE);
+                    mErrorView.bringToFront();
                 }
             }
         }).start();
-
-
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void onEvent(CollectionsMessage message){
-
-        if(message!=null){
-            CollectionModel model = message.getModel();
-
-        }
-
-    }
-
-
-    HttpUtils.RequestFinishCallBack<List<CollectionModel>> callBack = new HttpUtils.RequestFinishCallBack<List<CollectionModel>>() {
-        @Override
-        public void getResult(UniApiReuslt<List<CollectionModel>> apiReuslt) {
-
-        }
-    };
-
 
     @Override
     protected void onDestroy() {
