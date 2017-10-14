@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -12,9 +13,11 @@ import android.widget.Toast;
 import com.example.asus1.collectionelfin.Adapters.SpinnerAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.VariousUtills;
+import com.example.asus1.collectionelfin.Views.SpinnerCollection;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 import com.example.asus1.collectionelfin.models.CollectionSortModel;
 import com.example.asus1.collectionelfin.models.LoginModle;
@@ -39,7 +42,7 @@ public class ReceiveActivity extends BaseActivity {
     private int mPosition = 0;
     private LoginModle mNowLoginUser;
 
-    private List<CollectionSortModel> mCollection_sort = new ArrayList<>();
+    private List<String> mCollection_sort = new ArrayList<>();
     private String mUrl;
 
 
@@ -48,8 +51,12 @@ public class ReceiveActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive);
         Intent intent = getIntent();
-        mUrl = VariousUtills.handleUrl(intent.getStringExtra("URL"));
-        EventBus.getDefault().register(this);
+        String url = intent.getStringExtra("URL");
+        Log.d("uuu",url);
+        if(url!=null){
+            mUrl = VariousUtills.handleUrl(url);
+        }
+
         init();
 
     }
@@ -58,27 +65,23 @@ public class ReceiveActivity extends BaseActivity {
         mAddEditext = (EditText)findViewById(R.id.et_add_collection);
         mSpinner = (Spinner)findViewById(R.id.sp_lits);
         mConfirm = (TextView)findViewById(R.id.tv_confirm);
-        mNowLoginUser = LoginHelper.getNowLoginUser();
+        mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!mUrl.equals("") && mNowLoginUser!=null){
-                    CollectionSortModel model = (CollectionSortModel)mSpinner.getItemAtPosition(mPosition);
-                    CollectionModel collectionModel = new CollectionModel();
-                    collectionModel.setContent(mUrl);
-                    model.addCollection(collectionModel);
+                    String model = (String) mSpinner.getItemAtPosition(mPosition);
 
                     CollectionSerivce collectionSerivce =
                             RequestFactory.getRetrofit().create(CollectionSerivce.class);
                     Call<UniApiReuslt<String>> call =
-                            collectionSerivce.postLink(mNowLoginUser.getAccount(), model.getTiltle(),mUrl);
+                            collectionSerivce.postLink(mNowLoginUser.getAccount(), model,mAddEditext.getText().toString());
                     HttpUtils.doRuqest(call,callBack);
 
                 }
             }
         });
-        //mCollection_sort = AllContentHelper.getCollecton_Sort();
-        setData();
+        mCollection_sort = AllContentHelper.getCollecton_Sort();
         mAddEditext.setText(mUrl);
         mAddEditext.setSelection(mUrl.length());
 
@@ -104,32 +107,27 @@ public class ReceiveActivity extends BaseActivity {
     }
 
 
-    @Subscribe
-    public void OnEvent(){
 
-    }
 
 
     HttpUtils.RequestFinishCallBack<String> callBack  = new HttpUtils.RequestFinishCallBack<String>() {
         @Override
         public void getResult(UniApiReuslt<String> apiReuslt) {
 
-            Toast.makeText(ReceiveActivity.this,"添加成功！",Toast.LENGTH_SHORT).show();
+            if(apiReuslt!=null){
+                Toast.makeText(ReceiveActivity.this,"添加成功！",Toast.LENGTH_SHORT).show();
 
-            CollectionSortModel sortModel = mCollection_sort.get(mPosition);
-            CollectionModel model = new CollectionModel();
-            model.setUrl(mUrl);
-            sortModel.addCollection(model);
-            EventBus.getDefault().post(new CollectionsMessage(model));
-            finish();
+                CollectionModel model = new CollectionModel();
+                model.setUrl(mAddEditext.getText().toString());
+                EventBus.getDefault().post(new CollectionsMessage(model));
+                finish();
+            }else{
+                Toast.makeText(ReceiveActivity.this,"添加失败,请重新尝试",Toast.LENGTH_SHORT).show();
+            }
+
         }
     };
 
 
-    private void setData(){
 
-        for(int i = 0;i<15;i++){
-            mCollection_sort.add(new CollectionSortModel());
-        }
-    }
 }

@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+
 import retrofit2.Call;
 
 
@@ -112,7 +113,10 @@ public class LoginActivity extends BaseActivity {
                 modle.setAccount(account);
                 modle.setUserName(username);
                 modle.setPassword(password);
-                LoginHelper.setNowLiginUser(modle);
+                modle.setIcon("");
+
+                LoginHelper loginHelper = LoginHelper.getInstance();
+                loginHelper.setNowLiginUser(modle);
 
                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
                 EventBus.getDefault().post(new MessageEvent(modle.getUserName()));

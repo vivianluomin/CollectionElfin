@@ -22,8 +22,10 @@ import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Adapters.CollectionSortAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionSortMessage;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.activities.ArticleActivity;
 import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.models.CollectionModel;
@@ -102,11 +104,12 @@ public class CollectionFragment extends Fragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SystemManager.initContext(getContext());
         mCollections = new ArrayList<>();
 
         mAdapter = new CollectionSortAdapter(getContext(),
                 R.layout.view_collection_sort_item,mCollections);
-        mNowLoginUser = LoginHelper.getNowLoginUser();
+        mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
 
         EventBus.getDefault().register(this);
 
@@ -141,6 +144,7 @@ public class CollectionFragment extends Fragment  {
                 Log.d("model",models.toString());
                 mCollections.clear();
                 mCollections.addAll(models);
+                AllContentHelper.setCollecton_Sort(mCollections);
                 mAdapter.notifyDataSetChanged();
 
                 mLoadingLaout.setVisibility(View.GONE);

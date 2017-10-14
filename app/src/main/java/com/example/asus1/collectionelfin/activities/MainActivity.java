@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
 import com.example.asus1.collectionelfin.models.LoginModle;
@@ -57,17 +58,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if(action != null&&action.equals(Intent.ACTION_SEND)){
-            handleSendMessage(intent);
-        }else {
+        SystemManager.initContext(getApplicationContext());
+
             setContentView(R.layout.activity_main);
             Toolbar toolbar = (Toolbar) findViewById(toobar);
             setSupportActionBar(toolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBar actionBar = getSupportActionBar();
-            mNowLoginUser = LoginHelper.getNowLoginUser();
+            mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
             if(actionBar!=null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.mipmap.ic_toolbar_left_white);
@@ -90,7 +88,7 @@ public class MainActivity extends BaseActivity {
             EventBus.getDefault().register(this);
         }
 
-    }
+
 
     /**
      * 初始化界面
@@ -105,7 +103,8 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
         mFragmentTransaction.commit();
         mHeaderView =mMenuNv.getHeaderView(0);
-        mUserName = (TextView)findViewById(R.id.tv_user_name);
+
+        mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
@@ -184,16 +183,16 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void handleSendMessage(Intent intent){
-
-        String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-        Intent intent1 = new Intent(this,ReceiveActivity.class);
-        intent1.putExtra("URL",url);
-        startActivity(intent1);
-
-        finish();
-
-    }
+//    private void handleSendMessage(Intent intent){
+//
+//        String url = intent.getStringExtra(Intent.EXTRA_TEXT);
+//        Log.d("uuuuu",url);
+//        Intent intent1 = new Intent(this,ReceiveActivity.class);
+//        intent1.putExtra("URL",url);
+//        startActivity(intent1);
+//        finish();
+//
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

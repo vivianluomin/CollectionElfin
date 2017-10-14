@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.Adapters.NoteSortAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.activities.NewnoteActivity;
 import com.example.asus1.collectionelfin.models.NoteModel;
 import com.example.asus1.collectionelfin.models.NoteSortModle;
@@ -70,6 +71,7 @@ public class NoteFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemManager.initContext(getContext());
         mNotes = new ArrayList<>();
         mNoteAdapter = new NoteSortAdapter(getContext(),R.layout.view_note_sort_litem,mNotes);
 

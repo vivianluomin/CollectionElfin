@@ -25,68 +25,72 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme">
-        <activity android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
 
+        </activity>
+        <activity
+            android:name=".activities.ReadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FloatingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ArticleActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.NewfileActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReceiveActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.NewnoteActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        !-- 通过AndroidManifest配置AppKey和AppSecret，如果你选择通过代码配置，则不需要配置以下meta-data -->
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="217d149b969aa" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="3c51826883bc6ded6492bc985965adb2" />
+
+        <activity android:name=".activities.LauchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ReadActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activities.BaseActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activities.FloatingActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-        <activity android:name=".activities.RegisterActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ArticleActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            />
-        <activity android:name=".activities.NewfileActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            />
-
-        <activity android:name=".activities.ReceiveActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            />
-
-        <activity android:name=".activities.NewnoteActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            />
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="portrait"
-            />
-
-        !-- 通过AndroidManifest配置AppKey和AppSecret，如果你选择通过代码配置，则不需要配置以下meta-data -->
-        <meta-data android:name="Mob-AppKey" android:value="217d149b969aa"/>
-        <meta-data android:name="Mob-AppSecret" android:value="3c51826883bc6ded6492bc985965adb2"/>
     </application>
 
 </manifest>

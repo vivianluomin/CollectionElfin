@@ -1,5 +1,7 @@
 package com.example.asus1.collectionelfin.Utills;
 
+import android.util.Log;
+
 /**
  * Created by asus1 on 2017/10/12.
  */
@@ -10,7 +12,7 @@ public class VariousUtills {
 
         String Url  = "" ;
 
-        Url = url.substring(url.indexOf("http"),url.lastIndexOf(' '));
+        Url = url.split(" ")[1];
 
 
         return Url;

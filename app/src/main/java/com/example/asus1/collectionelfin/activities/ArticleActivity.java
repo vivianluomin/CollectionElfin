@@ -16,6 +16,7 @@ import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 import com.example.asus1.collectionelfin.models.CollectionSortModel;
@@ -57,7 +58,8 @@ public class ArticleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-        mNowLoginUser = LoginHelper.getNowLoginUser();
+
+        mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
 
         mSelectSort = (String) getIntent().getStringExtra("sort");
         init();

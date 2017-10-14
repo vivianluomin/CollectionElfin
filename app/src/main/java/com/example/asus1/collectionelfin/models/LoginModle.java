@@ -11,47 +11,47 @@ import org.greenrobot.eventbus.Subscribe;
 public class LoginModle {
 
     @SerializedName("username")
-    private  String mUserName;
+    private  String UserName;
 
     @SerializedName("account")
-    private String mAccount;
+    private String Account;
 
     @SerializedName("password")
-    private String mPassword;
+    private String Password;
 
     @SerializedName("icon")
-    private String mIcon;
+    private String Icon;
 
 
     public String getIcon() {
-        return mIcon;
+        return Icon;
     }
 
-    public void setmIcon(String Icon) {
-        this.mIcon = Icon;
+    public void setIcon(String Icon) {
+        this.Icon = Icon;
     }
 
     public String getUserName() {
-        return mUserName;
+        return UserName;
     }
 
     public void setUserName(String UserName) {
-        this.mUserName = UserName;
+        this.UserName = UserName;
     }
 
     public String getAccount() {
-        return mAccount;
+        return Account;
     }
 
     public void setAccount(String Account) {
-        this.mAccount = Account;
+        this.Account = Account;
     }
 
     public String getPassword() {
-        return mPassword;
+        return Password;
     }
 
     public void setPassword(String Password) {
-        this.mPassword = Password;
+        this.Password = Password;
     }
 }

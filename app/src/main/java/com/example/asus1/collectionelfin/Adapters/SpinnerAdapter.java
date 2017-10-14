@@ -22,9 +22,9 @@ public class SpinnerAdapter extends BaseAdapter {
 
     private Context mContext;
     private int mResource;
-    private List<CollectionSortModel> mLists;
+    private List<String> mLists;
 
-    public SpinnerAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<CollectionSortModel> objects) {
+    public SpinnerAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<String> objects) {
 
         mContext = context;
         mResource = resource;
@@ -39,8 +39,7 @@ public class SpinnerAdapter extends BaseAdapter {
             convertView = new SpinnerCollection(mContext);
         }
 
-
-
+        ((SpinnerCollection)convertView).setData(mLists.get(position));
 
         return  convertView;
     }

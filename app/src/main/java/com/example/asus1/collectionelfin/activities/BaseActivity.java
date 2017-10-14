@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.SystemManager;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-
+        SystemManager.initContext(getApplicationContext());
 
     }
 }
