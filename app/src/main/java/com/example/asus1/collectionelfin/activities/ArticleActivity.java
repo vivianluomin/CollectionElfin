@@ -48,9 +48,6 @@ public class ArticleActivity extends BaseActivity {
     private LoginModle mNowLoginUser;
     private String mSelectSort;
 
-    private String title,summary;
-
-    private String url = "http://blog.csdn.net/wcl1179851200/article/details/51331572";
 
 
 
@@ -90,7 +87,10 @@ public class ArticleActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(ArticleActivity.this,ReadActivity.class));
+
+                Intent intent = new Intent(ArticleActivity.this,ReadActivity.class);
+                intent.putExtra("url",mCollections.get(position).getUrl());
+                startActivity(intent);
             }
         });
 

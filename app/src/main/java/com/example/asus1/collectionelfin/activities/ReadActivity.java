@@ -51,10 +51,8 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         Intent intent = getIntent();
-//        mCollectionUrl = intent.getStringExtra("url");
-//        mCollectionTitle = intent.getStringExtra("title");
-        mCollectionUrl = "https://www.zhihu.com/question/65768588/answer/240203625?utm_source=qq&utm_medium=social ";
-//
+        mCollectionUrl = intent.getStringExtra("url");
+
         init();
         setUpViews();
     }
@@ -82,7 +80,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
         drawable.start();
 
-        mWebSetting.setUseWideViewPort(true);
+        mWebSetting.setUseWideViewPort(false);
         mWebSetting.setLoadWithOverviewMode(true);
         mWebSetting.setLoadsImagesAutomatically(true);
         mWebSetting.setDefaultTextEncodingName("utf-8");
@@ -92,6 +90,8 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         mWebSetting.setSupportZoom(true);
         mWebSetting.setBuiltInZoomControls(true);
         mWebSetting.setDisplayZoomControls(false);
+
+        mWebView.evaluateJavascript("loadContent()",null);
 
         mWebView.setWebViewClient(new WebViewClient(){
 

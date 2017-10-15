@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,8 @@ public class LoginActivity extends BaseActivity {
     private EditText loginPassword;
     private Button loginRegiter;
     private Button loginLogin;
-    private ImageView back;
+
+    private Toolbar mToolbar;
 
     String account;
     String password;
@@ -63,7 +65,15 @@ public class LoginActivity extends BaseActivity {
         loginPassword= (EditText)findViewById(R.id.login_password);
         loginRegiter =(Button)findViewById(R.id.login_regiter);
         loginLogin=(Button)findViewById(R.id.login_login);
-        back =(ImageView)findViewById(R.id.login_page_back_button);
+        mToolbar = (Toolbar)findViewById(R.id.login_page_tool_bar);
+        mToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
     private void initListener() {
 
@@ -76,12 +86,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
 
         loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +94,14 @@ public class LoginActivity extends BaseActivity {
                 account = loginCellNumber.getText().toString();
                  password = loginPassword.getText().toString();
 
-                   LoginSerivce loginSerivce = RequestFactory.getRetrofit().create(LoginSerivce.class);
-                   Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
+                if(!account.equals("")&&!account.equals("")){
+                    LoginSerivce loginSerivce = RequestFactory.getRetrofit().create(LoginSerivce.class);
+                    Call<UniApiReuslt<String>>  call = loginSerivce.Login(account,password);
                     HttpUtils.doRuqest(call,callBack);
+                }else {
+                    Toast.makeText(LoginActivity.this,"密码或者账户不能为空",Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -105,22 +115,32 @@ public class LoginActivity extends BaseActivity {
 
             if(apiReuslt!= null){
 
-                String username = apiReuslt.getmData();
-                Log.d("username",username);
 
-                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                LoginModle modle = new LoginModle();
-                modle.setAccount(account);
-                modle.setUserName(username);
-                modle.setPassword(password);
-                modle.setIcon("");
+                int statu = apiReuslt.getmStatus();
+                if(statu == 0){
+                    String username = apiReuslt.getmData();
+                    Log.d("username",username);
 
-                LoginHelper loginHelper = LoginHelper.getInstance();
-                loginHelper.setNowLiginUser(modle);
+                    Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                    LoginModle modle = new LoginModle();
+                    modle.setAccount(account);
+                    modle.setUserName(username);
+                    modle.setPassword(password);
+                    modle.setIcon("");
 
-                startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                EventBus.getDefault().post(new MessageEvent(modle.getUserName()));
-               finish();
+                    LoginHelper loginHelper = LoginHelper.getInstance();
+                    loginHelper.setNowLiginUser(modle);
+
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    EventBus.getDefault().post(new MessageEvent(modle.getUserName()));
+                    finish();
+                }else if(statu == 1){
+                    Toast.makeText(LoginActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(LoginActivity.this,"该用户不存在",Toast.LENGTH_SHORT).show();
+                }
+
+
 
 
             }

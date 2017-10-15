@@ -12,12 +12,6 @@
         android:background="@color/color_pink"
         android:paddingTop="24dp"
         >
-        <ImageView
-            android:id="@+id/login_page_back_button"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@mipmap/ic_back" />
 
         <TextView
             android:id="@+id/login_page_title"
@@ -89,7 +83,7 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="注册"
-            android:background="@color/top_bar"
+            android:background="@color/color_pink"
             android:textColor="@color/white"
             android:textSize="18sp"
             />
@@ -99,7 +93,7 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="登录"
-            android:background="@color/top_bar"
+            android:background="@color/color_pink"
             android:textColor="@color/white"
             android:textSize="18sp"
             />
