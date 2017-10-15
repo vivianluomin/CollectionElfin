@@ -22,11 +22,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.activities.BaseActivity;
 import com.example.asus1.collectionelfin.activities.MainActivity;
 
 import java.io.File;
 
-public class Cut_photo extends AppCompatActivity implements View.OnClickListener{
+public class Cut_photo extends BaseActivity implements View.OnClickListener{
     private static final int Take_photo = 1;
     private static final int Choose_photo = 2;
     private Uri imageUri;
