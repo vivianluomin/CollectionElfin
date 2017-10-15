@@ -202,6 +202,8 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.toobar_search:
+                Intent intentd = new Intent(this,SearchActivity.class);
+                startActivity(intentd);
                 break;
             case R.id.toobar_delete:
                 break;
