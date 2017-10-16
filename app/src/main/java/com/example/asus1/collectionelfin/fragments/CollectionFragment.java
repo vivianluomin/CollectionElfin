@@ -141,7 +141,6 @@ public class CollectionFragment extends Fragment  {
 
             if(apiReuslt!=null){
                 List<String> models = apiReuslt.getmData();
-                Log.d("model",models.toString());
                 mCollections.clear();
                 mCollections.addAll(models);
                 AllContentHelper.setCollecton_Sort(mCollections);

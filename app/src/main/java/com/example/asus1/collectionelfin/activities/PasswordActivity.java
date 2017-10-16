@@ -1,6 +1,5 @@
-package com.example.asus1.collectionelfin.My_Setting;
+package com.example.asus1.collectionelfin.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 
-public class My_Setting extends AppCompatActivity implements View.OnClickListener{
+public class PasswordActivity extends BaseActivity implements View.OnClickListener{
 
     private static int flag = 1;
 
@@ -29,7 +28,7 @@ public class My_Setting extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my__setting);
+        setContentView(R.layout.activity_passwordsetting);
         flag = 1;
         The_Information_FirstView.findViewById(R.id.The_Information_FirstView);
         The_Information_FirstView.setVisibility(View.VISIBLE);

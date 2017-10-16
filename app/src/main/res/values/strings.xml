@@ -9,5 +9,8 @@
     <string name="addTo">添加到</string>
     <string name="comfirm">确定添加</string>
     <string name="lauch">整洁的每一天都是美丽的</string>
+    <string name="setting">个人设置</string>
+    <string name="edit">编辑</string>
+    <string name="compulish">完成</string>
 
 </resources>

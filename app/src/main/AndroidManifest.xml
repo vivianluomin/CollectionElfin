@@ -66,7 +66,6 @@
             android:name=".activities.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -94,7 +93,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".cut_photo.Cut_photo" />
-        <activity android:name=".My_Setting.My_Setting"></activity>
+        <activity android:name=".activities.PasswordActivity" />
+        <activity android:name=".activities.SettingActivity"></activity>
     </application>
 
 </manifest>
