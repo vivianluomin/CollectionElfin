@@ -36,8 +36,30 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="50dp">
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="70dp">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/username"
+            />
+        <EditText
+            android:id="@+id/register_username"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="请输入昵称"
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/empty"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -45,9 +67,14 @@
             />
         <EditText
             android:id="@+id/register_cell_number"
-            android:layout_width="230dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="请输入手机号"
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/empty"
             />
     </LinearLayout>
 
@@ -64,9 +91,14 @@
 
         <EditText
             android:id="@+id/register_password"
-            android:layout_width="230dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="请输入密码" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/show_password" />
     </LinearLayout>
 
     <LinearLayout
@@ -96,16 +128,15 @@
             />
     </LinearLayout>
 
-        <Button
-            android:id="@+id/regiter_regiter"
-            android:layout_width="240dp"
-            android:layout_height="50dp"
-            android:text="立即注册"
-            android:background="@color/top_bar"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_marginLeft="68dp"
-            android:layout_marginTop="35dp"
-            />
-
+    <Button
+        android:id="@+id/regiter_regiter"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:text="立即注册"
+        android:background="@color/top_bar"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="35dp"
+        />
 </LinearLayout>

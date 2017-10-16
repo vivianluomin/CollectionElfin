@@ -17,6 +17,11 @@ import cn.smssdk.gui.RegisterPage;
 import cn.smssdk.gui.SearchEngine;
 
 import com.example.asus1.collectionelfin.R;
+
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.RegisterSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
 import com.mob.MobSDK;
 
 import org.json.JSONException;
@@ -33,12 +38,14 @@ import java.util.Map;
  */
 
 public class RegisterActivity  extends BaseActivity implements View.OnClickListener{
+    private EditText registerUsername;
     private EditText registerCellNumber;
     private EditText registerPassword;
     private EditText registerValidate;
     private Button registerValidateButten;
     private Button regiterRegiter;
     private ImageView back;
+    private boolean flag; //标记是否验证成功
 
     private HashMap<Character, ArrayList<String[]>> rawData;
     private HashMap<Character, ArrayList<String[]>> first;   //第一层数组
@@ -59,7 +66,6 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
 
         //初始化界面nnn
         initUI();
-
         MobSDK.init(this, "217d149b969aa", "3c51826883bc6ded6492bc985965adb2");
         SMSSDK.setAskPermisionOnReadContact(false);
         rawData = SMSSDK.getGroupedCountryList();
@@ -72,17 +78,13 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
                     //回调完成
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                         //提交验证码成功
-
-//                        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-//                        startActivity(intent);
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(RegisterActivity.this,"验证成功",Toast.LENGTH_SHORT).show();
+                                flag = true;
                             }
                         });
-
                     }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
                         //获取验证码成功
                         runOnUiThread(new Runnable() {
@@ -134,7 +136,7 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
         registerCellNumber = (EditText)findViewById(R.id.register_cell_number);
         registerPassword= (EditText)findViewById(R.id.register_password);
         registerValidate= (EditText)findViewById(R.id.register_validate);
-
+        registerUsername =(EditText)findViewById(R.id.register_username);
         regiterRegiter =(Button)findViewById(R.id.regiter_regiter);
         registerValidateButten=(Button)findViewById(R.id.register_validate_butten);
         back =(ImageView)findViewById(R.id.register_page_back_button);
@@ -158,25 +160,60 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
 
             case R.id.regiter_regiter:
                 //提交验证码验证
+                flag =false;
                 if (TextUtils.isEmpty(phone))
                     Toast.makeText(this,"phone can't be null",Toast.LENGTH_SHORT).show();
 
-                String number = registerPassword.getText().toString();
+                String number = registerValidate.getText().toString();
 
                 if (TextUtils.isEmpty(number))
-                    Toast.makeText(this,"password can't be null",Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(this,"phone can't be null",Toast.LENGTH_SHORT).show();
                 Log.i("ssss",phone+","+number);
                 SMSSDK.submitVerificationCode("86",phone,number);
+                if(flag){
 
-
-
+                }sendData();
                 break;
             case  R.id.read_page_tool_bar:
                 finish();
                 break;
         }
     }
+
+    private void sendData() {     //发送给后台
+        String username = registerUsername.getText().toString();
+        String account =  registerCellNumber.getText().toString();
+        String password = registerPassword.getText().toString();
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username",username);
+            jsonObject.put("account",account);
+            jsonObject.put("password",password);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        Log.d("aaaaaa","123");
+        if(jsonObject.length()!=0){
+            Log.d("aaaaaa","456");
+            RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
+            retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
+            Log.d("aaaaaa",jsonObject.toString());
+
+            HttpUtils.doRuqest(call,callBack);
+
+            //JSONObject object = new JSONObject()
+        }
+    }
+    private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+
+
+
+        }
+    };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
