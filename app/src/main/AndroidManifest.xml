@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.mob.MobApplication"
@@ -93,7 +93,8 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".cut_photo.Cut_photo"></activity>
+        <activity android:name=".cut_photo.Cut_photo" />
+        <activity android:name=".My_Setting.My_Setting"></activity>
     </application>
 
 </manifest>
