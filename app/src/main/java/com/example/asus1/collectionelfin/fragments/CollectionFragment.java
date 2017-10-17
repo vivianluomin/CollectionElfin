@@ -66,12 +66,7 @@ public class CollectionFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main,container,false);
-
-
         setUpView(view);
-
-
-
         return view;
     }
 

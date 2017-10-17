@@ -24,12 +24,15 @@ import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
+import com.example.asus1.collectionelfin.fragments.ModifyPasswordFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
 import com.example.asus1.collectionelfin.models.LoginModle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import cn.smssdk.SMSSDK;
 
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
@@ -165,7 +168,10 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 break;
             case R.id.menu_thurs:
-                Toast.makeText(MainActivity.this, "点击Thurs", Toast.LENGTH_SHORT).show();
+                mToolbar.setTitle("修改密码");
+                mFragmentTransaction = mFragmentManager.beginTransaction();
+                mFragmentTransaction.replace(R.id.fragment_container,new ModifyPasswordFragment());
+                mFragmentTransaction.commit();
                 break;
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
@@ -237,6 +243,8 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        SMSSDK.unregisterAllEventHandler();
     }
+
 }
 
