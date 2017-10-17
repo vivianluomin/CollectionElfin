@@ -44,4 +44,9 @@ public class PerferenceUtil {
         getEditor(context).clear().apply();
     }
 
+    public static void save(Context context){
+        
+
+    }
+
 }

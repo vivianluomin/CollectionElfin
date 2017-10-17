@@ -46,7 +46,6 @@ public class LoginHelper {
         NowLoginUser  = modle;
         PerferenceUtil.putString(KEY_USER_INFO,new GsonBuilder().create().toJson(modle),SystemManager.getContext());
 
-
     }
 
 
