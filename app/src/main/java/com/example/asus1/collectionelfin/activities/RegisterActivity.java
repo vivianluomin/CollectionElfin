@@ -20,7 +20,7 @@ import com.example.asus1.collectionelfin.R;
 
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
-import com.example.asus1.collectionelfin.service.RegisterSerivce;
+//import com.example.asus1.collectionelfin.service.RegisterSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 import com.mob.MobSDK;
 
@@ -196,11 +196,11 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
         Log.d("aaaaaa","123");
         if(jsonObject.length()!=0){
             Log.d("aaaaaa","456");
-            RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
-            retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
+            //RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
+            //retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
             Log.d("aaaaaa",jsonObject.toString());
 
-            HttpUtils.doRuqest(call,callBack);
+           // HttpUtils.doRuqest(call,callBack);
 
             //JSONObject object = new JSONObject()
         }

@@ -143,6 +143,8 @@ public class LoginActivity extends BaseActivity {
 
 
 
+            }else {
+                Toast.makeText(LoginActivity.this,"请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         }
     };

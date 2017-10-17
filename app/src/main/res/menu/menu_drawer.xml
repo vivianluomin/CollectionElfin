@@ -6,25 +6,25 @@
         >
         <item
             android:id="@+id/menu_mon"
-            android:icon="@mipmap/ic_collection"
+            android:icon="@mipmap/ic_collection_pink"
             android:checked="true"
             android:title="@string/myCollection"/>
         <item
             android:id="@+id/menu_tues"
-            android:icon="@mipmap/ic_notebook"
+            android:icon="@mipmap/ic_note_pink"
             android:title="@string/myBook"/>
         <item
             android:id="@+id/menu_wed"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Wed"/>
+            android:icon="@mipmap/ic_setting"
+            android:title="@string/setting"/>
         <item
             android:id="@+id/menu_thurs"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Thurs"/>
+            android:icon="@mipmap/ic_password_pink"
+            android:title="@string/password"/>
         <item
             android:id="@+id/menu_fri"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Fri"/>
+            android:icon="@mipmap/ic_night"
+            android:title="@string/toNight"/>
     </group>
 
 

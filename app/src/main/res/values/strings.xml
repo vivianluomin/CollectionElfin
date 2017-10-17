@@ -12,5 +12,8 @@
     <string name="setting">个人设置</string>
     <string name="edit">编辑</string>
     <string name="compulish">完成</string>
+    <string name="password">修改密码</string>
+    <string name="toNight">切换夜间模式</string>
+    <string name="logout">退出登录</string>
 
 </resources>

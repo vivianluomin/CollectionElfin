@@ -162,7 +162,7 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.commit();
                 break;
             case R.id.menu_wed:
-                Toast.makeText(MainActivity.this, "点击Wed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 break;
             case R.id.menu_thurs:
                 Toast.makeText(MainActivity.this, "点击Thurs", Toast.LENGTH_SHORT).show();

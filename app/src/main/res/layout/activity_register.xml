@@ -41,7 +41,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@mipmap/username"
+            android:src="@mipmap/ic_account"
             />
         <EditText
             android:id="@+id/register_username"
@@ -52,7 +52,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@mipmap/empty"
+
             />
     </LinearLayout>
     <LinearLayout
@@ -74,7 +74,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@mipmap/empty"
+
             />
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_width="30dp"
             android:layout_height="35dp"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/show_password" />
+            />
     </LinearLayout>
 
     <LinearLayout
