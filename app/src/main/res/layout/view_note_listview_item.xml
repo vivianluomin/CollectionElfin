@@ -20,7 +20,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/civ_icon"
-            android:src="@mipmap/ic_logo"
+            android:src="@mipmap/ic_note_read"
             android:scaleType="center"
             />
 

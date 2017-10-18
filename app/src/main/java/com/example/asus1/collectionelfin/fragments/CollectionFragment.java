@@ -137,12 +137,19 @@ public class CollectionFragment extends Fragment  {
             if(apiReuslt!=null){
                 List<String> models = apiReuslt.getmData();
                 mCollections.clear();
-                mCollections.addAll(models);
-                AllContentHelper.setCollecton_Sort(mCollections);
-                mAdapter.notifyDataSetChanged();
+                if(models!=null){
+                    mCollections.addAll(models);
+                    AllContentHelper.setCollecton_Sort(mCollections);
+                    mAdapter.notifyDataSetChanged();
 
-                mLoadingLaout.setVisibility(View.GONE);
-                mListView.setVisibility(View.VISIBLE);
+                    mLoadingLaout.setVisibility(View.GONE);
+                    mListView.setVisibility(View.VISIBLE);
+                }else {
+                    mLoadingLaout.setVisibility(View.GONE);
+                    mListView.setVisibility(View.GONE);
+
+                }
+
             }
 
         }

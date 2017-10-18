@@ -2,9 +2,11 @@ package com.example.asus1.collectionelfin.activities;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +28,7 @@ import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.ModifyPasswordFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
+import com.example.asus1.collectionelfin.fragments.SeetingFragment;
 import com.example.asus1.collectionelfin.models.LoginModle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,11 +55,15 @@ public class MainActivity extends BaseActivity {
     private Toolbar mToolbar;
     private View mHeaderView;
     private TextView mUserName;
+    private TextView mEditText;
+    private Menu mMenu;
+    private FloatingActionButton mFab;
 
     private LoginModle mNowLoginUser;
-    private NavigationView mNavigation;
+    private  SeetingFragment mSeetingFragment;
 
     private DrawerLayout mDrawerLayout;
+    private boolean mEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +71,15 @@ public class MainActivity extends BaseActivity {
         SystemManager.initContext(getApplicationContext());
 
             setContentView(R.layout.activity_main);
-            Toolbar toolbar = (Toolbar) findViewById(toobar);
-            setSupportActionBar(toolbar);
+            mToolbar = (Toolbar) findViewById(toobar);
+            setSupportActionBar(mToolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBar actionBar = getSupportActionBar();
             mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
             if(actionBar!=null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.mipmap.ic_toolbar_left_white);
+
             }
 
             //初始化界面
@@ -79,8 +87,8 @@ public class MainActivity extends BaseActivity {
             //初始化监听
             initListener();
             //Floaating的
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.but_fab);
-            fab.setOnClickListener(new View.OnClickListener() {
+          mFab = (FloatingActionButton) findViewById(R.id.but_fab);
+            mFab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
                     startActivity(intent);
@@ -106,6 +114,24 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
         mFragmentTransaction.commit();
         mHeaderView =mMenuNv.getHeaderView(0);
+        mEditText = (TextView)findViewById(R.id.tv_edit);
+        mEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSeetingFragment!=null){
+                    if(!mEdit){
+                        mEditText.setText(R.string.compulish);
+                        mSeetingFragment.setEdit(mEdit);
+                        mEdit = true;
+                    }else {
+                        mEditText.setText(R.string.edit);
+                        mSeetingFragment.setEdit(mEdit);
+                        mEdit = false;
+                    }
+
+                }
+            }
+        });
 
         mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
@@ -157,21 +183,32 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction = mFragmentManager.beginTransaction();
                 mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
                 mFragmentTransaction.commit();
+                mEditText.setVisibility(View.GONE);
                 break;
             case R.id.menu_tues:
                 mToolbar.setTitle(R.string.myBook);
                 mFragmentTransaction = mFragmentManager.beginTransaction();
                 mFragmentTransaction.replace(R.id.fragment_container,new NoteFragment());
                 mFragmentTransaction.commit();
+                mEditText.setVisibility(View.GONE);
                 break;
             case R.id.menu_wed:
-                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                mToolbar.setTitle(R.string.setting);
+                mFragmentTransaction = mFragmentManager.beginTransaction();
+                mSeetingFragment = new SeetingFragment();
+                mFragmentTransaction.replace(R.id.fragment_container,mSeetingFragment);
+                mEditText.setVisibility(View.VISIBLE);
+                mFragmentTransaction.commit();
+                mFab.setVisibility(View.GONE);
+                mMenu.setGroupVisible(R.id.menu,false);
                 break;
             case R.id.menu_thurs:
                 mToolbar.setTitle("修改密码");
                 mFragmentTransaction = mFragmentManager.beginTransaction();
                 mFragmentTransaction.replace(R.id.fragment_container,new ModifyPasswordFragment());
                 mFragmentTransaction.commit();
+                mEditText.setVisibility(View.GONE);
+                mMenu.setGroupVisible(R.menu.toolbar,false);
                 break;
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
@@ -184,21 +221,13 @@ public class MainActivity extends BaseActivity {
 
     //Toobar的尴尬
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+       getMenuInflater().inflate(R.menu.toolbar, menu);
+        mMenu =menu;
         return true;
     }
 
 
-//    private void handleSendMessage(Intent intent){
 //
-//        String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-//        Log.d("uuuuu",url);
-//        Intent intent1 = new Intent(this,ReceiveActivity.class);
-//        intent1.putExtra("URL",url);
-//        startActivity(intent1);
-//        finish();
-//
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -225,10 +254,8 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe
     public void onEvent(MessageEvent messageEvent){
-
-        mUserName = (TextView)findViewById(R.id.tv_user_name);
 
         if(mUserName!=null){
             mUserName.setText(messageEvent.getMessage());
@@ -245,6 +272,8 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
         SMSSDK.unregisterAllEventHandler();
     }
+
+
 
 }
 

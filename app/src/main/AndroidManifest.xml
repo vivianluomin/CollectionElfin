@@ -92,18 +92,19 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".cut_photo.Cut_photo"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".cut_photo.Cut_photo"
             android:launchMode="singleTask"
-            />
-        <activity android:name=".activities.PasswordActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PasswordActivity"
             android:launchMode="singleTask"
-            />
-        <activity android:name=".activities.SettingActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".fragments.SeetingFragment"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.NotesActivity"></activity>
     </application>
 
 </manifest>

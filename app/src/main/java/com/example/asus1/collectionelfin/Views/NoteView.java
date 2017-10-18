@@ -41,7 +41,7 @@ public class NoteView extends RelativeLayout {
 
     public void  setData(NoteModel model){
         mTitle.setText(model.getTitle());
-        mDate.setText(model.getDate());
+        //mDate.setText(model.getDate());
 
     }
 }

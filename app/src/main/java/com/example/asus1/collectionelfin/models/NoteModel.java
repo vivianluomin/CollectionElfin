@@ -14,30 +14,30 @@ public class NoteModel {
     @SerializedName("title")
     private String mTitle;
 
-    @SerializedName("content")
-    private String mContent;
+    @SerializedName("type")
+    private String mType;
 
     public String getDate() {
         return mDate;
     }
 
-    public void setDate(String mDate) {
-        this.mDate = mDate;
+    public void setDate(String Date) {
+        this.mDate = Date;
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setTitle(String Title) {
+        this.mTitle = Title;
     }
 
-    public String getContent() {
-        return mContent;
+    public String getType() {
+        return mType;
     }
 
-    public void setContent(String mContent) {
-        this.mContent = mContent;
+    public void setType(String type) {
+        this.mType = type;
     }
 }
