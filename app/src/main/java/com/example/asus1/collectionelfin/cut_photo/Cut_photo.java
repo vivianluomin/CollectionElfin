@@ -13,18 +13,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.activities.BaseActivity;
-import com.example.asus1.collectionelfin.activities.MainActivity;
-
 import java.io.File;
 
 public class Cut_photo extends BaseActivity implements View.OnClickListener{
@@ -40,7 +36,8 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         take_photo.setOnClickListener(this);
         Button choose_photo_fromalbum = (Button)findViewById(R.id.choose_photo_fromalbum);
         choose_photo_fromalbum.setOnClickListener(this);
-
+        Button back = (Button)findViewById(R.id.back);
+        back.setOnClickListener(this);
 
         File outputImage = new File(getExternalCacheDir(),"op_image.jpg");
         try{
@@ -79,6 +76,9 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
                     openAlbum();
                 }
                 break;
+            case R.id.back:
+                finish();
+                break;
         }
     }
     private void openAlbum(){
@@ -101,11 +101,9 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
     /**
      * 调用系统的裁剪器
      * @param uri
-     * @param outputX
-     * @param outputY
      * @param requestCode
      */
-    private void cropImageUri(Uri uri, int outputX, int outputY, int requestCode) {
+    private void cropImageUri(Uri uri, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         //是否裁剪
@@ -115,8 +113,8 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         intent.putExtra("aspectY", 1);
         intent.putExtra("circleCrop","true");
         //&#x8bbe;&#x7f6e;&#x8f93;&#x51fa;&#x7684;&#x5bbd;&#x9ad8;
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
+        intent.putExtra("outputX", 100);
+        intent.putExtra("outputY", 100);
         //是否缩放
         intent.putExtra("scale", false);
         //输入图片的Uri，指定以后，可以在这个uri获得图片
@@ -133,7 +131,6 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
     }
     /*
      返回数据接收
-      *
       */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,7 +145,7 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
                         Log.d("这是转换之后的Uri",Uri.parse(
                                 new StringBuilder(imageUri.getPath()).insert(0,"file://")
                                         .toString()).toString());
-                        cropImageUri(imageUri,800,800,3);
+                        cropImageUri(imageUri,3);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -172,7 +169,6 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
                         //        decodeFile(imageUri.getPath()));
                         Intent i = new Intent();
                         if(imageUri == null){
-                            Log.d("来来看看你让我返回给人家数据","喂喂喂，出错了，你的数据是空的");
                         }else{
                             i.putExtra("result",imageUri.getPath());
                         }
@@ -216,7 +212,7 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
 //         i.putExtra("result",Uri.parse(imagePath).getPath());
 //         setResult(RESULT_OK,i);
 //         finish();
-        cropImageUri(r,800,800,3);
+        cropImageUri(r,3);
     }
 
     /*
@@ -233,7 +229,7 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         //         i.putExtra("result",Uri.parse(imagePath).getPath());
         //         setResult(RESULT_OK,i);
         //         finish();
-        cropImageUri(r,800,800,3);
+        cropImageUri(r,3);
     }
     private String getImagePath(Uri uri,String selection){
         String Path = null;

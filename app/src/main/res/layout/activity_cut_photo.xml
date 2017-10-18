@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,26 +7,57 @@
     tools:context="com.example.asus1.collectionelfin.cut_photo.Cut_photo">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_weight="200"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/take_photo"
-            android:text="拍照"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/choose_photo_fromalbum"
-            android:text="选择相册"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="返回"
-            android:id="@+id/back"/>
+            android:background="@color/color_pink"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+            <Button
+                android:background="#e6e6e6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/take_photo"
+                android:text="拍照"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+            <Button
+                android:background="#e6e6e6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/choose_photo_fromalbum"
+                android:text="选择相册"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+            <Button
+                android:background="#e6e6e6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="返回"
+                android:id="@+id/back"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="43"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+
+
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

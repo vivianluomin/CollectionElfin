@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.activities;
 
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +26,7 @@ import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
+import com.example.asus1.collectionelfin.cut_photo.Cut_photo;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.ModifyPasswordFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
@@ -40,6 +42,8 @@ import cn.smssdk.SMSSDK;
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
 public class MainActivity extends BaseActivity {
+    private final int CUT_PHOTO = 1;
+
 
     /**
      * 抽屉视图
@@ -66,11 +70,15 @@ public class MainActivity extends BaseActivity {
     private boolean mEdit = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SystemManager.initContext(getApplicationContext());
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+
+
+
             mToolbar = (Toolbar) findViewById(toobar);
             setSupportActionBar(mToolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -149,10 +157,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
-                if(mNowLoginUser == null){
-                    Intent intent = new Intent (MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+
+                    Intent intent = new Intent (MainActivity.this, Cut_photo.class);
+                    startActivityForResult(intent,CUT_PHOTO);
+
 
             }
         });
@@ -213,8 +221,20 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
                 break;
-
             default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                String s = data.getStringExtra("result");
+                if(s != null){
+                    imageLogin.setImageBitmap(BitmapFactory.decodeFile(s));
+                }
                 break;
         }
     }
