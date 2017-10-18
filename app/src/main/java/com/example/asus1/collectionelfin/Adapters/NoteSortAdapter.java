@@ -17,12 +17,12 @@ import java.util.List;
  * Created by asus1 on 2017/10/13.
  */
 
-public class NoteSortAdapter extends ArrayAdapter<NoteSortModle> {
+public class NoteSortAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
-    private List<NoteSortModle> mNoteSortModles;
+    private List<String> mNoteSortModles;
 
-    public NoteSortAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<NoteSortModle> objects) {
+    public NoteSortAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
         mContext = context;
         mNoteSortModles = objects;
@@ -36,7 +36,7 @@ public class NoteSortAdapter extends ArrayAdapter<NoteSortModle> {
             convertView = new NoteSortView(mContext);
         }
 
-        //((NoteSortView)convertView).setData(mNoteSortModles.get(position).getTitle());
+        ((NoteSortView)convertView).setData(mNoteSortModles.get(position));
 
         return convertView;
     }

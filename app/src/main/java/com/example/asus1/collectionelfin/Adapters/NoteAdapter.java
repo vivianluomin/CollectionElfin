@@ -45,6 +45,8 @@ public class NoteAdapter extends ArrayAdapter<NoteModel> {
             convertView = new NoteView(mContext);
         }
 
+        ((NoteView)(convertView)).setData(model);
+
         return convertView;
 
     }
