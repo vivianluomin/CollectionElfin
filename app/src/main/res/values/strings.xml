@@ -4,7 +4,7 @@
     <string name="myBook">我的笔记</string>
     <string name="mainPage">主页</string>
     <string name="loading">正在加载... ...</string>
-    <string name="reloading">重新加载</string>
+    <string name="reloading">点击重新加载</string>
     <string name="addCollection">添加收藏</string>
     <string name="addTo">添加到</string>
     <string name="comfirm">确定添加</string>
