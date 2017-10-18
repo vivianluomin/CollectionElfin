@@ -45,6 +45,13 @@
         android:visibility="gone"
         />
 
+         <com.example.asus1.collectionelfin.Views.ErrorView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/error_view"
+             android:visibility="gone"
+             />
+
 
      </FrameLayout>
 

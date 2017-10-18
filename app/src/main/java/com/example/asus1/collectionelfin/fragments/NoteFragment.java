@@ -22,6 +22,7 @@ import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
+import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.activities.NewnoteActivity;
 import com.example.asus1.collectionelfin.activities.NotesActivity;
 import com.example.asus1.collectionelfin.models.LoginModle;
@@ -40,11 +41,12 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class NoteFragment extends Fragment {
+public class NoteFragment extends Fragment implements ErrorView.reloadingListener {
 
     private ListView mListView;
     private LinearLayout mLoadingLayout;
     private ImageView mLoadingView;
+    private ErrorView mErrorView;
     private NoteSortAdapter mNoteAdapter;
     private List<String> mNotes;
     private LoginModle mNowUser;
@@ -67,6 +69,8 @@ public class NoteFragment extends Fragment {
 
         mLoadingLayout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
         mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
+        mErrorView = (ErrorView)view.findViewById(R.id.error_view);
+        mErrorView.setReloadingListener(this);
 
         startLoading();
         return view;
@@ -110,9 +114,17 @@ public class NoteFragment extends Fragment {
                     mLoadingLayout.setVisibility(View.GONE);
                 }
             }else{
-
+                mErrorView.setVisibility(View.VISIBLE);
+                mLoadingLayout.setVisibility(View.GONE);
+                mListView.setVisibility(View.GONE);
             }
         }
     };
 
+    @Override
+    public void reload() {
+        mErrorView.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        requestData();
+    }
 }

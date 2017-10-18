@@ -26,6 +26,7 @@ import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
+import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.activities.ArticleActivity;
 import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.models.CollectionModel;
@@ -47,7 +48,7 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class CollectionFragment extends Fragment  {
+public class CollectionFragment extends Fragment implements ErrorView.reloadingListener {
 
     private ListView mListView;
 
@@ -55,6 +56,7 @@ public class CollectionFragment extends Fragment  {
     private CollectionSortAdapter mAdapter;
     private LinearLayout mLoadingLaout;
     private ImageView mLoadingView;
+    private ErrorView mErrorView;
 
     private LoginModle mNowLoginUser;
     public SwipeRefreshLayout swipeRefresh;
@@ -86,7 +88,8 @@ public class CollectionFragment extends Fragment  {
 
         mLoadingLaout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
         mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
-
+        mErrorView = (ErrorView)view.findViewById(R.id.error_view);
+        mErrorView.setReloadingListener(this);
         AnimationDrawable animationDrawable = (AnimationDrawable)mLoadingView.getDrawable();
         animationDrawable.start();
 
@@ -122,13 +125,16 @@ public class CollectionFragment extends Fragment  {
         }else{
             startActivity(new Intent(getActivity(),LoginActivity.class));
         }
-
-
-
-
+        Log.d("requestData","11111");
     }
 
 
+    @Override
+    public void reload() {
+        mLoadingLaout.setVisibility(View.VISIBLE);
+        mErrorView.setVisibility(View.GONE);
+        requestData();
+    }
 
     HttpUtils.RequestFinishCallBack<List<String>> callBack  = new HttpUtils.RequestFinishCallBack<List<String>>() {
         @Override
@@ -150,6 +156,10 @@ public class CollectionFragment extends Fragment  {
 
                 }
 
+            }else {
+                mErrorView.setVisibility(View.VISIBLE);
+                mLoadingLaout.setVisibility(View.GONE);
+                mListView.setVisibility(View.GONE);
             }
 
         }

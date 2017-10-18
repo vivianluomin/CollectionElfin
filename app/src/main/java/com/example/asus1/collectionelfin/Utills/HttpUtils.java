@@ -26,6 +26,8 @@ public class HttpUtils {
                 if(callBack != null && reuslt != null){
                     callBack.getResult(reuslt);
 
+                }else{
+                    callBack.getResult(null);
                 }
 
 

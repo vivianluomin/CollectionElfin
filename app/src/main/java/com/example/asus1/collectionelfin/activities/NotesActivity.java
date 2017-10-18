@@ -16,6 +16,7 @@ import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.NoteModel;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class NotesActivity extends BaseActivity {
+public class NotesActivity extends BaseActivity implements ErrorView.reloadingListener {
 
 
     private LinearLayout mLoadingLayout;
@@ -38,6 +39,7 @@ public class NotesActivity extends BaseActivity {
     private String mType;
     private NoteAdapter mAdapter;
     private LoginModle mNowUser;
+    private ErrorView mErrorView;
     private List<NoteModel> mNotes = new ArrayList<>();
 
 
@@ -52,6 +54,8 @@ public class NotesActivity extends BaseActivity {
     }
 
     private void init(){
+        mErrorView = (ErrorView)findViewById(R.id.error_view);
+        mErrorView.setReloadingListener(this);
         mToolbar = (Toolbar)findViewById(R.id.toolbar_note);
         mToolbar.setNavigationIcon(R.mipmap.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -106,9 +110,17 @@ public class NotesActivity extends BaseActivity {
                     mLoadingLayout.setVisibility(View.GONE);
                 }
             }else{
-
+                mErrorView.setVisibility(View.VISIBLE);
+                mLoadingLayout.setVisibility(View.GONE);
+                mListView.setVisibility(View.GONE);
             }
         }
     };
 
+    @Override
+    public void reload() {
+        requestData();
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        mErrorView.setVisibility(View.GONE);
+    }
 }

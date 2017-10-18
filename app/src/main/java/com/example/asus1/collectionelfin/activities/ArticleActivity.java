@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionsMessage;
@@ -36,10 +37,11 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class ArticleActivity extends BaseActivity {
+public class ArticleActivity extends BaseActivity implements  ErrorView.reloadingListener{
 
     private Toolbar mToolbar;
     private ListView mListView;
+    private TextView mToolTitle;
     private List<CollectionModel> mCollections = new ArrayList<>();
     private CollectionAdapter mAdapter;
     private LinearLayout mLoadingLayout;
@@ -47,8 +49,6 @@ public class ArticleActivity extends BaseActivity {
     private ErrorView mErrorView;
     private LoginModle mNowLoginUser;
     private String mSelectSort;
-
-
 
 
     @Override
@@ -72,6 +72,8 @@ public class ArticleActivity extends BaseActivity {
                 finish();
             }
         });
+        mToolTitle = (TextView)findViewById(R.id.tv_toolbar_title);
+        mToolTitle.setText(mSelectSort);
         mListView = (ListView)findViewById(R.id.list_view);
         mCollections = new ArrayList<>();
         mLoadingLayout =(LinearLayout)findViewById(R.id.ll_loading_view);
@@ -120,9 +122,12 @@ public class ArticleActivity extends BaseActivity {
     }
 
 
-
-
-
+    @Override
+    public void reload() {
+        RequestData();
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        mErrorView.setVisibility(View.GONE);
+    }
 
     @Subscribe()
     public void onEvent(CollectionsMessage message){
@@ -148,6 +153,10 @@ public class ArticleActivity extends BaseActivity {
                 }
                 getHead(mCollections);
 
+            }else{
+                mErrorView.setVisibility(View.VISIBLE);
+                mLoadingLayout.setVisibility(View.GONE);
+                mListView.setVisibility(View.GONE);
             }
         }
     };
