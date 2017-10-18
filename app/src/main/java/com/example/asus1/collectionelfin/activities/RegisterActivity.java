@@ -22,6 +22,7 @@ import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 
 //import com.example.asus1.collectionelfin.service.RegisterSerivce;
+import com.example.asus1.collectionelfin.service.RegisterSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 import com.mob.MobSDK;
 
@@ -180,9 +181,9 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
         String password = registerPassword.getText().toString();
 
         Log.d("aaaaaa","456");
-//        RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
-//        retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
-//        HttpUtils.doRuqest(call,callBack);
+       RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
+       retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
+       HttpUtils.doRuqest(call,callBack);
         Log.d("aaaaaa",callBack.toString());
     }
     private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {

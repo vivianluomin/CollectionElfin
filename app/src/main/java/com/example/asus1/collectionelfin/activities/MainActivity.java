@@ -86,16 +86,6 @@ public class MainActivity extends BaseActivity {
             initUI();
             //初始化监听
             initListener();
-            //Floaating的
-          mFab = (FloatingActionButton) findViewById(R.id.but_fab);
-            mFab.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
-                    startActivity(intent);
-                }
-
-            });
-
             EventBus.getDefault().register(this);
         }
 
@@ -115,26 +105,10 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction.commit();
         mHeaderView =mMenuNv.getHeaderView(0);
         mEditText = (TextView)findViewById(R.id.tv_edit);
-        mEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mSeetingFragment!=null){
-                    if(!mEdit){
-                        mEditText.setText(R.string.compulish);
-                        mSeetingFragment.setEdit(mEdit);
-                        mEdit = true;
-                    }else {
-                        mEditText.setText(R.string.edit);
-                        mSeetingFragment.setEdit(mEdit);
-                        mEdit = false;
-                    }
-
-                }
-            }
-        });
-
+        mFab = (FloatingActionButton) findViewById(R.id.but_fab);
         mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
         imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
+
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
         }
@@ -167,6 +141,32 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+        mEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSeetingFragment!=null){
+                    if(!mEdit){
+                        mEditText.setText(R.string.compulish);
+                        mSeetingFragment.setEdit(mEdit);
+                        mEdit = true;
+                    }else {
+                        mEditText.setText(R.string.edit);
+                        mSeetingFragment.setEdit(mEdit);
+                        mEdit = false;
+                    }
+
+                }
+            }
+        });
     }
 
 
@@ -184,6 +184,8 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
+                mMenu.setGroupVisible(R.id.menu,true);
                 break;
             case R.id.menu_tues:
                 mToolbar.setTitle(R.string.myBook);
@@ -191,14 +193,16 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new NoteFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
+                mMenu.setGroupVisible(R.id.menu,true);
                 break;
             case R.id.menu_wed:
                 mToolbar.setTitle(R.string.setting);
                 mFragmentTransaction = mFragmentManager.beginTransaction();
                 mSeetingFragment = new SeetingFragment();
                 mFragmentTransaction.replace(R.id.fragment_container,mSeetingFragment);
-                mEditText.setVisibility(View.VISIBLE);
                 mFragmentTransaction.commit();
+                mEditText.setVisibility(View.VISIBLE);
                 mFab.setVisibility(View.GONE);
                 mMenu.setGroupVisible(R.id.menu,false);
                 break;
@@ -208,7 +212,8 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new ModifyPasswordFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
-                mMenu.setGroupVisible(R.menu.toolbar,false);
+                mFab.setVisibility(View.GONE);
+                mMenu.setGroupVisible(R.id.menu,false);
                 break;
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();

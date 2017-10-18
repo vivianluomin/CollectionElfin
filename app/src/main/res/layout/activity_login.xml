@@ -83,7 +83,7 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="注册"
-            android:background="@color/color_pink"
+            android:background="@color/color_butten_pink"
             android:textColor="@color/white"
             android:textSize="18sp"
             />
@@ -93,7 +93,7 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="登录"
-            android:background="@color/color_pink"
+            android:background="@color/color_butten_pink"
             android:textColor="@color/white"
             android:textSize="18sp"
             />
