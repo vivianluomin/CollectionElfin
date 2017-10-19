@@ -1,11 +1,13 @@
 package com.example.asus1.collectionelfin.service;
 
+import com.example.asus1.collectionelfin.models.NoteModel;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -27,8 +29,8 @@ public interface NoteSerivce {
 
     @POST("/Collection_elfin_war_exploded/SnedTypeNoteAll")
     @FormUrlEncoded
-    Call<UniApiReuslt<List<String>>>  getNotes(@Field("account") String account,
-                                               @Field("type")  String type
+    Call<UniApiReuslt<List<NoteModel>>>  getNotes(@Field("account") String account,
+                                                  @Field("type")  String type
                                                );
 
     @POST("/Collection_elfin_war_exploded/UploadNote")
@@ -48,9 +50,9 @@ public interface NoteSerivce {
 
     @POST("/Collection_elfin_war_exploded/SendNote")
     @FormUrlEncoded
-    Call<RequestBody>  downloadNotes(@Field("account") String account,
-                                     @Field("type") String type,
-                                     @Field("note") String noteName
+    Call<ResponseBody>  downloadNotes(@Field("account") String account,
+                                           @Field("type") String type,
+                                           @Field("note") String noteName
                                      );
 
 }

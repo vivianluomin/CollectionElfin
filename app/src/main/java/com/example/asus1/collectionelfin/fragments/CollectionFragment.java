@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +52,6 @@ import retrofit2.Call;
 public class CollectionFragment extends Fragment implements ErrorView.reloadingListener {
 
     private ListView mListView;
-
     private List<String> mCollections;
     private CollectionSortAdapter mAdapter;
     private LinearLayout mLoadingLaout;
@@ -59,7 +59,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
     private ErrorView mErrorView;
 
     private LoginModle mNowLoginUser;
-    public SwipeRefreshLayout swipeRefresh;
+    public SwipeRefreshLayout mSwipeRefresh;
 
 
 
@@ -86,6 +86,16 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
         });
 
+
+        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
+        mSwipeRefresh.setColorSchemeResources(R.color.white);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startSwipeRefresh();
+            }
+        });
         mLoadingLaout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
         mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
         mErrorView = (ErrorView)view.findViewById(R.id.error_view);
@@ -143,6 +153,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             if(apiReuslt!=null){
                 List<String> models = apiReuslt.getmData();
                 mCollections.clear();
+                mSwipeRefresh.setRefreshing(false);
                 if(models!=null){
                     mCollections.addAll(models);
                     AllContentHelper.setCollecton_Sort(mCollections);
@@ -166,15 +177,17 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
     };
 
 
+
     private void startSwipeRefresh() {
-        if (swipeRefresh != null && !swipeRefresh.isRefreshing()) {
-            swipeRefresh.setRefreshing(true);
-        }
+
+            mSwipeRefresh.setRefreshing(true);
+            requestData();
+
     }
 
     private void stopSwipeRefresh() {
-        if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-            swipeRefresh.setRefreshing(false);
+        if (mSwipeRefresh != null && mSwipeRefresh.isRefreshing()) {
+            mSwipeRefresh.setRefreshing(false);
         }
     }
 
@@ -186,6 +199,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             String sortModel = message.getModel();
             mCollections.add(sortModel);
             mAdapter.notifyDataSetChanged();
+           AllContentHelper.setCollecton_Sort(mCollections);
         }
 
     }
@@ -194,5 +208,6 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
     }
 }

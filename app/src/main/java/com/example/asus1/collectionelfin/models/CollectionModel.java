@@ -10,19 +10,19 @@ import java.util.List;
 
 public class CollectionModel {
 
-    @SerializedName("date")
+    @SerializedName("time")
     private String mDate;
 
-    @SerializedName("title")
+
     private String mTitle;
 
-    @SerializedName("content")
+
     private String mContent;
 
     @SerializedName("url")
     private String mUrl;
 
-    @SerializedName("notes")
+
     private List<NoteModel> mNotes;
 
     public CollectionModel(String mUrl) {

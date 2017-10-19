@@ -1,6 +1,8 @@
 package com.example.asus1.collectionelfin.activities;
 
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -94,16 +97,6 @@ public class MainActivity extends BaseActivity {
             initUI();
             //初始化监听
             initListener();
-            //Floaating的
-          mFab = (FloatingActionButton) findViewById(R.id.but_fab);
-            mFab.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
-                    startActivity(intent);
-                }
-
-            });
-
             EventBus.getDefault().register(this);
         }
 
@@ -123,6 +116,68 @@ public class MainActivity extends BaseActivity {
         mFragmentTransaction.commit();
         mHeaderView =mMenuNv.getHeaderView(0);
         mEditText = (TextView)findViewById(R.id.tv_edit);
+        mFab = (FloatingActionButton) findViewById(R.id.but_fab);
+        mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
+        imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
+
+        if(mNowLoginUser != null && mUserName!= null){
+            mUserName.setText(mNowLoginUser.getUserName());
+        }
+    }
+
+    /**
+     * 初始化监听
+     */
+    private void initListener() {
+
+        imageLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                final Intent intent = new Intent(MainActivity.this,Cut_photo.class);
+                dialog.setTitle("修改头像");
+                dialog.setNeutralButton("照相", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("choose","camera");
+                        startActivityForResult(intent,CUT_PHOTO);
+                    }
+                });
+                dialog.setNegativeButton("选择相册", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("choose","ablum");
+                        startActivityForResult(intent,CUT_PHOTO);
+                    }
+                });
+                dialog.show();
+                //Intent intent = new Intent (MainActivity.this, Cut_photo.class);
+                //startActivityForResult(intent,CUT_PHOTO);
+
+
+            }
+        });
+        // 设置侧滑菜单点击事件监听
+        mMenuNv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                selectItem(item.getItemId());
+                // 关闭侧滑菜单
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FloatingActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
         mEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,41 +193,6 @@ public class MainActivity extends BaseActivity {
                     }
 
                 }
-            }
-        });
-
-        mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
-        imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
-        if(mNowLoginUser != null && mUserName!= null){
-            mUserName.setText(mNowLoginUser.getUserName());
-        }
-    }
-
-    /**
-     * 初始化监听
-     */
-    private void initListener() {
-
-        imageLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent (MainActivity.this, Cut_photo.class);
-                    startActivityForResult(intent,CUT_PHOTO);
-
-
-            }
-        });
-        // 设置侧滑菜单点击事件监听
-        mMenuNv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                selectItem(item.getItemId());
-                // 关闭侧滑菜单
-                mDrawerLayout.closeDrawers();
-                return true;
             }
         });
     }
@@ -192,6 +212,8 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new CollectionFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
+                mMenu.setGroupVisible(R.id.menu,true);
                 break;
             case R.id.menu_tues:
                 mToolbar.setTitle(R.string.myBook);
@@ -199,14 +221,16 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new NoteFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
+                mMenu.setGroupVisible(R.id.menu,true);
                 break;
             case R.id.menu_wed:
                 mToolbar.setTitle(R.string.setting);
                 mFragmentTransaction = mFragmentManager.beginTransaction();
                 mSeetingFragment = new SeetingFragment();
                 mFragmentTransaction.replace(R.id.fragment_container,mSeetingFragment);
-                mEditText.setVisibility(View.VISIBLE);
                 mFragmentTransaction.commit();
+                mEditText.setVisibility(View.VISIBLE);
                 mFab.setVisibility(View.GONE);
                 mMenu.setGroupVisible(R.id.menu,false);
                 break;
@@ -216,7 +240,8 @@ public class MainActivity extends BaseActivity {
                 mFragmentTransaction.replace(R.id.fragment_container,new ModifyPasswordFragment());
                 mFragmentTransaction.commit();
                 mEditText.setVisibility(View.GONE);
-                mMenu.setGroupVisible(R.menu.toolbar,false);
+                mFab.setVisibility(View.GONE);
+                mMenu.setGroupVisible(R.id.menu,false);
                 break;
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
@@ -261,6 +286,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentd);
                 break;
             case R.id.toobar_delete:
+
                 break;
             case R.id.toobar_choose:
                 break;
