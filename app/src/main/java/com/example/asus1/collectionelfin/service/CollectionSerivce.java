@@ -33,7 +33,7 @@ public interface CollectionSerivce {
 
     @POST("/Collection_elfin_war_exploded/SendTypeAll")
     @FormUrlEncoded
-    Call<UniApiReuslt<List<String>>> getCollections(@Field("account") String account,
+    Call<UniApiReuslt<List<CollectionModel>>> getCollections(@Field("account") String account,
                                                              @Field("type") String type
                                                                 );
 

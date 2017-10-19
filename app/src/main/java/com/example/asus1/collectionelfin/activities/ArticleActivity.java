@@ -114,7 +114,7 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
         if(mNowLoginUser!=null){
             CollectionSerivce collectionSerivce = RequestFactory.
                     getRetrofit().create(CollectionSerivce.class);
-            Call<UniApiReuslt<List<String>>> call =
+            Call<UniApiReuslt<List<CollectionModel>>> call =
                     collectionSerivce.getCollections(mNowLoginUser.getAccount(),mSelectSort);
             HttpUtils.doRuqest(call,callBack);
 
@@ -141,16 +141,14 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
     }
 
 
-    HttpUtils.RequestFinishCallBack<List<String>> callBack = new HttpUtils.RequestFinishCallBack<List<String>>() {
+    HttpUtils.RequestFinishCallBack<List<CollectionModel>> callBack = new HttpUtils.RequestFinishCallBack<List<CollectionModel>>() {
         @Override
-        public void getResult(UniApiReuslt<List<String>> apiReuslt) {
+        public void getResult(UniApiReuslt<List<CollectionModel>> apiReuslt) {
 
             if(apiReuslt!=null){
-                List<String> models = apiReuslt.getmData();
+
                 mCollections.clear();
-                for(int i = 0;i<models.size();i++){
-                    mCollections.add(new CollectionModel(models.get(i)));
-                }
+                mCollections.addAll(apiReuslt.getmData());
                 getHead(mCollections);
 
             }else{
