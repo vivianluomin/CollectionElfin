@@ -246,6 +246,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentd);
                 break;
             case R.id.toobar_delete:
+
                 break;
             case R.id.toobar_choose:
                 break;
