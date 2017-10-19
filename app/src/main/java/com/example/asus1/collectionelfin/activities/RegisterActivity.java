@@ -1,6 +1,5 @@
 package com.example.asus1.collectionelfin.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,17 +11,12 @@ import android.widget.Toast;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.CountryPage;
-import cn.smssdk.gui.RegisterPage;
 import cn.smssdk.gui.SearchEngine;
 
 import com.example.asus1.collectionelfin.R;
 
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
-
-//import com.example.asus1.collectionelfin.service.RegisterSerivce;
-import com.example.asus1.collectionelfin.service.RequestFactory;
 import com.mob.MobSDK;
 
 import org.json.JSONException;
@@ -31,7 +25,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -180,9 +173,9 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
         String password = registerPassword.getText().toString();
 
         Log.d("aaaaaa","456");
-//        RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
-//        retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
-//        HttpUtils.doRuqest(call,callBack);
+//       RegisterSerivce registerSerivce = RequestFactory.getRetrofit().create(RegisterSerivce.class);
+//       retrofit2.Call<UniApiReuslt<String>> call = registerSerivce.Login(username,account,password);
+//       HttpUtils.doRuqest(call,callBack);
         Log.d("aaaaaa",callBack.toString());
     }
     private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {

@@ -26,7 +26,7 @@
         android:layout_toStartOf="@+id/image_ivfile"
         android:textColor="@color/white"
         android:background="@color/color_pink"
-        android:text="新建收藏夹" />
+        android:text="新建收藏" />
     />
 
     <ImageView

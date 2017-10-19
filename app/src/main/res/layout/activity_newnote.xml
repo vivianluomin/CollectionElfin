@@ -81,6 +81,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="538dp"
+                    android:id="@+id/et_edittext"
                     android:gravity="top"
                     />
             </android.support.v7.widget.CardView>

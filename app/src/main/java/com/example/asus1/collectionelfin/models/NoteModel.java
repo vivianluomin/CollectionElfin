@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class NoteModel {
 
-    @SerializedName("date")
+    @SerializedName("time")
     private String mDate;
 
-    @SerializedName("title")
+
+    @SerializedName("url")
     private String mTitle;
 
-    @SerializedName("type")
     private String mType;
 
     public String getDate() {

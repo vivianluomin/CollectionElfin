@@ -15,5 +15,7 @@
     <string name="password">修改密码</string>
     <string name="toNight">切换夜间模式</string>
     <string name="logout">退出登录</string>
+    <string name="notedialogcontet">本地没有该笔记，是否从服务器下载</string>
+    <string name="addToCollection">选择收藏夹或者输入新收藏夹的名字</string>
 
 </resources>

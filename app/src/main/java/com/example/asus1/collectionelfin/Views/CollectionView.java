@@ -25,6 +25,7 @@ public class CollectionView extends RelativeLayout {
     private Context mContext;
     private TextView mTitle;
     private TextView mSummary;
+    private TextView mTime;
 
     public CollectionView(Context context) {
         this(context,null);
@@ -46,13 +47,15 @@ public class CollectionView extends RelativeLayout {
         View.inflate(mContext, R.layout.view_collection_listview_item,this);
         mTitle = (TextView)findViewById(R.id.tv_collection_title);
         mSummary = (TextView)findViewById(R.id.tv_summary);
+        mTime = (TextView)findViewById(R.id.tv_art_time);
 
     }
 
     public void setData(CollectionModel model){
 
-            mTitle.setText(model.getTitle());
-            mSummary.setText(model.getContent());
+        mTitle.setText(model.getTitle());
+        mSummary.setText(model.getContent());
+        mTime.setText(model.getDate());
 
 
     }

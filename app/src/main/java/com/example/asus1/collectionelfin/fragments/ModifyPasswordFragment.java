@@ -1,5 +1,6 @@
 package com.example.asus1.collectionelfin.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.activities.LoginActivity;
 import com.example.asus1.collectionelfin.activities.RegisterActivity;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.PersonalService;
+import com.example.asus1.collectionelfin.service.RegisterSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
 import com.mob.MobSDK;
 
 import org.json.JSONException;
@@ -70,6 +78,9 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                             @Override
                             public void run() {
                                 Toast.makeText(getActivity(),"验证成功",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intent);
+
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
@@ -154,14 +165,28 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                     Toast.makeText(getActivity(),"phone can't be null",Toast.LENGTH_SHORT).show();
                 Log.i("ssss",phone+","+number);
                 SMSSDK.submitVerificationCode("86",phone,number);
-                if(flag){
-
-                };
+                sendData();
                 break;
 
         }
     }
+    private void sendData() {     //发送给后台
+        String username = LoginHelper.getInstance().getNowLoginUser().getUserName();
+        String account =  mCellNumber.getText().toString();
+        String password = mPassword.getText().toString();
 
+        Log.d("aaaaaa","456");
+        PersonalService personalSerivce = RequestFactory.getRetrofit().create(PersonalService.class);
+        retrofit2.Call<UniApiReuslt<String>> call = personalSerivce.modifyInfor(username,account,password);
+        HttpUtils.doRuqest(call,callBack);
+        Log.d("aaaaaa",callBack.toString());
+    }
+    private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+
+        }
+    };
     private void initSearchEngine() {
         this.sEngine = new SearchEngine();
         ArrayList countries = new ArrayList();

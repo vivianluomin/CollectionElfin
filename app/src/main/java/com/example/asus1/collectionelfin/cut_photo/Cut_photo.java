@@ -17,13 +17,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.activities.BaseActivity;
+import com.example.asus1.collectionelfin.activities.MainActivity;
+
 import java.io.File;
 
-public class Cut_photo extends BaseActivity implements View.OnClickListener{
+public class Cut_photo extends BaseActivity {
     private static final int Take_photo = 1;
     private static final int Choose_photo = 2;
     private Uri imageUri;
@@ -32,12 +35,6 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cut_photo);
 
-        Button take_photo = (Button)findViewById(R.id.take_photo);
-        take_photo.setOnClickListener(this);
-        Button choose_photo_fromalbum = (Button)findViewById(R.id.choose_photo_fromalbum);
-        choose_photo_fromalbum.setOnClickListener(this);
-        Button back = (Button)findViewById(R.id.back);
-        back.setOnClickListener(this);
 
         File outputImage = new File(getExternalCacheDir(),"op_image.jpg");
         try{
@@ -55,8 +52,25 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         }else {
             imageUri = Uri.fromFile(outputImage);
         }
+
+        Intent intent = getIntent();
+        String s = intent.getStringExtra("choose");
+        if(s.equals("camera")){
+            Intent intent1 = new Intent("android.media.action.IMAGE_CAPTURE");
+            intent1.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+            startActivityForResult(intent1,Take_photo);
+        }else if(s.equals("ablum")){
+            if(ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.
+                            WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            }else {
+                openAlbum();
+            }
+        }
     }
-    @Override
+    /*@Override
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.take_photo:
@@ -66,21 +80,8 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
 
                 startActivityForResult(intent,Take_photo);
                 break;
-            case R.id.choose_photo_fromalbum:
-                if(ContextCompat.checkSelfPermission(this,
-                        android.Manifest.permission.
-                                WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                }else {
-                    openAlbum();
-                }
-                break;
-            case R.id.back:
-                finish();
-                break;
         }
-    }
+    }*/
     private void openAlbum(){
         Intent i = new Intent();
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
@@ -105,16 +106,17 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
      */
     private void cropImageUri(Uri uri, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
+        Log.d("我的进入裁剪时的Uri信息",uri.toString());
         intent.setDataAndType(uri, "image/*");
         //是否裁剪
         intent.putExtra("crop", "true");
         //设置xy的裁剪比例
-        intent.putExtra("aspectX", 2);
+        intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("circleCrop","true");
         //&#x8bbe;&#x7f6e;&#x8f93;&#x51fa;&#x7684;&#x5bbd;&#x9ad8;
-        intent.putExtra("outputX", 100);
-        intent.putExtra("outputY", 100);
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
         //是否缩放
         intent.putExtra("scale", false);
         //输入图片的Uri，指定以后，可以在这个uri获得图片
@@ -126,8 +128,14 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         //是否关闭面部识别
         intent.putExtra("noFaceDetection", true); // no face detection
         //启动
+        Log.d("我的信息","即将进入裁剪");
+        try{
+            startActivityForResult(intent, requestCode);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
 
-        startActivityForResult(intent, requestCode);
+        Log.d("我的信息","启动裁剪活动之后");
     }
     /*
      返回数据接收
@@ -172,9 +180,10 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
                         }else{
                             i.putExtra("result",imageUri.getPath());
                         }
-
+                        Log.d("我的信息","从裁剪器出来了");
                         setResult(RESULT_OK,i);
                         finish();
+                        Log.d("我的信息","从我的活动中出来了");
 
                     }catch (Exception e){
                         e.printStackTrace();
@@ -207,11 +216,6 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
             imagePath = uri.getPath();
         }
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
-        //displayImage(imagePath);
-//         Intent i = new Intent();
-//         i.putExtra("result",Uri.parse(imagePath).getPath());
-//         setResult(RESULT_OK,i);
-//         finish();
         cropImageUri(r,3);
     }
 
@@ -224,11 +228,6 @@ public class Cut_photo extends BaseActivity implements View.OnClickListener{
         Log.d("这是4.4以下相册的Uri",uri.toString());
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
         Log.d("这是我修改之后的Uri",r.toString());
-        //displayImage(imagePath);
-        //         Intent i = new Intent();
-        //         i.putExtra("result",Uri.parse(imagePath).getPath());
-        //         setResult(RESULT_OK,i);
-        //         finish();
         cropImageUri(r,3);
     }
     private String getImagePath(Uri uri,String selection){

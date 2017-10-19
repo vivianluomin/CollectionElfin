@@ -50,12 +50,19 @@
                 android:text="ijaskdnasckjsdcasjkcnsaduicakcnuisdacjkasncuawejkcnsaduicsjakchuiavnjfadgajvbaus"
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="15dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_art_time"
+                android:textSize="12sp"
+                android:textColor="@color/color_8a8a8a"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="2017-8-6"
                 />
+
         </LinearLayout>
 
 
