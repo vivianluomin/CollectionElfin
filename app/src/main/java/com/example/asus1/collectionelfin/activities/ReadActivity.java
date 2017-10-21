@@ -146,9 +146,13 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
             }
         });
 
-        //mWebSetting.setMediaPlaybackRequiresUserGesture(true);
-        mWebSetting.setPluginState(WebSettings.PluginState.ON);
-        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebSetting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+            }
+        });
 
 
         requestPage();
