@@ -2,7 +2,9 @@ package com.example.asus1.collectionelfin.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PatternMatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -72,8 +74,9 @@ public class ReceiveActivity extends BaseActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUrl = mAddEditext.getText().toString();
-                if(!mUrl.equals("") && mNowLoginUser!=null){
+                mAddEditext.setSelection(mAddEditext.getText().length());
+                mUrl = mAddEditext.getText().toString().trim();
+                if(!mUrl.equals("")&&mUrl.matches(Patterns.WEB_URL.pattern())&& mNowLoginUser!=null){
 
                     String model = mCollectionSortEdit.getText().toString();
                     mCollectionSort = model;
@@ -88,7 +91,7 @@ public class ReceiveActivity extends BaseActivity {
                     }
 
                 }else{
-                    Toast.makeText(ReceiveActivity.this,"链接不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReceiveActivity.this,"链接不能为空或者请输入一个完整的链接",Toast.LENGTH_SHORT).show();
                 }
             }
         });
