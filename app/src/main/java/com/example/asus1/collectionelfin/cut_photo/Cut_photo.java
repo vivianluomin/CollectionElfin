@@ -80,6 +80,21 @@ public class Cut_photo extends BaseActivity {
 
                 startActivityForResult(intent,Take_photo);
                 break;
+            case R.id.choose_photo_fromalbum:
+                if(ContextCompat.checkSelfPermission(this,
+                        android.Manifest.permission.
+                                WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                }else {
+                    openAlbum();
+                }
+                break;
+            case R.id.back:
+                startActivity(new Intent(Cut_photo.this, MainActivity.class));
+                break;
+            default:
+                break;
         }
     }*/
     private void openAlbum(){
@@ -106,7 +121,6 @@ public class Cut_photo extends BaseActivity {
      */
     private void cropImageUri(Uri uri, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
-        Log.d("我的进入裁剪时的Uri信息",uri.toString());
         intent.setDataAndType(uri, "image/*");
         //是否裁剪
         intent.putExtra("crop", "true");
@@ -129,13 +143,7 @@ public class Cut_photo extends BaseActivity {
         intent.putExtra("noFaceDetection", true); // no face detection
         //启动
         Log.d("我的信息","即将进入裁剪");
-        try{
-            startActivityForResult(intent, requestCode);
-        }catch (RuntimeException e){
-            e.printStackTrace();
-        }
-
-        Log.d("我的信息","启动裁剪活动之后");
+        startActivityForResult(intent, requestCode);
     }
     /*
      返回数据接收
@@ -180,10 +188,10 @@ public class Cut_photo extends BaseActivity {
                         }else{
                             i.putExtra("result",imageUri.getPath());
                         }
-                        Log.d("我的信息","从裁剪器出来了");
+
                         setResult(RESULT_OK,i);
+                        Toast.makeText(this,"马上返回你的主活动",Toast.LENGTH_SHORT).show();
                         finish();
-                        Log.d("我的信息","从我的活动中出来了");
 
                     }catch (Exception e){
                         e.printStackTrace();
@@ -216,6 +224,11 @@ public class Cut_photo extends BaseActivity {
             imagePath = uri.getPath();
         }
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
+        //displayImage(imagePath);
+//         Intent i = new Intent();
+//         i.putExtra("result",Uri.parse(imagePath).getPath());
+//         setResult(RESULT_OK,i);
+//         finish();
         cropImageUri(r,3);
     }
 
@@ -228,6 +241,11 @@ public class Cut_photo extends BaseActivity {
         Log.d("这是4.4以下相册的Uri",uri.toString());
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
         Log.d("这是我修改之后的Uri",r.toString());
+        //displayImage(imagePath);
+        //         Intent i = new Intent();
+        //         i.putExtra("result",Uri.parse(imagePath).getPath());
+        //         setResult(RESULT_OK,i);
+        //         finish();
         cropImageUri(r,3);
     }
     private String getImagePath(Uri uri,String selection){
