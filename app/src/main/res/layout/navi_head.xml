@@ -3,19 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_11"
+    android:background="@color/color_pink"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="50dp"
     android:paddingTop="50dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageButton
-        android:id="@+id/head_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="#00000000"
-        android:src="@mipmap/defualt_image"/>
+        android:id="@+id/head_login"
+        android:src="@mipmap/ic_logo"
+        />
 
     <TextView
         android:layout_width="wrap_content"

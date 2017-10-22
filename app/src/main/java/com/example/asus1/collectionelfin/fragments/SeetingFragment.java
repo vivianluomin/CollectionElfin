@@ -45,7 +45,6 @@ public class SeetingFragment extends Fragment implements View.OnClickListener{
     private TextView mLogout;
     private TextView mUserTitle;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
