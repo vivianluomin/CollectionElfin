@@ -4,7 +4,11 @@ package com.example.asus1.collectionelfin.activities;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +56,7 @@ public class MainActivity extends BaseActivity {
     /**
      * 抽屉视图
      */
-    private ImageButton imageLogin;
+    private ImageView imageLogin;
     /**
      * 侧滑菜单视图
      */
@@ -118,7 +123,7 @@ public class MainActivity extends BaseActivity {
         mEditText = (TextView)findViewById(R.id.tv_edit);
         mFab = (FloatingActionButton) findViewById(R.id.but_fab);
         mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
-        imageLogin = (ImageButton) mHeaderView.findViewById(R.id.head_login);
+        imageLogin = (ImageView) mHeaderView.findViewById(R.id.head_login);
 
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
@@ -152,10 +157,6 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 dialog.show();
-                //Intent intent = new Intent (MainActivity.this, Cut_photo.class);
-                //startActivityForResult(intent,CUT_PHOTO);
-
-
             }
         });
         // 设置侧滑菜单点击事件监听
@@ -258,7 +259,8 @@ public class MainActivity extends BaseActivity {
             case 1:
                 String s = data.getStringExtra("result");
                 if(s != null){
-                    imageLogin.setImageBitmap(BitmapFactory.decodeFile(s));
+                    Bitmap bitmap = BitmapFactory.decodeFile(s);
+                    imageLogin.setImageBitmap(bitmap);
                 }
                 break;
         }

@@ -15,14 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.activities.BaseActivity;
-import com.example.asus1.collectionelfin.activities.MainActivity;
 
 import java.io.File;
 
@@ -70,33 +66,6 @@ public class Cut_photo extends BaseActivity {
             }
         }
     }
-    /*@Override
-    public void onClick(View view) {
-        switch(view.getId()){
-            case R.id.take_photo:
-                //启动相机程序
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-
-                startActivityForResult(intent,Take_photo);
-                break;
-            case R.id.choose_photo_fromalbum:
-                if(ContextCompat.checkSelfPermission(this,
-                        android.Manifest.permission.
-                                WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                }else {
-                    openAlbum();
-                }
-                break;
-            case R.id.back:
-                startActivity(new Intent(Cut_photo.this, MainActivity.class));
-                break;
-            default:
-                break;
-        }
-    }*/
     private void openAlbum(){
         Intent i = new Intent();
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
@@ -129,8 +98,8 @@ public class Cut_photo extends BaseActivity {
         intent.putExtra("aspectY", 1);
         intent.putExtra("circleCrop","true");
         //&#x8bbe;&#x7f6e;&#x8f93;&#x51fa;&#x7684;&#x5bbd;&#x9ad8;
-        intent.putExtra("outputX", 800);
-        intent.putExtra("outputY", 800);
+//        intent.putExtra("outputX", 800);
+//        intent.putExtra("outputY", 800);
         //是否缩放
         intent.putExtra("scale", false);
         //输入图片的Uri，指定以后，可以在这个uri获得图片
@@ -150,21 +119,25 @@ public class Cut_photo extends BaseActivity {
       */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Intent i = new Intent();
         switch (requestCode){
-            case Take_photo :
+            case Take_photo:
                 if(resultCode == RESULT_OK){
                     try{
-                        if(imageUri == null){
-                            Log.d("我的信息","数据为空");
-                        }
-                        Log.d("这是原来的Uri",imageUri.toString());
-                        Log.d("这是转换之后的Uri",Uri.parse(
-                                new StringBuilder(imageUri.getPath()).insert(0,"file://")
-                                        .toString()).toString());
+//                        if(imageUri == null){
+//                            Log.d("我的信息","数据为空");
+//                        }
+//                        Log.d("这是原来的Uri",imageUri.toString());
+//                        Log.d("这是转换之后的Uri",Uri.parse(
+//                                new StringBuilder(imageUri.getPath()).insert(0,"file://")
+//                                        .toString()).toString());
                         cropImageUri(imageUri,3);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                } else {
+                    setResult(RESULT_OK,i);
+                    finish();
                 }
                 break;
             case Choose_photo:
@@ -174,29 +147,23 @@ public class Cut_photo extends BaseActivity {
                     }else {
                         handleImageBeforeKitKat(data);
                     }
+                }else {
+                    setResult(RESULT_OK,i);
+                    finish();
                 }
                 break;
             case 3:
                 if(resultCode == RESULT_OK){
                     try{
-                        //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
-                        //            .openInputStream(imageUri));
-                        //picture.setImageBitmap(BitmapFactory.
-                        //        decodeFile(imageUri.getPath()));
-                        Intent i = new Intent();
-                        if(imageUri == null){
-                        }else{
+                        if(imageUri != null){
                             i.putExtra("result",imageUri.getPath());
                         }
-
-                        setResult(RESULT_OK,i);
-                        Toast.makeText(this,"马上返回你的主活动",Toast.LENGTH_SHORT).show();
-                        finish();
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
+                setResult(RESULT_OK,i);
+                finish();
                 break;
         }
     }
@@ -224,11 +191,6 @@ public class Cut_photo extends BaseActivity {
             imagePath = uri.getPath();
         }
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
-        //displayImage(imagePath);
-//         Intent i = new Intent();
-//         i.putExtra("result",Uri.parse(imagePath).getPath());
-//         setResult(RESULT_OK,i);
-//         finish();
         cropImageUri(r,3);
     }
 
@@ -241,11 +203,6 @@ public class Cut_photo extends BaseActivity {
         Log.d("这是4.4以下相册的Uri",uri.toString());
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
         Log.d("这是我修改之后的Uri",r.toString());
-        //displayImage(imagePath);
-        //         Intent i = new Intent();
-        //         i.putExtra("result",Uri.parse(imagePath).getPath());
-        //         setResult(RESULT_OK,i);
-        //         finish();
         cropImageUri(r,3);
     }
     private String getImagePath(Uri uri,String selection){

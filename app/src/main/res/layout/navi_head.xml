@@ -10,7 +10,7 @@
     android:paddingTop="50dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/head_login"
         android:layout_width="100dp"
         android:layout_height="100dp"
