@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -52,6 +53,7 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
     private ListView mListView;
     private TextView mToolbarTitle;
     private String mType;
+    private String mFileName;
     private NoteAdapter mAdapter;
     private LoginModle mNowUser;
     private ErrorView mErrorView;
@@ -94,12 +96,23 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
                 if(file == null || file.equals("")){
                     DialogUtill.showNomalDialog(NotesActivity.this,
                             true,String.valueOf(R.string.notedialogcontet),
-                            mNotes.get(position).getTitle(),NotesActivity.this,position);
+                            mNotes.get(position).getTitle(),NotesActivity.this,position,1);
                 }else{
                     Intent intent = new Intent(NotesActivity.this,NewnoteActivity.class);
                     intent.putExtra("file",file);
                     startActivity(intent);
                 }
+            }
+        });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                DialogUtill.showNomalDialog(NotesActivity.this,true,
+                        "是否删除"+mNotes.get(position).getTitle()
+                        ,mNotes.get(position).getTitle(),NotesActivity.this,position,2);
+
+                return true;
             }
         });
 
@@ -152,12 +165,32 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
     }
 
     @Override
-    public void download(final int position) {
+    public void download(final int position,int flag) {
+        switch (flag) {
+
+            case  1:downLoadFile(position);
+                break;
+            case 2:
+                NoteUtil.deleteFile(mNotes.get(position).getType(),mNotes.get(position).getTitle());
+                NoteSerivce serivce = RequestFactory.getRetrofit().create(NoteSerivce.class);
+                Call<UniApiReuslt<String>> call = serivce.deletNotes(mNowUser.getAccount()
+                        ,mType,mNotes.get(position).getTitle());
+                HttpUtils.doRuqest(call,deleteCallBack);
+                mNotes.remove(position);
+                mAdapter.notifyDataSetChanged();
+
+                break;
+        }
+
+    }
+
+
+    private void  downLoadFile(final int position){
         mListView.setVisibility(View.GONE);
         mLoadingLayout.setVisibility(View.VISIBLE);
         NoteSerivce serivce = RequestFactory.getRetrofit().create(NoteSerivce.class);
         Call<ResponseBody> call = serivce.downloadNotes(mNowUser.getAccount(),mNotes.get(position).getType(),
-                                                        mNotes.get(position).getTitle());
+                mNotes.get(position).getTitle());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -166,16 +199,25 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
                     try {
                         BufferedReader reader = new BufferedReader(body.charStream());
                         File file = new File(NoteUtil.NoteFileAdreess
-                                +mNotes.get(position).getTitle());
-                       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-                        String s= "";
-                        while((s = reader.readLine())!=null){
-                            writer.write(s,0,s.length());
-                            writer.flush();
+                                +"//" + mNotes.get(position).getTitle());
+                        Log.d("file",NoteUtil.NoteFileAdreess);
+                        if(file.createNewFile()){
+                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+                            String s= "";
+                            while((s = reader.readLine())!=null){
+                                writer.write(s,0,s.length());
+                                writer.flush();
+                            }
+                            mListView.setVisibility(View.VISIBLE);
+                            mLoadingLayout.setVisibility(View.GONE);
+                            Toast.makeText(NotesActivity.this,"下载完成",Toast.LENGTH_SHORT).show();
+                            NoteUtil.saveFile(mType,mNotes.get(position).getTitle(),file.getAbsolutePath());
+
+                        }else {
+                            mListView.setVisibility(View.VISIBLE);
+                            mLoadingLayout.setVisibility(View.GONE);
+
                         }
-                        mListView.setVisibility(View.VISIBLE);
-                        mLoadingLayout.setVisibility(View.GONE);
-                        Toast.makeText(NotesActivity.this,"下载完成",Toast.LENGTH_SHORT).show();
 
                     } catch (IOException e){
                         e.printStackTrace();
@@ -190,4 +232,15 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
             }
         });
     }
+
+
+    HttpUtils.RequestFinishCallBack<String> deleteCallBack = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+
+            if(apiReuslt!=null&&apiReuslt.getmStatus() == 0){
+                Toast.makeText(NotesActivity.this,"已删除",Toast.LENGTH_SHORT).show();
+            }
+        }
+    } ;
 }

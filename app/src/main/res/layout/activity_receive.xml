@@ -51,6 +51,18 @@
         android:padding="15dp"
         />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:id="@+id/et_collection_sort"
+        android:textSize="12sp"
+        android:textColor="@color/color_balck"
+        android:hint="@string/addToCollection"
+        android:drawableLeft="@mipmap/ic_collection_red"
+        android:drawablePadding="10dp"
+        />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

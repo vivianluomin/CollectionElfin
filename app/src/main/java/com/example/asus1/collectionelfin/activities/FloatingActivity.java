@@ -33,7 +33,7 @@ public class FloatingActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.image_ivfile:
             case R.id.but_fab_file:
-                Intent intent = new Intent(FloatingActivity.this,NewfileActivity.class);
+                Intent intent = new Intent(FloatingActivity.this,ReceiveActivity.class);
                 startActivity(intent);
                 break;
             case R.id.image_ivwrite:

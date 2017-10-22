@@ -60,7 +60,6 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
 
         mSelectSort = (String) getIntent().getStringExtra("sort");
         init();
-        EventBus.getDefault().register(this);
     }
 
     private void init(){
@@ -129,16 +128,7 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
         mErrorView.setVisibility(View.GONE);
     }
 
-    @Subscribe()
-    public void onEvent(CollectionsMessage message){
 
-        if(message!=null){
-            CollectionModel model = message.getModel();
-            mCollections.add(model);
-            mAdapter.notifyDataSetChanged();
-        }
-
-    }
 
 
     HttpUtils.RequestFinishCallBack<List<CollectionModel>> callBack = new HttpUtils.RequestFinishCallBack<List<CollectionModel>>() {
@@ -201,6 +191,6 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 }

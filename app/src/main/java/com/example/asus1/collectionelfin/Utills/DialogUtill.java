@@ -15,7 +15,7 @@ import com.example.asus1.collectionelfin.R;
 public class DialogUtill {
 
     private static AlertDialog.Builder DialogNormal(Context context, boolean cancle,
-                                                    String content, String titile, final DownloadListener listener, final int position){
+                                                    String content, String titile, final DownloadListener listener, final int position, final int flag){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setIcon(R.mipmap.ic_dialog);
         builder.setTitle(titile);
@@ -23,7 +23,7 @@ public class DialogUtill {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listener.download(position);
+                listener.download(position,flag);
             }
         });
         if(cancle){
@@ -41,16 +41,16 @@ public class DialogUtill {
     }
 
     public static void  showNomalDialog(Context context,boolean cancle,
-                                  String content,String titile,DownloadListener listener,int position){
+                                  String content,String titile,DownloadListener listener,int position,int flag){
 
-        AlertDialog.Builder builder = DialogNormal(context,cancle,content,titile,listener,position);
+        AlertDialog.Builder builder = DialogNormal(context,cancle,content,titile,listener,position,flag);
         builder.show();
 
     }
 
 
    public interface DownloadListener{
-       void  download(int position);
+       void  download(int position,int flag);
    }
 
 }

@@ -1,7 +1,14 @@
 package com.example.asus1.collectionelfin.activities;
 
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,12 +19,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +34,7 @@ import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
+import com.example.asus1.collectionelfin.cut_photo.Cut_photo;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.fragments.ModifyPasswordFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
@@ -41,6 +51,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
 public class MainActivity extends BaseActivity {
+    private final int CUT_PHOTO = 1;
+
 
     /**
      * 抽屉视图
@@ -67,11 +79,15 @@ public class MainActivity extends BaseActivity {
     private boolean mEdit = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SystemManager.initContext(getApplicationContext());
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+
+
+
             mToolbar = (Toolbar) findViewById(toobar);
             setSupportActionBar(mToolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,11 +140,24 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
-                if(mNowLoginUser == null){
-                    Intent intent = new Intent (MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                final Intent intent = new Intent(MainActivity.this,Cut_photo.class);
+                dialog.setTitle("修改头像");
+                dialog.setNeutralButton("照相", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("choose","camera");
+                        startActivityForResult(intent,CUT_PHOTO);
+                    }
+                });
+                dialog.setNegativeButton("选择相册", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("choose","ablum");
+                        startActivityForResult(intent,CUT_PHOTO);
+                    }
+                });
+                dialog.show();
             }
         });
         // 设置侧滑菜单点击事件监听
@@ -219,8 +248,21 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_fri:
                 Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
                 break;
-
             default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                String s = data.getStringExtra("result");
+                if(s != null){
+                    Bitmap bitmap = BitmapFactory.decodeFile(s);
+                    imageLogin.setImageBitmap(bitmap);
+                }
                 break;
         }
     }
@@ -247,6 +289,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentd);
                 break;
             case R.id.toobar_delete:
+
                 break;
             case R.id.toobar_choose:
                 break;

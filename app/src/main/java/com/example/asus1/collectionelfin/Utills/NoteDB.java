@@ -13,7 +13,7 @@ public class NoteDB extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME_NOTES="note";
     private static final String COLUMN_NAME_ID="_id";
-    public static final String COLUNM_NAME_NOTE_CONTENT="content";
+    public static final String COLUMN_NAME_NOTE_CONTENT="content";
     public static final String COLUMN_NAME_NOTE_DATE = "date";
     public static final String COLUMN_NAME_NOTE_NAME = "name";
     public static final String COLUMN_NAME_NOTE_TYPE = "type";
@@ -25,11 +25,11 @@ public class NoteDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sq1 = "CREATE TABLE "+TABLE_NAME_NOTES+"("+COLUMN_NAME_ID
-                +"INTEGRE PRIMARY KEY AUTOINCREMENT,"
-                +COLUNM_NAME_NOTE_CONTENT+" TEXT NOT NULL DEFAULF,"
-                +COLUMN_NAME_NOTE_DATE+" TEXT NOT NULL DEFAULT,"
-                +COLUMN_NAME_NOTE_NAME+" TEXT NOT NULL DEFAULT,"
-                +COLUMN_NAME_NOTE_TYPE+" TEXT NOT NULL DEFAULT"
+                +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +COLUMN_NAME_NOTE_CONTENT+" TEXT ,"
+                +COLUMN_NAME_NOTE_DATE+" TEXT ,"
+                +COLUMN_NAME_NOTE_NAME+" TEXT ,"
+                +COLUMN_NAME_NOTE_TYPE+" TEXT "
                 +")";
         Log.d("SQL",sq1);
         db.execSQL(sq1);

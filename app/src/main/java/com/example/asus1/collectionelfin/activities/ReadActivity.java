@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -85,6 +86,7 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         mWebSetting.setLoadsImagesAutomatically(true);
         mWebSetting.setDefaultTextEncodingName("utf-8");
         mWebSetting.setJavaScriptEnabled(true);
+        mWebSetting.setAllowFileAccess(true);
         mWebSetting.setDefaultFontSize(18);
         mWebSetting.setDefaultFixedFontSize(18);
         mWebSetting.setSupportZoom(true);
@@ -125,15 +127,6 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 
             }
 
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                mLoadingLayout.setVisibility(View.GONE);
-                mWebView.setVisibility(View.GONE);
-                mErrorView.setVisibility(View.VISIBLE);
-                mErrorView.bringToFront();
-
-
-            }
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -152,6 +145,15 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
 
             }
         });
+
+        mWebSetting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+            }
+        });
+
 
         requestPage();
 
@@ -235,4 +237,11 @@ public class ReadActivity extends BaseActivity implements ErrorView.reloadingLis
         return true;
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWebView.destroy();
+
+    }
 }
