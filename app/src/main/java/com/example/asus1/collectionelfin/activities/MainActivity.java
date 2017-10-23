@@ -345,15 +345,7 @@ public class MainActivity extends BaseActivity {
                 Intent intentd = new Intent(this,SearchActivity.class);
                 startActivity(intentd);
                 break;
-            case R.id.toobar_delete:
 
-                break;
-            case R.id.toobar_choose:
-                break;
-            case R.id.toobar_shot:
-                break;
-            case R.id.toobar_set:
-                break;
             default:
         }
         return true;
