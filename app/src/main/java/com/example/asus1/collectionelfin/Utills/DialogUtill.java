@@ -52,6 +52,8 @@ public class DialogUtill {
     }
 
 
+
+
    public interface DownloadListener{
        void  download(int position,int flag);
    }
