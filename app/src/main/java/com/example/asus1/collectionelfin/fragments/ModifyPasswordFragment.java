@@ -78,6 +78,7 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                             @Override
                             public void run() {
                                 Toast.makeText(getActivity(),"验证成功",Toast.LENGTH_SHORT).show();
+                                sendData();
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 startActivity(intent);
 
@@ -165,7 +166,6 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                     Toast.makeText(getActivity(),"phone can't be null",Toast.LENGTH_SHORT).show();
                 Log.i("ssss",phone+","+number);
                 SMSSDK.submitVerificationCode("86",phone,number);
-                sendData();
                 break;
 
         }

@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionsMessage;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.DialogUtill;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.Views.ErrorView;
+import com.example.asus1.collectionelfin.fragments.CollectionFragment;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 import com.example.asus1.collectionelfin.models.CollectionSortModel;
 import com.example.asus1.collectionelfin.models.LoginModle;
@@ -37,7 +39,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class ArticleActivity extends BaseActivity implements  ErrorView.reloadingListener{
+public class ArticleActivity extends BaseActivity implements  ErrorView.reloadingListener,DialogUtill.DownloadListener{
 
     private Toolbar mToolbar;
     private ListView mListView;
@@ -95,11 +97,28 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
             }
         });
 
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+                DialogUtill.showNomalDialog(ArticleActivity.this,true,
+                        "是否删除"+(String)mListView.getItemAtPosition(position)
+                        ,(String)mListView.getItemAtPosition(position),ArticleActivity.this,position,1);
+                return true;
+            }
 
+        });
         startLoading();
 
     }
+    public void download(final int position,int flag) {
+        switch (flag) {
+            case  1:
+                mCollections.remove(position);
+                mAdapter.notifyDataSetChanged();
+                break;
+        }
 
+    }
     private void startLoading(){
         AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
         drawable.start();
