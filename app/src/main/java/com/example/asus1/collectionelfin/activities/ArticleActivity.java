@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionsMessage;
@@ -18,6 +19,7 @@ import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.DialogUtill;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Utills.NoteUtil;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.fragments.CollectionFragment;
@@ -26,6 +28,8 @@ import com.example.asus1.collectionelfin.models.CollectionSortModel;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 import com.example.asus1.collectionelfin.service.CollectionSerivce;
+import com.example.asus1.collectionelfin.service.NoteSerivce;
+import com.example.asus1.collectionelfin.service.RegisterSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,8 +105,8 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
                 DialogUtill.showNomalDialog(ArticleActivity.this,true,
-                        "是否删除"+(String)mListView.getItemAtPosition(position)
-                        ,(String)mListView.getItemAtPosition(position),ArticleActivity.this,position,1);
+                        "是否删除"+mCollections.get(position).getTitle()
+                        ,mCollections.get(position).getTitle(),ArticleActivity.this,position,1);
                 return true;
             }
 
@@ -112,13 +116,35 @@ public class ArticleActivity extends BaseActivity implements  ErrorView.reloadin
     }
     public void download(final int position,int flag) {
         switch (flag) {
-            case  1:
+            case 1:
+                String account = LoginHelper.getInstance().getNowLoginUser().getAccount();
+                String type = mSelectSort;
+                String url = mCollections.get(position).getUrl();
+
+                CollectionSerivce collectionSerivce = RequestFactory.getRetrofit().create(CollectionSerivce.class);
+                retrofit2.Call<UniApiReuslt<String>> call = collectionSerivce.deletCollections(account, type, url);
+                HttpUtils.doRuqest(call,callBack2);
+
                 mCollections.remove(position);
                 mAdapter.notifyDataSetChanged();
                 break;
         }
-
     }
+    private HttpUtils.RequestFinishCallBack<String>  callBack2 = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+            int statu = apiReuslt.getmStatus();
+            if(apiReuslt!= null){
+                if(statu == 0){
+                    Toast.makeText(ArticleActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                }else if(statu == 1){
+                    Toast.makeText(ArticleActivity.this,"登录错误",Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(ArticleActivity.this,"请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     private void startLoading(){
         AnimationDrawable drawable = (AnimationDrawable)mLoadingView.getDrawable();
         drawable.start();

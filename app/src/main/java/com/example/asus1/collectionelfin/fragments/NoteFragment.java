@@ -19,6 +19,7 @@ import android.widget.ListView;
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.Adapters.NoteSortAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.DialogUtill;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
@@ -41,7 +42,7 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class NoteFragment extends Fragment implements ErrorView.reloadingListener {
+public class NoteFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener {
 
     private ListView mListView;
     private LinearLayout mLoadingLayout;
@@ -66,7 +67,16 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
                 startActivity(intent);
             }
         });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+                DialogUtill.showNomalDialog(getActivity(),true,
+                        "是否删除"+(String)mListView.getItemAtPosition(position)
+                        ,(String)mListView.getItemAtPosition(position),NoteFragment.this,position,1);
+                return true;
+            }
 
+        });
         mLoadingLayout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
         mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
         mErrorView = (ErrorView)view.findViewById(R.id.error_view);
@@ -75,7 +85,16 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
         startLoading();
         return view;
     }
+    @Override
+    public void download(final int position,int flag) {
+        switch (flag) {
+            case  1:
+                //mNotes.remove(position);
+                //mNoteAdapter.notifyDataSetChanged();
+                break;
+        }
 
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
