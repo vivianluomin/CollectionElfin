@@ -71,8 +71,8 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="发送验证码"
-            android:background="@color/color_butten_pink"
-            android:textColor="@color/white"
+            android:background="@color/white"
+            android:textColor="@color/color_pink"
             android:layout_marginLeft="15dp"
             />
     </LinearLayout>
@@ -82,8 +82,8 @@
         android:layout_width="240dp"
         android:layout_height="50dp"
         android:text="修改密码"
-        android:background="@color/color_butten_pink"
-        android:textColor="@color/white"
+        android:background="@color/white"
+        android:textColor="@color/color_pink"
         android:textSize="18sp"
         android:layout_marginLeft="68dp"
         android:layout_marginTop="35dp"

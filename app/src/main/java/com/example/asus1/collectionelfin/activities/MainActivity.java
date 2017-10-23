@@ -46,6 +46,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import cn.smssdk.SMSSDK;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
@@ -56,7 +57,7 @@ public class MainActivity extends BaseActivity {
     /**
      * 抽屉视图
      */
-    private ImageView imageLogin;
+    private CircleImageView imageLogin;
     /**
      * 侧滑菜单视图
      */
@@ -123,7 +124,7 @@ public class MainActivity extends BaseActivity {
         mEditText = (TextView)findViewById(R.id.tv_edit);
         mFab = (FloatingActionButton) findViewById(R.id.but_fab);
         mUserName = (TextView)mHeaderView.findViewById(R.id.tv_user_name);
-        imageLogin = (ImageView) mHeaderView.findViewById(R.id.head_login);
+        imageLogin = (CircleImageView) mHeaderView.findViewById(R.id.head_login);
 
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
