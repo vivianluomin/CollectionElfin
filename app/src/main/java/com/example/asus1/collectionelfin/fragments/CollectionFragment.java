@@ -126,8 +126,8 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
     public void download(final int position,int flag) {
         switch (flag) {
             case  1:
-                mCollections.remove(position);
-                mAdapter.notifyDataSetChanged();
+                //mCollections.remove(position);
+                //mAdapter.notifyDataSetChanged();
                 break;
         }
 
