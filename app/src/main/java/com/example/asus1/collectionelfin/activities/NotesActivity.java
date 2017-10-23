@@ -178,7 +178,10 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
                 HttpUtils.doRuqest(call,deleteCallBack);
                 mNotes.remove(position);
                 mAdapter.notifyDataSetChanged();
-
+                File file = new File(NoteUtil.NoteFileAdreess+"//"+mNotes.get(position).getTitle());
+                if(file.exists()){
+                    file.delete();
+                }
                 break;
         }
 

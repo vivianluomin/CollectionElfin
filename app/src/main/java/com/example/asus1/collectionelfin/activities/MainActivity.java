@@ -30,7 +30,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
@@ -40,13 +43,25 @@ import com.example.asus1.collectionelfin.fragments.ModifyPasswordFragment;
 import com.example.asus1.collectionelfin.fragments.NoteFragment;
 import com.example.asus1.collectionelfin.fragments.SeetingFragment;
 import com.example.asus1.collectionelfin.models.LoginModle;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.PersonalService;
+import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 import cn.smssdk.SMSSDK;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
@@ -76,6 +91,7 @@ public class MainActivity extends BaseActivity {
     private  SeetingFragment mSeetingFragment;
 
     private DrawerLayout mDrawerLayout;
+    private Bitmap mIcon;
     private boolean mEdit = false;
 
     @Override
@@ -128,6 +144,9 @@ public class MainActivity extends BaseActivity {
 
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
+            PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
+            Call<UniApiReuslt<String>> call = service.getIcon(mNowLoginUser.getAccount());
+            HttpUtils.doRuqest(call,getIconCall);
         }
     }
 
@@ -261,11 +280,49 @@ public class MainActivity extends BaseActivity {
                 String s = data.getStringExtra("result");
                 if(s != null){
                     Bitmap bitmap = BitmapFactory.decodeFile(s);
-                    imageLogin.setImageBitmap(bitmap);
+                    mIcon = bitmap;
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,90,out);
+                    MultipartBody.Builder builder = new MultipartBody.Builder();
+                    RequestBody body = RequestBody.
+                            create(MediaType.parse("image/jpg"),out.toByteArray());
+                    builder.addFormDataPart("image.jpg","image/jpg",body);
+                    PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
+                    Call<UniApiReuslt<String>> call = service.postIcon(mNowLoginUser.getAccount(),builder.build());
+                    HttpUtils.doRuqest(call,callBack);
+
                 }
                 break;
         }
     }
+
+    HttpUtils.RequestFinishCallBack<String> getIconCall = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+            if(apiReuslt != null){
+                String icon = apiReuslt.getmData();
+                if(icon!=null){
+                    Glide.with(MainActivity.this)
+                            .load(icon)
+                            .into(imageLogin);
+                }
+
+
+            }
+        }
+    };
+
+    HttpUtils.RequestFinishCallBack<String> callBack  = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+
+            if(apiReuslt!=null&&apiReuslt.getmStatus()==0){
+                imageLogin.setImageBitmap(mIcon);
+            }else{
+                Toast.makeText(MainActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     //Toobar的尴尬
     public boolean onCreateOptionsMenu(Menu menu) {
