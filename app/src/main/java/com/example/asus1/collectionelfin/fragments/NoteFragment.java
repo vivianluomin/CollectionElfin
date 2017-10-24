@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.Adapters.NoteSortAdapter;
@@ -42,7 +45,7 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class NoteFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener {
+public class NoteFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener{
 
     private ListView mListView;
     private LinearLayout mLoadingLayout;
@@ -52,13 +55,41 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
     private List<String> mNotes;
     private LoginModle mNowUser;
 
+
+    private SwipeRefreshLayout mSwipeView;
+    private AbsListView.OnScrollListener mOnScrollListener;
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
         mListView = (ListView)view.findViewById(R.id.lv_lists);
+        mSwipeView=(SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mListView.setDivider(null);
         mListView.setAdapter(mNoteAdapter);
+      //  mSwipeView.setEnabled(false);
+        mSwipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeView.setRefreshing(true);
+                requestData();
+            }
+        });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                boolean enable = false;
+                if(mListView!=null&&mListView.getChildCount()>0){
+                    boolean firstItemVisible = mListView.getFirstVisiblePosition()==0;
+                    boolean topOfFirstItemVisible =mListView.getChildAt(0).getTop() ==0;
+                    enable = firstItemVisible&&topOfFirstItemVisible;
+                }
+                mSwipeView.setEnabled(enable);
+            }
+        });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -95,7 +126,15 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
         }
 
     }
-
+    public boolean isListViewReachTopEdge(final ListView listView) {
+        boolean result=false;
+        if(listView.getFirstVisiblePosition()==0){
+            final View topChildView = listView.getChildAt(0);
+            result=topChildView.getTop()==0;
+            Toast.makeText(getActivity(),"登录成功",Toast.LENGTH_SHORT).show();
+        }
+        return result ;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +170,7 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
                     mNoteAdapter.notifyDataSetChanged();
                     mListView.setVisibility(View.VISIBLE);
                     mLoadingLayout.setVisibility(View.GONE);
+                    mSwipeView.setRefreshing(false);
                 }
             }else{
                 mErrorView.setVisibility(View.VISIBLE);
@@ -146,4 +186,6 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
         mLoadingLayout.setVisibility(View.VISIBLE);
         requestData();
     }
+
+
 }

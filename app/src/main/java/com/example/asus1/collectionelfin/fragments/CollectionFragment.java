@@ -54,7 +54,7 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class CollectionFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener  {
+public class CollectionFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener {
 
     private ListView mListView;
     private List<String> mCollections;
@@ -65,7 +65,6 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
 
     private LoginModle mNowLoginUser;
     public SwipeRefreshLayout mSwipeRefresh;
-
 
 
     @Nullable
@@ -82,6 +81,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
         mListView = (ListView)view.findViewById(R.id.lv_lists);
         mListView.setDivider(null);
         mListView.setAdapter(mAdapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,7 +100,22 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
 
         });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                boolean enable = false;
+                if(mListView!=null&&mListView.getChildCount()>0){
+                    boolean firstItemVisible = mListView.getFirstVisiblePosition()==0;
+                    boolean topOfFirstItemVisible =mListView.getChildAt(0).getTop() ==0;
+                    enable = firstItemVisible&&topOfFirstItemVisible;
+                }
+                mSwipeRefresh.setEnabled(enable);
+            }
+        });
 
         mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
