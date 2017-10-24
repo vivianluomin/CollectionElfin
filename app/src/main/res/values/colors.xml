@@ -21,4 +21,6 @@
     <color name="color_text_red">#FF80AA</color>
     <color name="color_line_red">#FF6A6A</color>
     <color name="color_butten_pink">#FFB6C1</color>
+    <color name="color_dcdcdc">#DCDCDC</color>
+    <color name="color_333333">#333333</color>
 </resources>

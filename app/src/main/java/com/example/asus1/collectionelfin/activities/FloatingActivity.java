@@ -12,11 +12,13 @@ import com.example.asus1.collectionelfin.R;
 public class FloatingActivity extends BaseActivity implements View.OnClickListener{
     private ImageButton file;
     private ImageButton write;
+    private String mType;
     RelativeLayout llayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_floating);
+        mType = getIntent().getStringExtra("type");
         llayout = (RelativeLayout)findViewById(R.id.lrelative);
         llayout.setOnClickListener(this);
 
@@ -26,6 +28,12 @@ public class FloatingActivity extends BaseActivity implements View.OnClickListen
 
         Button writes = (Button) findViewById(R.id.but_fab_write);
         writes.setOnClickListener(this);
+        if(mType.equals("collection")){
+            writes.setVisibility(View.GONE);
+        }else {
+            files.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
