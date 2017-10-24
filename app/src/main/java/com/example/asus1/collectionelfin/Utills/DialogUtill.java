@@ -13,9 +13,12 @@ import com.example.asus1.collectionelfin.R;
  */
 
 public class DialogUtill {
-
+    //context当前上下文，cancle标志是否要取消键，content内容，titile标题
+    //listener接口  position子项 flag选择功能
     private static AlertDialog.Builder DialogNormal(Context context, boolean cancle,
-                                                    String content, String titile, final DownloadListener listener, final int position, final int flag){
+                                                    String content, String titile,
+                                                    final DownloadListener listener,
+                                                    final int position, final int flag){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setIcon(R.mipmap.ic_dialog);
         builder.setTitle(titile);
@@ -47,6 +50,8 @@ public class DialogUtill {
         builder.show();
 
     }
+
+
 
 
    public interface DownloadListener{

@@ -11,10 +11,9 @@ import java.util.List;
 
 public class CollectionSortModel implements Serializable {
 
-    @SerializedName("title")
     private String mTiltle;
 
-    @SerializedName("collections")
+
     private List<CollectionModel> mCollections;
 
 

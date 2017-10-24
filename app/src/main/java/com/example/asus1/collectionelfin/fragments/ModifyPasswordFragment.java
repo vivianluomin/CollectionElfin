@@ -78,6 +78,7 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                             @Override
                             public void run() {
                                 Toast.makeText(getActivity(),"验证成功",Toast.LENGTH_SHORT).show();
+                                sendData();
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 startActivity(intent);
 
@@ -165,7 +166,6 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                     Toast.makeText(getActivity(),"phone can't be null",Toast.LENGTH_SHORT).show();
                 Log.i("ssss",phone+","+number);
                 SMSSDK.submitVerificationCode("86",phone,number);
-                sendData();
                 break;
 
         }
@@ -184,7 +184,16 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
     private HttpUtils.RequestFinishCallBack<String>  callBack = new HttpUtils.RequestFinishCallBack<String>() {
         @Override
         public void getResult(UniApiReuslt<String> apiReuslt) {
-
+            int statu = apiReuslt.getmStatus();
+            if(apiReuslt!= null){
+                if(statu == 0){
+                    Toast.makeText(getActivity(),"登录成功",Toast.LENGTH_SHORT).show();
+                }else if(statu == 1){
+                    Toast.makeText(getActivity(),"登录错误",Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
         }
     };
     private void initSearchEngine() {

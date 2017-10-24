@@ -3,30 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.MainActivity">
->
+
     <group android:id="@+id/menu">
     <item
+        android:actionViewClass="android.widget.SearchView"
         android:id="@+id/toobar_search"
         android:icon="@mipmap/ic_tool_search_white"
-        app:showAsAction = "always"
+        app:showAsAction = "collapseActionView|ifRoom"
         android:title="search"/>
-    <item
-        android:id="@+id/toobar_delete"
-        android:icon="@mipmap/ic_delte_white"
-        app:showAsAction = "always"
-        android:title="delete"/>
-    <item
-        android:id="@+id/toobar_choose"
-        android:title="选择笔记"
-        app:showAsAction = "never"/>
-    <item
-        android:id="@+id/toobar_shot"
-        android:title="排序方式"
-        app:showAsAction = "never"/>
-    <item
-        android:id="@+id/toobar_set"
-        android:title="设置"
-        app:showAsAction = "never"/>
+
     </group>
 
 </menu>

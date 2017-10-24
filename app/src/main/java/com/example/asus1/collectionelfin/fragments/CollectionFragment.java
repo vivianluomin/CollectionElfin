@@ -18,23 +18,28 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.Adapters.CollectionAdapter;
 import com.example.asus1.collectionelfin.Adapters.CollectionSortAdapter;
 import com.example.asus1.collectionelfin.Event.CollectionSortMessage;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.AllContentHelper;
+import com.example.asus1.collectionelfin.Utills.DialogUtill;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
+import com.example.asus1.collectionelfin.Utills.NoteUtil;
 import com.example.asus1.collectionelfin.Utills.SystemManager;
 import com.example.asus1.collectionelfin.Views.ErrorView;
 import com.example.asus1.collectionelfin.activities.ArticleActivity;
 import com.example.asus1.collectionelfin.activities.LoginActivity;
+import com.example.asus1.collectionelfin.activities.NotesActivity;
 import com.example.asus1.collectionelfin.models.CollectionModel;
 import com.example.asus1.collectionelfin.models.CollectionSortModel;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 import com.example.asus1.collectionelfin.service.CollectionSerivce;
+import com.example.asus1.collectionelfin.service.NoteSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,7 +54,7 @@ import retrofit2.Call;
  * Created by asus1 on 2017/10/3.
  */
 
-public class CollectionFragment extends Fragment implements ErrorView.reloadingListener {
+public class CollectionFragment extends Fragment implements ErrorView.reloadingListener,DialogUtill.DownloadListener  {
 
     private ListView mListView;
     private List<String> mCollections;
@@ -85,6 +90,16 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
                 startActivity(intent);
             }
         });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+                DialogUtill.showNomalDialog(getActivity(),true,
+                        "是否删除"+(String)mListView.getItemAtPosition(position)
+                        ,(String)mListView.getItemAtPosition(position),CollectionFragment.this,position,1);
+                return true;
+            }
+
+        });
 
 
         mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
@@ -107,7 +122,16 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
 
     }
 
+    @Override
+    public void download(final int position,int flag) {
+        switch (flag) {
+            case  1:
+                //mCollections.remove(position);
+                //mAdapter.notifyDataSetChanged();
+                break;
+        }
 
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
