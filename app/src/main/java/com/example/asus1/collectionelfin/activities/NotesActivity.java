@@ -95,7 +95,7 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
                String file= NoteUtil.getNoteAddress(mNotes.get(position).getType(),mNotes.get(position).getTitle());
                 if(file == null || file.equals("")){
                     DialogUtill.showNomalDialog(NotesActivity.this,
-                            true,String.valueOf(R.string.notedialogcontet),
+                            true,"没有该笔记，是否从服务器下载",
                             mNotes.get(position).getTitle(),NotesActivity.this,position,1);
                 }else{
                     Intent intent = new Intent(NotesActivity.this,NewnoteActivity.class);

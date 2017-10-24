@@ -3,6 +3,7 @@ package com.example.asus1.collectionelfin.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PatternMatcher;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -40,6 +41,7 @@ public class ReceiveActivity extends BaseActivity {
 
     private EditText mAddEditext;
     private EditText mCollectionSortEdit;
+    private Toolbar mToolbar;
     private Spinner mSpinner;
     private SpinnerAdapter mAdapter;
     private TextView mConfirm;
@@ -70,6 +72,14 @@ public class ReceiveActivity extends BaseActivity {
         mSpinner = (Spinner)findViewById(R.id.sp_lits);
         mConfirm = (TextView)findViewById(R.id.tv_confirm);
         mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
+        mToolbar = (Toolbar)findViewById(R.id.toolbar_rece);
+        mToolbar.setNavigationIcon(R.mipmap.ic_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mCollectionSortEdit = (EditText)findViewById(R.id.et_collection_sort);
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

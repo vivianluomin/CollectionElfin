@@ -13,7 +13,7 @@
         android:layout_height="74dp"
         android:paddingTop="24dp"
         android:background="@color/color_pink"
-        android:id="@+id/toolbar_art"
+        android:id="@+id/toolbar_rece"
         >
 
         <TextView

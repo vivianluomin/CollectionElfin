@@ -35,8 +35,8 @@ public interface NoteSerivce {
 
     @POST("/Collection_elfin_war_exploded/UploadNote")
     @Multipart
-    Call<UniApiReuslt<String>> uploadNotes(@Field("account") String account,
-                                            @Field("type") String type,
+    Call<UniApiReuslt<String>> uploadNotes(@Part("account") String account,
+                                            @Part("type") String type,
                                             @Part("note")MultipartBody file
                                             );
 

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.asus1.collectionelfin.Adapters.NoteAdapter;
 import com.example.asus1.collectionelfin.Adapters.NoteSortAdapter;
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.AllContentHelper;
 import com.example.asus1.collectionelfin.Utills.DialogUtill;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
@@ -167,6 +168,7 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
                 if(noteSorts!=null){
                     mNotes.clear();
                     mNotes.addAll(noteSorts);
+                    AllContentHelper.setNote_Sort(mNotes);
                     mNoteAdapter.notifyDataSetChanged();
                     mListView.setVisibility(View.VISIBLE);
                     mLoadingLayout.setVisibility(View.GONE);
