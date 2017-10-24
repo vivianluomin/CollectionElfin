@@ -287,8 +287,8 @@ public class MainActivity extends BaseActivity {
                     bitmap.compress(Bitmap.CompressFormat.PNG,90,out);
                     MultipartBody.Builder builder = new MultipartBody.Builder();
                     RequestBody body = RequestBody.
-                            create(MediaType.parse("image/jpg"),out.toByteArray());
-                    builder.addFormDataPart("image.jpg","image/jpg",body);
+                            create(MediaType.parse("multipart/form-data"),out.toByteArray());
+                    builder.addPart(body);
                     PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
                     Call<UniApiReuslt<String>> call = service.postIcon(mNowLoginUser.getAccount(),builder.build());
                     HttpUtils.doRuqest(call,callBack);

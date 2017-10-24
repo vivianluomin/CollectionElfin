@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="false"
-    android:background="@color/white"
+    android:background="@color/color_e6e6e6"
     tools:context="com.example.asus1.collectionelfin.activities.NewfileActivity">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tool_newnote"
@@ -69,24 +69,34 @@
 
                     </Spinner>
 
-                    <com.example.asus1.collectionelfin.PictureAndTextEditorView.PictureAndTextEditorView
-                        android:id="@+id/edit_PAE"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="20dp"
-                        android:gravity="start"
-                        android:background="@null"
-                        android:hint="写下你现在的想法"
-                        android:textCursorDrawable="@drawable/bg_edit_course"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbars="vertical" />
-                    <android.support.design.widget.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/but_add_picture"
-                        android:layout_gravity="bottom|end"
-                        android:layout_margin="16dp"
-                        android:src="@mipmap/ic_fab_write_white"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        >
+
+                        <com.example.asus1.collectionelfin.PictureAndTextEditorView.PictureAndTextEditorView
+                            android:id="@+id/edit_PAE"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="20dp"
+                            android:gravity="start"
+                            android:background="@null"
+                            android:hint="写下你现在的想法"
+                            android:textCursorDrawable="@drawable/bg_edit_course"
+                            android:scrollbarStyle="outsideOverlay"
+                            android:scrollbars="vertical" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/but_add_picture"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="16dp"
+                            android:src="@mipmap/ic_fab_write_white"/>
+
+                    </FrameLayout>
+
 
 
                 </LinearLayout>

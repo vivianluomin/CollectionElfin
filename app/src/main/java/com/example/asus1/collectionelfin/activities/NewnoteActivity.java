@@ -30,25 +30,42 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.Adapters.SpinnerAdapter;
 import com.example.asus1.collectionelfin.PictureAndTextEditorView.PictureAndTextEditorView;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.AllContentHelper;
+import com.example.asus1.collectionelfin.Utills.HttpUtils;
+import com.example.asus1.collectionelfin.Utills.LoginHelper;
 import com.example.asus1.collectionelfin.Utills.NoteDB;
 import com.example.asus1.collectionelfin.Utills.NoteUtil;
+import com.example.asus1.collectionelfin.models.LoginModle;
+import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.NoteSerivce;
+import com.example.asus1.collectionelfin.service.RequestFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 
 public class NewnoteActivity extends BaseActivity {
     private PictureAndTextEditorView mEditText;
     private FloatingActionButton fab;
+    private String mFileAdress;
     private Uri imageUri;
     private Toolbar mToolbar;
     private ImageView mFinishNote;
@@ -56,6 +73,8 @@ public class NewnoteActivity extends BaseActivity {
     private EditText mNoteSort;
     private Spinner mSpinner;
     private SpinnerAdapter mSpinnerAdapter;
+    private LoginModle mNowUser;
+    private File mFile;
     private List<String> mNote_sorts = new ArrayList<>();
 
 
@@ -63,6 +82,8 @@ public class NewnoteActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newnote);
+        mNowUser = LoginHelper.getInstance().getNowLoginUser();
+        mFileAdress = getIntent().getStringExtra("file");
         init();
 
     }
@@ -119,25 +140,38 @@ public class NewnoteActivity extends BaseActivity {
             public void onClick(View v) {
                 String content = mEditText.getText().toString();
                 String title = mTitle.getText().toString();
-                if(!title.equals("")){
-//                    File file = new File(NoteUtil.NoteFileAdreess+"//"+title+".html");
-//                    try{
-//                        file.createNewFile();
-//                        SpannedString spanned = new SpannedString(content);
-//                        String c =Html.toHtml(spanned,Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
-//                        FileWriter writer = new FileWriter(file);
-//                        writer.write(c,0,c.length());
-//                        writer.flush();
-//
-//                    }catch (IOException e){
-//                        e.printStackTrace();
-//                    }
+                String type = mNoteSort.getText().toString();
+                if(!title.equals("")&&!type.equals("")){
+                     mFile = new File(NoteUtil.NoteFileAdreess+"//"+title+".html");
+                    try{
+                        mFile.createNewFile();
+                        SpannedString spanned = new SpannedString(content);
+                        String c =Html.toHtml(spanned);
+                        FileWriter writer = new FileWriter(mFile);
+                        writer.write(c,0,c.length());
+                        writer.flush();
 
+                        NoteSerivce serivce = RequestFactory.getRetrofit().create(NoteSerivce.class);
+                        RequestBody body = RequestBody.
+                                create(MediaType.parse("multipart/form-data"),mFile);
+                        MultipartBody multipartBody = new MultipartBody.Builder()
+                                                        .addPart(body)
+                                                        .build();
+                        Call<UniApiReuslt<String>> call =
+                                serivce.uploadNotes(mNowUser.getAccount(),type,multipartBody);
 
+                        HttpUtils.doRuqest(call,callBack);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
 
+                }else {
+                    Toast.makeText(NewnoteActivity.this,"文件名或者收藏夹不能为空",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
 
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -155,7 +189,36 @@ public class NewnoteActivity extends BaseActivity {
             }
         });
 
+        if(mFileAdress!=null){
+            showFile();
+        }
+    }
 
+    private void showFile(){
+        File file = new File(mFileAdress);
+        if(file.exists()){
+            try {
+                BufferedReader reader = new
+                        BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                StringBuilder builder = new StringBuilder();
+                String s = "";
+                while ((s=reader.readLine())!=null){
+                    builder.append(s);
+
+                }
+
+                Spanned spanned = Html.fromHtml(builder.toString());
+                mEditText.setText(spanned.toString());
+                mTitle.setVisibility(View.GONE);
+                mNoteSort.setVisibility(View.GONE);
+                mSpinner.setVisibility(View.GONE);
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
     }
 
 
@@ -230,7 +293,22 @@ public class NewnoteActivity extends BaseActivity {
     }
 
 
-
+    HttpUtils.RequestFinishCallBack<String> callBack = new HttpUtils.RequestFinishCallBack<String>() {
+        @Override
+        public void getResult(UniApiReuslt apiReuslt) {
+            if(apiReuslt!=null&&apiReuslt.getmStatus()==0){
+                String type = mNoteSort.getText().toString();
+                String title = mTitle.getText().toString();
+                NoteUtil.saveFile(type,title,NoteUtil.NoteFileAdreess+"//"+title+".html");
+                Toast.makeText(NewnoteActivity.this,"笔记保存成功",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(NewnoteActivity.this,"笔记保存失败",Toast.LENGTH_SHORT).show();
+                if(mFile!=null){
+                    mFile.delete();
+                }
+            }
+        }
+    };
 
 
 
