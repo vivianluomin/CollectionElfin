@@ -64,7 +64,6 @@ import retrofit2.Call;
 
 public class NewnoteActivity extends BaseActivity {
     private PictureAndTextEditorView mEditText;
-    private FloatingActionButton fab;
     private String mFileAdress;
     private Uri imageUri;
     private Toolbar mToolbar;
@@ -92,8 +91,13 @@ public class NewnoteActivity extends BaseActivity {
 
     private void  init(){
         mEditText = (PictureAndTextEditorView) findViewById(R.id.edit_PAE);
-        mNote_sorts = AllContentHelper.getNote_Sort();
-        Log.d("nnn",mNote_sorts.get(0));
+        List<String> sorts = AllContentHelper.getNote_Sort();
+        if(sorts!=null){
+            mNote_sorts.clear();
+            mNote_sorts.addAll(sorts);
+        }
+
+       // Log.d("nnn",mNote_sorts.get(0));
         mNoteSort = (EditText)findViewById(R.id.et_add_collection);
         mSpinner = (Spinner)findViewById(R.id.sp_lits);
         mSpinner.setDropDownHorizontalOffset(-50);
@@ -112,7 +116,6 @@ public class NewnoteActivity extends BaseActivity {
 
            }
        });
-        fab = (FloatingActionButton) findViewById(R.id.but_add_picture);
         mToolbar = (Toolbar) findViewById(R.id.tool_newnote);
         mToolbar.setNavigationIcon(R.mipmap.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -122,17 +125,6 @@ public class NewnoteActivity extends BaseActivity {
             }
         });
         mTitle = (EditText)findViewById(R.id.et_title);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(NewnoteActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(NewnoteActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                }else{
-                    selectPicFromLocal();
-                }
-
-            }
-        });
 
         mFinishNote = (ImageView)findViewById(R.id.iv_finish_write);
         mFinishNote.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +138,7 @@ public class NewnoteActivity extends BaseActivity {
                     try{
                         mFile.createNewFile();
                         SpannedString spanned = new SpannedString(content);
-                        String c =Html.toHtml(spanned);
+                        String c = spanned.toString();
                         FileWriter writer = new FileWriter(mFile);
                         writer.write(c,0,c.length());
                         writer.flush();
@@ -155,8 +147,10 @@ public class NewnoteActivity extends BaseActivity {
                         RequestBody body = RequestBody.
                                 create(MediaType.parse("multipart/form-data"),mFile);
                         MultipartBody multipartBody = new MultipartBody.Builder()
-                                                        .addPart(body)
+                                                        .addFormDataPart("note",title+".text",body)
                                                         .build();
+
+
                         Call<UniApiReuslt<String>> call =
                                 serivce.uploadNotes(mNowUser.getAccount(),type,multipartBody);
 
@@ -207,8 +201,7 @@ public class NewnoteActivity extends BaseActivity {
 
                 }
 
-                Spanned spanned = Html.fromHtml(builder.toString());
-                mEditText.setText(spanned.toString());
+                mEditText.setText(builder.toString());
                 mTitle.setVisibility(View.GONE);
                 mNoteSort.setVisibility(View.GONE);
                 mSpinner.setVisibility(View.GONE);
@@ -286,8 +279,9 @@ public class NewnoteActivity extends BaseActivity {
         }
 
         ImageSpan span = new ImageSpan(NewnoteActivity.this,bitmap);
-        SpannableString spannableString = new SpannableString(imagePath);
-        spannableString.setSpan(span,0,imagePath.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        String s = imagePath;
+        SpannableString spannableString = new SpannableString(s);
+        spannableString.setSpan(span,0,s.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         mEditText.append(spannableString);
 
     }
@@ -301,6 +295,7 @@ public class NewnoteActivity extends BaseActivity {
                 String title = mTitle.getText().toString();
                 NoteUtil.saveFile(type,title,NoteUtil.NoteFileAdreess+"//"+title+".html");
                 Toast.makeText(NewnoteActivity.this,"笔记保存成功",Toast.LENGTH_SHORT).show();
+                finish();
             }else{
                 Toast.makeText(NewnoteActivity.this,"笔记保存失败",Toast.LENGTH_SHORT).show();
                 if(mFile!=null){

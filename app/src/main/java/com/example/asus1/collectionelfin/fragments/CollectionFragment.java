@@ -100,6 +100,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
 
         });
+
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -117,7 +118,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
         });
 
-
+        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
         mSwipeRefresh.setColorSchemeResources(R.color.white);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

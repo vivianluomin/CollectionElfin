@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity {
     private EditText loginPassword;
     private Button loginRegiter;
     private Button loginLogin;
-
+    private  String mUrl = "http://47.95.207.40/Collection_elfin_war_exploded/";
     private Toolbar mToolbar;
 
     String account;
@@ -126,7 +126,7 @@ public class LoginActivity extends BaseActivity {
                     modle.setAccount(account);
                     modle.setUserName(username);
                     modle.setPassword(password);
-                    modle.setIcon("");
+                    modle.setIcon(mUrl+account+"/icon.png");
 
                     LoginHelper loginHelper = LoginHelper.getInstance();
                     loginHelper.setNowLiginUser(modle);

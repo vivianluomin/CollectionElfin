@@ -33,6 +33,7 @@ public class RequestFactory {
         File cacheFile = new File(SystemManager.getContext().getCacheDir().getAbsolutePath());
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(getIntercepter())
+                .connectTimeout(60,TimeUnit.SECONDS)
                 .cache(new Cache(cacheFile,MAX_CACHE_SIZE))
                 .build();
 

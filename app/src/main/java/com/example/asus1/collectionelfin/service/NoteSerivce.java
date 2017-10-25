@@ -37,7 +37,7 @@ public interface NoteSerivce {
     @Multipart
     Call<UniApiReuslt<String>> uploadNotes(@Part("account") String account,
                                             @Part("type") String type,
-                                            @Part("note")MultipartBody file
+                                            @Part(value = "file")MultipartBody file
                                             );
 
     @POST("/Collection_elfin_war_exploded/DeleteNote ")
