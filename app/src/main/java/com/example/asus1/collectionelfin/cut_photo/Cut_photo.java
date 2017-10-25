@@ -54,6 +54,7 @@ public class Cut_photo extends BaseActivity {
         if(s.equals("camera")){
             Intent intent1 = new Intent("android.media.action.IMAGE_CAPTURE");
             intent1.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+
             startActivityForResult(intent1,Take_photo);
         }else if(s.equals("ablum")){
             if(ContextCompat.checkSelfPermission(this,

@@ -1,21 +1,14 @@
 package com.example.asus1.collectionelfin.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +21,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.asus1.collectionelfin.Event.IconMessage;
-import com.example.asus1.collectionelfin.Event.IconUrlMessage;
 import com.example.asus1.collectionelfin.Event.MessageEvent;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.CompressBitmap;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
-import com.example.asus1.collectionelfin.Utills.NoteDB;
 import com.example.asus1.collectionelfin.Utills.NoteUtil;
 import com.example.asus1.collectionelfin.activities.LoginActivity;
-import com.example.asus1.collectionelfin.activities.MainActivity;
 import com.example.asus1.collectionelfin.cut_photo.Cut_photo;
 import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
@@ -45,15 +35,11 @@ import com.example.asus1.collectionelfin.service.PersonalService;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.jsoup.Connection;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -174,31 +160,37 @@ public class SeetingFragment extends Fragment implements View.OnClickListener{
                 String s = data.getStringExtra("result");
                 if(s != null){
                     Bitmap bitmap = CompressBitmap.getSmallBitmap(s);
+                    if(bitmap!=null){
+                        mIcon = bitmap;
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        //bitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
 
-                    mIcon = bitmap;
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    //bitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
+                        bitmap.compress(Bitmap.CompressFormat.PNG,90,out);
+                        try {
+                            File file = new File(NoteUtil.NoteFileAdreess + "//icon.png");
+                            if (!file.exists()) {
+                                file.createNewFile();
+                            }
+                            byte[] bytes = out.toByteArray();
+                            FileOutputStream fileOutputStream = new FileOutputStream(file);
+                            fileOutputStream.write(bytes,0,bytes.length);
+                            fileOutputStream.flush();
+                            MultipartBody.Builder builder = new MultipartBody.Builder();
+                            RequestBody body = RequestBody.
+                                    create(MediaType.parse("multipart/form-data"),file);
+                            builder.addFormDataPart("icon","icon.png",body);
+                            PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
+                            Call<UniApiReuslt<String>> call = service.postIcon(mNowUser.getAccount(),builder.build());
+                            HttpUtils.doRuqest(call,IconCallBack);
 
-                    bitmap.compress(Bitmap.CompressFormat.PNG,90,out);
-                    try {
-                        File file = new File(NoteUtil.NoteFileAdreess + "//icon.png");
-                        if (!file.exists()) {
-                            file.createNewFile();
+                        }catch (IOException e){
+                            e.printStackTrace();
                         }
-                        byte[] bytes = out.toByteArray();
-                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-                        fileOutputStream.write(bytes,0,bytes.length);
-                        fileOutputStream.flush();
-                        MultipartBody.Builder builder = new MultipartBody.Builder();
-                        RequestBody body = RequestBody.
-                                create(MediaType.parse("multipart/form-data"),file);
-                        builder.addFormDataPart("icon","icon.png",body);
-                        PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
-                        Call<UniApiReuslt<String>> call = service.postIcon(mNowUser.getAccount(),builder.build());
-                        HttpUtils.doRuqest(call,IconCallBack);
 
-                    }catch (IOException e){
-                        e.printStackTrace();
+                    }else {
+
+                        Toast.makeText(getContext(),"无法得到此图片",Toast.LENGTH_SHORT).show();
+
                     }
 
 
