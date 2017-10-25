@@ -204,6 +204,9 @@ public class NotesActivity extends BaseActivity implements ErrorView.reloadingLi
                         File file = new File(NoteUtil.NoteFileAdreess
                                 +"//" + mNotes.get(position).getTitle());
                         Log.d("file",NoteUtil.NoteFileAdreess);
+                        if(file.exists()){
+                            file.delete();
+                        }
                         if(file.createNewFile()){
                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
                             String s= "";

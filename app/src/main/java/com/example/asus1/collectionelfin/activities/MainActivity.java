@@ -17,6 +17,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -34,6 +36,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.example.asus1.collectionelfin.Event.IconMessage;
+import com.example.asus1.collectionelfin.Event.IconUrlMessage;
 import com.example.asus1.collectionelfin.R;
 import com.example.asus1.collectionelfin.Utills.HttpUtils;
 import com.example.asus1.collectionelfin.Utills.LoginHelper;
@@ -68,7 +77,7 @@ import retrofit2.Call;
 import static com.example.asus1.collectionelfin.R.id.toobar;
 
 public class MainActivity extends BaseActivity {
-    private final int CUT_PHOTO = 1;
+
 
 
     /**
@@ -93,7 +102,6 @@ public class MainActivity extends BaseActivity {
     private  SeetingFragment mSeetingFragment;
 
     private DrawerLayout mDrawerLayout;
-    private Bitmap mIcon;
     private boolean mEdit = false;
 
     @Override
@@ -104,15 +112,17 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
             mToolbar = (Toolbar) findViewById(toobar);
-            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.mipmap.ic_opendrawer);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDrawerLayout.openDrawer(mMenuNv);
+                }
+            });
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            ActionBar actionBar = getSupportActionBar();
-            mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
-            if(actionBar!=null){
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeAsUpIndicator(R.mipmap.ic_toolbar_left_white);
 
-            }
+            mNowLoginUser = LoginHelper.getInstance().getNowLoginUser();
+
 
             //初始化界面
             initUI();
@@ -144,9 +154,23 @@ public class MainActivity extends BaseActivity {
 
         if(mNowLoginUser != null && mUserName!= null){
             mUserName.setText(mNowLoginUser.getUserName());
-            PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
-            Call<UniApiReuslt<String>> call = service.getIcon(mNowLoginUser.getAccount());
-            HttpUtils.doRuqest(call,getIconCall);
+            Glide.with(this)
+                    .load(mNowLoginUser.getIcon())
+                    .asBitmap()
+                    .placeholder(R.mipmap.ic_logo)
+                    .error(R.mipmap.defualt_image)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(new BitmapImageViewTarget(imageLogin){
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable drawable =
+                                    RoundedBitmapDrawableFactory.create(getResources(),resource);
+                            drawable.setCircular(true);
+                            imageLogin.setImageDrawable(drawable);
+                        }
+                    });
+            Log.d("url",mNowLoginUser.getIcon());
         }
     }
 
@@ -155,30 +179,6 @@ public class MainActivity extends BaseActivity {
      */
     private void initListener() {
 
-        imageLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(MainActivity.this, "点击登录", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                final Intent intent = new Intent(MainActivity.this,Cut_photo.class);
-                dialog.setTitle("修改头像");
-                dialog.setNeutralButton("照相", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        intent.putExtra("choose","camera");
-                        startActivityForResult(intent,CUT_PHOTO);
-                    }
-                });
-                dialog.setNegativeButton("选择相册", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        intent.putExtra("choose","ablum");
-                        startActivityForResult(intent,CUT_PHOTO);
-                    }
-                });
-                dialog.show();
-            }
-        });
         // 设置侧滑菜单点击事件监听
         mMenuNv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -266,65 +266,26 @@ public class MainActivity extends BaseActivity {
                 mEditText.setVisibility(View.GONE);
                 mFab.setVisibility(View.GONE);
                 break;
-            case R.id.menu_fri:
-                Toast.makeText(MainActivity.this, "点击Fri", Toast.LENGTH_SHORT).show();
-                break;
             default:
                 break;
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 1:
-                String s = data.getStringExtra("result");
-                if(s != null){
-                    Bitmap bitmap = BitmapFactory.decodeFile(s);
-                    mIcon = bitmap;
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,90,out);
-                    MultipartBody.Builder builder = new MultipartBody.Builder();
-                    RequestBody body = RequestBody.
-                            create(MediaType.parse("multipart/form-data"),out.toByteArray());
-                    builder.addPart(body);
-                    PersonalService service = RequestFactory.getRetrofit().create(PersonalService.class);
-                    Call<UniApiReuslt<String>> call = service.postIcon(mNowLoginUser.getAccount(),builder.build());
-                    HttpUtils.doRuqest(call,callBack);
 
-                }
-                break;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(IconMessage message){
+
+        if(message!=null){
+            Bitmap bitmap = message.getBitmap();
+            Log.d("aaaa",bitmap.toString());
+            if(bitmap!=null){
+                imageLogin.setImageBitmap(bitmap);
+            }
         }
+
     }
 
-    HttpUtils.RequestFinishCallBack<String> getIconCall = new HttpUtils.RequestFinishCallBack<String>() {
-        @Override
-        public void getResult(UniApiReuslt<String> apiReuslt) {
-            if(apiReuslt != null){
-                String icon = apiReuslt.getmData();
-                if(icon!=null){
-                    Glide.with(MainActivity.this)
-                            .load(icon)
-                            .into(imageLogin);
-                }
-
-
-            }
-        }
-    };
-
-    HttpUtils.RequestFinishCallBack<String> callBack  = new HttpUtils.RequestFinishCallBack<String>() {
-        @Override
-        public void getResult(UniApiReuslt<String> apiReuslt) {
-
-            if(apiReuslt!=null&&apiReuslt.getmStatus()==0){
-                imageLogin.setImageBitmap(mIcon);
-            }else{
-                Toast.makeText(MainActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
 
     @Subscribe
     public void onEvent(MessageEvent messageEvent){

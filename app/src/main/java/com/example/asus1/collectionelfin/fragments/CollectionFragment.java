@@ -100,6 +100,17 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
 
         });
+
+        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
+        mSwipeRefresh.setColorSchemeResources(R.color.white);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startSwipeRefresh();
+            }
+        });
+        mSwipeRefresh.setEnabled(true);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -117,15 +128,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
         });
 
-        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
-        mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
-        mSwipeRefresh.setColorSchemeResources(R.color.white);
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startSwipeRefresh();
-            }
-        });
+
         mLoadingLaout = (LinearLayout)view.findViewById(R.id.ll_loading_view);
         mLoadingView = (ImageView)view.findViewById(R.id.iv_loading_view);
         mErrorView = (ErrorView)view.findViewById(R.id.error_view);

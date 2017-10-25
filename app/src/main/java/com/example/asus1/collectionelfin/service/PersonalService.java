@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.service;
 
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -30,7 +31,7 @@ public interface PersonalService {
     @POST("/Collection_elfin_war_exploded/UploadIcon")
     @Multipart
     Call<UniApiReuslt<String>> postIcon(@Part("account") String account,
-                                        @Part("icon") RequestBody file
+                                        @Part(value = "file") MultipartBody file
                                         );
 
     @POST("/Collection_elfin_war_exploded/SendIcon")

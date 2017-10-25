@@ -21,10 +21,7 @@
             android:id="@+id/menu_thurs"
             android:icon="@mipmap/ic_password_pink"
             android:title="@string/password"/>
-        <item
-            android:id="@+id/menu_fri"
-            android:icon="@mipmap/ic_night"
-            android:title="@string/toNight"/>
+
     </group>
 
 

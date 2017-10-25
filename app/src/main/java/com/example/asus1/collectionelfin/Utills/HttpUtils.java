@@ -23,6 +23,7 @@ public class HttpUtils {
             @Override
             public void onResponse(Call<UniApiReuslt<T>> call, Response<UniApiReuslt<T>> response) {
                 UniApiReuslt<T> reuslt = response.body();
+                Log.d("ssssss",String.valueOf(response.code()));
                 if(callBack != null && reuslt != null){
                     callBack.getResult(reuslt);
 

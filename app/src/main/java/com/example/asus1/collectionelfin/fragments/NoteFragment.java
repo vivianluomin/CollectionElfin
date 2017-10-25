@@ -67,7 +67,7 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
         mSwipeView=(SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mListView.setDivider(null);
         mListView.setAdapter(mNoteAdapter);
-      //  mSwipeView.setEnabled(false);
+        mSwipeView.setEnabled(true);
         mSwipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

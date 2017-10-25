@@ -87,13 +87,13 @@
                             android:scrollbarStyle="outsideOverlay"
                             android:scrollbars="vertical" />
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/but_add_picture"
-                            android:layout_gravity="bottom|end"
-                            android:layout_margin="16dp"
-                            android:src="@mipmap/ic_fab_write_white"/>
+                        <!--<android.support.design.widget.FloatingActionButton-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/but_add_picture"-->
+                            <!--android:layout_gravity="bottom|end"-->
+                            <!--android:layout_margin="16dp"-->
+                            <!--android:src="@mipmap/ic_fab_write_white"/>-->
 
                     </FrameLayout>
 
