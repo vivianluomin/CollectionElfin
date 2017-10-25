@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +35,14 @@ import com.example.asus1.collectionelfin.models.LoginModle;
 import com.example.asus1.collectionelfin.models.NoteModel;
 import com.example.asus1.collectionelfin.models.NoteSortModle;
 import com.example.asus1.collectionelfin.models.UniApiReuslt;
+import com.example.asus1.collectionelfin.service.CollectionSerivce;
 import com.example.asus1.collectionelfin.service.NoteSerivce;
 import com.example.asus1.collectionelfin.service.RequestFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
+
 
 /**
  * Created by asus1 on 2017/10/3.
@@ -67,7 +69,7 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
         mSwipeView=(SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mListView.setDivider(null);
         mListView.setAdapter(mNoteAdapter);
-      //  mSwipeView.setEnabled(false);
+        mSwipeView.setEnabled(true);
         mSwipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -121,12 +123,35 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
     public void download(final int position,int flag) {
         switch (flag) {
             case  1:
-                //mNotes.remove(position);
-                //mNoteAdapter.notifyDataSetChanged();
+                String account = LoginHelper.getInstance().getNowLoginUser().getAccount();
+                String type = (String)mListView.getItemAtPosition(position);
+
+                NoteSerivce noteSerivce = RequestFactory.getRetrofit().create(NoteSerivce.class);
+                retrofit2.Call<UniApiReuslt<String>> call = noteSerivce.deleNotesType(account,type);
+                HttpUtils.doRuqest(call, callBack2);
+
+
+                mNotes.remove(position);
+                mNoteAdapter.notifyDataSetChanged();
                 break;
         }
 
     }
+    private HttpUtils.RequestFinishCallBack<String> callBack2 = new HttpUtils.RequestFinishCallBack<String>(){
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+            int statu = apiReuslt.getmStatus();
+            if (apiReuslt != null) {
+                if(statu==0){
+                    Toast.makeText(getActivity(),"删除成功",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),"删除失败",Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     public boolean isListViewReachTopEdge(final ListView listView) {
         boolean result=false;
         if(listView.getFirstVisiblePosition()==0){
@@ -155,7 +180,7 @@ public class NoteFragment extends Fragment implements ErrorView.reloadingListene
 
     private void  requestData(){
         NoteSerivce serivce = RequestFactory.getRetrofit().create(NoteSerivce.class);
-        Call<UniApiReuslt<List<String>>> call = serivce.getNoteSorts(mNowUser.getAccount());
+        retrofit2.Call<UniApiReuslt<List<String>>> call = serivce.getNoteSorts(mNowUser.getAccount());
         HttpUtils.doRuqest(call,callback);
     }
 

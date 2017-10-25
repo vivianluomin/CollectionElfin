@@ -81,7 +81,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
         mListView = (ListView)view.findViewById(R.id.lv_lists);
         mListView.setDivider(null);
         mListView.setAdapter(mAdapter);
-
+        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,7 +117,7 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
             }
         });
 
-        mSwipeRefresh  = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
+
         mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.color_pink);
         mSwipeRefresh.setColorSchemeResources(R.color.white);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,12 +141,35 @@ public class CollectionFragment extends Fragment implements ErrorView.reloadingL
     public void download(final int position,int flag) {
         switch (flag) {
             case  1:
-                //mCollections.remove(position);
-                //mAdapter.notifyDataSetChanged();
+                String account = LoginHelper.getInstance().getNowLoginUser().getAccount();
+                String type = (String)mListView.getItemAtPosition(position);
+
+                CollectionSerivce collectionSerivce = RequestFactory.getRetrofit().create(CollectionSerivce.class);
+                retrofit2.Call<UniApiReuslt<String>> call = collectionSerivce.deletCollectionsType(account,type);
+                HttpUtils.doRuqest(call ,callBack2);
+
+                mCollections.remove(position);
+                mAdapter.notifyDataSetChanged();
                 break;
         }
 
     }
+
+    private HttpUtils.RequestFinishCallBack<String> callBack2 = new HttpUtils.RequestFinishCallBack<String>(){
+        @Override
+        public void getResult(UniApiReuslt<String> apiReuslt) {
+            int statu = apiReuslt.getmStatus();
+            if (apiReuslt != null) {
+                if(statu==0){
+                    Toast.makeText(getActivity(),"删除成功",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),"删除失败",Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

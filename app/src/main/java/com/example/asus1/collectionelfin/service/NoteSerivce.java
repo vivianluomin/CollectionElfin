@@ -55,4 +55,10 @@ public interface NoteSerivce {
                                            @Field("note") String noteName
                                      );
 
+    @POST("/Collection_elfin_war_exploded/DeleteNoteType")
+    @FormUrlEncoded
+    Call<UniApiReuslt<String>>  deleNotesType(@Field("account") String account,
+                                      @Field("type") String type
+                                     );
+
 }

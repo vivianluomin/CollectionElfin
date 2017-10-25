@@ -98,7 +98,7 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
                                 Log.i("ssss",test.get(j)[0]);//国名
                                 Log.i("ssss",test.get(j)[1]);//区号
                             }
-                        }
+                       }
 
                         Log.i("test",data.toString());
                     }
@@ -188,9 +188,9 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
             int statu = apiReuslt.getmStatus();
             if(apiReuslt!= null){
                 if(statu == 0){
-                    Toast.makeText(RegisterActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                 }else if(statu == 1){
-                Toast.makeText(RegisterActivity.this,"登录错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this,"注册错误",Toast.LENGTH_SHORT).show();
                 }
             }else {
                 Toast.makeText(RegisterActivity.this,"请检查网络连接",Toast.LENGTH_SHORT).show();

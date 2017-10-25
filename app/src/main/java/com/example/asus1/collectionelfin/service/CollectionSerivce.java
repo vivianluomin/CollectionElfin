@@ -44,4 +44,10 @@ public interface CollectionSerivce {
                                                 @Field("type") String type,
                                                 @Field("url") String urlName
     );
+
+    @POST("/Collection_elfin_war_exploded/DeleteURLType")
+    @FormUrlEncoded
+    Call<UniApiReuslt<String>> deletCollectionsType(@Field("account") String account,
+                                                @Field("type") String type
+    );
 }
