@@ -12,9 +12,8 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:name="com.mob.MobApplication"
@@ -30,9 +29,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReadActivity"
-            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.BaseActivity"
             android:screenOrientation="portrait" />
@@ -61,9 +59,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NewnoteActivity"
-            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -92,26 +90,25 @@
         </activity>
         <activity
             android:name=".cut_photo.Cut_photo"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:authorities="com.example.cameraalbumtest.fileprovider"
-            />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PasswordActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".activities.NotesActivity"></activity>
+        <activity android:name=".activities.NotesActivity" />
 
         <provider
-        android:name="android.support.v4.content.FileProvider"
-        android:authorities="com.example.cameraalbumtest.fileprovider"
-        android:grantUriPermissions="true"
-        android:exported="false">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths" />
-    </provider>
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.asus1.collectionelfin.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

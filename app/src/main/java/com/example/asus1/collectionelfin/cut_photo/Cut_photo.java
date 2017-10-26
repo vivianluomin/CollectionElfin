@@ -2,6 +2,7 @@ package com.example.asus1.collectionelfin.cut_photo;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,21 +19,26 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.asus1.collectionelfin.R;
+import com.example.asus1.collectionelfin.Utills.NoteDB;
+import com.example.asus1.collectionelfin.Utills.NoteUtil;
 import com.example.asus1.collectionelfin.activities.BaseActivity;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Cut_photo extends BaseActivity {
     private static final int Take_photo = 1;
     private static final int Choose_photo = 2;
     private Uri imageUri;
+    private File outputImage;
+    private File outputFile = new File(NoteUtil.NoteFileAdreess+"//"+"icon.jpg");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cut_photo);
 
 
-        File outputImage = new File(getExternalCacheDir(),"op_image.jpg");
+      outputImage = new File(getExternalCacheDir(),"op_image.jpg");
         try{
             if(outputImage.exists()){
                 outputImage.delete();
@@ -44,7 +50,7 @@ public class Cut_photo extends BaseActivity {
         if(Build.VERSION.SDK_INT >= 24){
             //调用内容提供器
             imageUri = FileProvider.getUriForFile(this,
-                    "com.example.cameraalbumtest.fileprovider",outputImage);
+                    "com.example.asus1.collectionelfin.fileprovider",outputImage);
         }else {
             imageUri = Uri.fromFile(outputImage);
         }
@@ -98,15 +104,20 @@ public class Cut_photo extends BaseActivity {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("circleCrop","true");
-        //&#x8bbe;&#x7f6e;&#x8f93;&#x51fa;&#x7684;&#x5bbd;&#x9ad8;
-//        intent.putExtra("outputX", 800);
-//        intent.putExtra("outputY", 800);
+        intent.putExtra("outputX", 100);
+        intent.putExtra("outputY", 100);
         //是否缩放
-        intent.putExtra("scale", false);
+        intent.putExtra("scale", true);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         //输入图片的Uri，指定以后，可以在这个uri获得图片
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputImage));
         //是否返回图片数据，可以不用，直接用uri就可以了
-        intent.putExtra("return-data", false);
+
+            intent.putExtra("return-data", false);
+
+
         //设置输入图片格式
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         //是否关闭面部识别
@@ -125,13 +136,6 @@ public class Cut_photo extends BaseActivity {
             case Take_photo:
                 if(resultCode == RESULT_OK){
                     try{
-//                        if(imageUri == null){
-//                            Log.d("我的信息","数据为空");
-//                        }
-//                        Log.d("这是原来的Uri",imageUri.toString());
-//                        Log.d("这是转换之后的Uri",Uri.parse(
-//                                new StringBuilder(imageUri.getPath()).insert(0,"file://")
-//                                        .toString()).toString());
                         cropImageUri(imageUri,3);
                     }catch (Exception e){
                         e.printStackTrace();
@@ -157,7 +161,8 @@ public class Cut_photo extends BaseActivity {
                 if(resultCode == RESULT_OK){
                     try{
                         if(imageUri != null){
-                            i.putExtra("result",imageUri.getPath());
+                            i.putExtra("result",outputImage.getAbsolutePath());
+
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -189,9 +194,10 @@ public class Cut_photo extends BaseActivity {
         }else if("content".equalsIgnoreCase(uri.getScheme())){
             imagePath = getImagePath(uri,null);
         }else if("file".equalsIgnoreCase(uri.getScheme())){
-            imagePath = uri.getPath();
+            imagePath =uri.getPath();
         }
-        Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
+
+       Uri r = getImageContentUri(imagePath);
         cropImageUri(r,3);
     }
 
@@ -200,7 +206,7 @@ public class Cut_photo extends BaseActivity {
            */
     private void handleImageBeforeKitKat(Intent data){
         Uri uri = data.getData();
-        String imagePath = getImagePath(uri,null);
+        String imagePath =  getImagePath(uri,null);
         Log.d("这是4.4以下相册的Uri",uri.toString());
         Uri r = Uri.parse(new StringBuilder(imagePath).insert(0,"file://").toString());
         Log.d("这是我修改之后的Uri",r.toString());
@@ -218,4 +224,29 @@ public class Cut_photo extends BaseActivity {
         return Path;
     }
 
+
+    public Uri getImageContentUri(String imageFile) {
+        String filePath = imageFile;
+        Cursor cursor = getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (new File(imageFile).exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
 }
