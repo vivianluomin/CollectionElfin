@@ -42,6 +42,7 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
     private EditText registerUsername;
     private EditText registerCellNumber;
     private EditText registerPassword;
+    private EditText registerPassword2;
     private EditText registerValidate;
     private Button registerValidateButten;
     private Button regiterRegiter;
@@ -130,6 +131,7 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
     private void initUI() {
         registerCellNumber = (EditText)findViewById(R.id.register_cell_number);
         registerPassword= (EditText)findViewById(R.id.register_password);
+        registerPassword2= (EditText)findViewById(R.id.register_password2);
         registerValidate= (EditText)findViewById(R.id.register_validate);
         registerUsername =(EditText)findViewById(R.id.register_username);
         regiterRegiter =(Button)findViewById(R.id.regiter_regiter);
@@ -143,6 +145,8 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         String phone = registerCellNumber.getText().toString();
+        String password = registerPassword.getText().toString();
+        String password2 = registerPassword2.getText().toString();
         switch (v.getId()){
 
             case R.id.register_validate_butten:
@@ -155,15 +159,19 @@ public class RegisterActivity  extends BaseActivity implements View.OnClickListe
 
             case R.id.regiter_regiter:
                 //提交验证码验证
-                if (TextUtils.isEmpty(phone))
-                    Toast.makeText(this,"phone can't be null",Toast.LENGTH_SHORT).show();
+                if(password.equals(password2)) {
+                    if (TextUtils.isEmpty(phone))
+                        Toast.makeText(this, "phone can't be null", Toast.LENGTH_SHORT).show();
 
-                String number = registerValidate.getText().toString();
+                    String number = registerValidate.getText().toString();
 
-                if (TextUtils.isEmpty(number))
-                    Toast.makeText(this,"phone can't be null",Toast.LENGTH_SHORT).show();
-                Log.i("ssss",phone+","+number);
-                SMSSDK.submitVerificationCode("86",phone,number);
+                    if (TextUtils.isEmpty(number))
+                        Toast.makeText(this, "phone can't be null", Toast.LENGTH_SHORT).show();
+                    Log.i("ssss", phone + "," + number);
+                    SMSSDK.submitVerificationCode("86", phone, number);
+                }else {
+                    Toast.makeText(RegisterActivity.this,"两次密码不同，请重新输入",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case  R.id.read_page_tool_bar:
                 finish();

@@ -44,6 +44,7 @@ import cn.smssdk.gui.SearchEngine;
 public class ModifyPasswordFragment extends Fragment implements View.OnClickListener{
     private EditText mCellNumber;
     private EditText mPassword;
+    private EditText mPassword2;
     private EditText mValidate;
     private Button mValidateButten;
     private Button mModifyPassword;
@@ -53,7 +54,6 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
     private ArrayList<ArrayList<String[]>> countries;
     private SearchEngine sEngine;
     ArrayList<String[]> list;
-    private boolean flag;
 
     @Nullable
     @Override
@@ -73,7 +73,6 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
                     //回调完成
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                         //提交验证码成功
-                        flag = true;
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -135,6 +134,7 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
     private void initUI(View view) {
         mCellNumber = (EditText)view.findViewById(R.id.register_cell_number);
         mPassword= (EditText)view.findViewById(R.id.register_password);
+        mPassword2= (EditText)view.findViewById(R.id.register_password);
         mValidate= (EditText)view.findViewById(R.id.register_validate);
         mModifyPassword =(Button)view.findViewById(R.id.modify_password);
         mValidateButten=(Button)view.findViewById(R.id.register_validate_butten);
@@ -156,16 +156,21 @@ public class ModifyPasswordFragment extends Fragment implements View.OnClickList
 
             case R.id.modify_password:
                 //提交验证码验证
-                flag =false;
-                if (TextUtils.isEmpty(phone))
-                    Toast.makeText(getActivity(),"phone can't be null",Toast.LENGTH_SHORT).show();
+                String password = mPassword.getText().toString();
+                String password2 = mPassword2.getText().toString();
+                if (password.equals(password2)) {
+                    if (TextUtils.isEmpty(phone))
+                        Toast.makeText(getActivity(), "phone can't be null", Toast.LENGTH_SHORT).show();
 
-                String number = mValidate.getText().toString();
+                    String number = mValidate.getText().toString();
 
-                if (TextUtils.isEmpty(number))
-                    Toast.makeText(getActivity(),"phone can't be null",Toast.LENGTH_SHORT).show();
-                Log.i("ssss",phone+","+number);
-                SMSSDK.submitVerificationCode("86",phone,number);
+                    if (TextUtils.isEmpty(number))
+                        Toast.makeText(getActivity(), "phone can't be null", Toast.LENGTH_SHORT).show();
+                    Log.i("ssss", phone + "," + number);
+                    SMSSDK.submitVerificationCode("86", phone, number);
+                }else {
+                    Toast.makeText(getActivity(), "两次密码不同，请重新输入", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
         }
